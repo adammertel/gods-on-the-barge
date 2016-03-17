@@ -9,10 +9,12 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       allPorts = app.getCollection('nodes').ports
       ports = []
       _.each allPorts, (port, p) =>
-        ports.push {'id': port, 'distance': app.getDistanceOfNodes ship.stops[0], port}
-      console.log _.orderBy ports, 'distance'
-      return
+        ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes ship.stops[0], port}
+      _.orderBy ports, 'distance'
 
+    findClosestPort: (ship) ->
+      console.log @findClosePorts(ship)
+      @findClosePorts(ship)[0].id
 
     stopToRest: (ship) ->
       if (ship.nextDistance/1000) / ship.energy < 2000

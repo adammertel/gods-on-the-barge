@@ -41,24 +41,36 @@ define 'App', ['Base', 'Ship'], (Base, Ship) ->
     collections: []
 
     # links, paths, nodes
+    getPathWithCheckPoints: (from, to, checkPoints) ->
+      path = []
+      if checkPoints.length == 0
+        path = @getPath(from, to)
+      else
+        path = @getPath(from, checkPoints[0])
+        _.each checkPoints, (checkPoint, p) =>
+          if checkPoints[p+1]
+            path = _.concat path, @getPath(checkPoints[p], checkPoints[p+1])
+        path = _.concat path, @getPath(checkPoints[checkPoints.length-1], to)
+      path
+
     getPath: (from, to) ->
       alt1 = from + '-' + to
       alt2 = to + '-' + from
-      path = false
+      path = []
 
       if @linksData[alt1]
         path = @linksData[alt1]
       else if @linksData[alt2]
         pathData = _.clone @linksData[alt2]
         path = _.reverse pathData
+      path.push to
       path
 
     getDistanceOfNodes: (from, to) ->
       distance = 0
       path = @getPath(from, to)
       path.unshift(from)
-      path.push(to)
-      
+
       _.each path, (node, n) =>
         if path[n+1]
           thisNode = node

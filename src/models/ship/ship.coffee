@@ -3,40 +3,79 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
     constructor: ()->
       @startId = app.getCollection('nodes').chooseShipStartingNodeId()
       @endId = app.getCollection('nodes').chooseShipEndingNodeId()
-      @baseSpeed = 1
+      @checkPointIds = []
+
       super app.getCollection('nodes').nodeMapCoordinates(@startId), {w: 10, h: 30}, {minZoom: 0.4}
       @calculateStops()
+
+      @baseSpeed = 1
+
       @fullCargo = 1000
       @cargo = @fullCargo
-      @fullEnergy = 800
+
+      @baseResting = 20
+      @fullEnergy = 600
+      @energyConsumption = 0.5
       @energy = @fullEnergy
+      @resting = false
+
       return
 
     getCollection: () ->
       app.getCollection('ships')
 
+    addCheckPoint: (id) ->
+      console.log 'adding checkPoint', id
+      if _.indexOf(@checkPointIds, id) == -1
+        @checkPointIds.unshift id
+        @recalculateStops()
+      return
+
     calculateStops: () ->
       @stops = app.getPath @startId, @endId
-      @stops.push parseInt @endId
       @nextDistance = @calculateNextDistance()
       @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
       @rotation = @calculateRotation()
       return
 
+    recalculateStops: () ->
+      console.log @checkPointIds
+      @stops = app.getPathWithCheckPoints(@stops[0], @endId, @checkPointIds)
+      return
+
     calculateNextDistance: () ->
       app.getDistanceOfNodes(@stops[0], @stops[1])
 
+    needRestCondition: () ->
+      @energy/@fullEnergy < 0.5
+
     move: () ->
-      @energy -= .5
-      if @energy < 0
-        @suicide()
-      @checkNodeConflict()
-      @coords = Base.moveTo @coords, @nextStop, @getSpeed()
+      if @resting
+        console.log 'resting'
+        @energy += @baseResting
+        @energy = _.clamp @energy, @fullEnergy
+        if @energy == @fullEnergy
+          @resting = false
+      else
+        @energy -= @energyConsumption * app.state.game.time.timeSpeed
+        if @energy < 0
+          @suicide()
+        @checkNodeConflict()
+        @coords = Base.moveTo @coords, @nextStop, @getSpeed()
 
     checkNodeConflict: () ->
       if app.getCollection('nodes').checkConflict @stops[0], @coords
         if @stops.length > 1
-          console.log @getCollection().findClosePorts(@)
+
+          _.pull @checkPointIds, @stops[0] # removes checkpoint
+
+          if app.getCollection('nodes').isNodePort @stops[0]
+            @resting = true
+          else
+          # sending ship to fill energy to the nearest port
+            if @needRestCondition()
+              @addCheckPoint @getCollection().findClosestPort(@)
+
           @nextDistance = @calculateNextDistance()
           #console.log @getCollection().stopToRest(@)
 

@@ -20,6 +20,8 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
     getNode: (id) ->
       @data[id]
 
+    isNodePort: (id) ->
+      @data[id].island?
 
     nodeMapCoordinates: (id) ->
       node = @getNode(id)
