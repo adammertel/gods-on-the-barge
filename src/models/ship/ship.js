@@ -9,27 +9,37 @@
       extend(Ship, superClass);
 
       function Ship() {
-        this.collectionName = 'ships';
         this.startId = app.getCollection('nodes').chooseShipStartingNodeId();
         this.endId = app.getCollection('nodes').chooseShipEndingNodeId();
         this.baseSpeed = 1;
         Ship.__super__.constructor.call(this, app.getCollection('nodes').nodeMapCoordinates(this.startId), {
-          w: 15,
-          h: 40
+          w: 10,
+          h: 30
         }, {
           minZoom: 0.4
         });
         this.calculateStops();
-        this.fullEnergy = 2000;
+        this.fullCargo = 1000;
+        this.cargo = this.fullCargo;
+        this.fullEnergy = 800;
         this.energy = this.fullEnergy;
         return;
       }
 
+      Ship.prototype.getCollection = function() {
+        return app.getCollection('ships');
+      };
+
       Ship.prototype.calculateStops = function() {
         this.stops = app.getPath(this.startId, this.endId);
         this.stops.push(parseInt(this.endId));
+        this.nextDistance = this.calculateNextDistance();
         this.nextStop = app.getCollection('nodes').nodeMapCoordinates(this.stops[0]);
         this.rotation = this.calculateRotation();
+      };
+
+      Ship.prototype.calculateNextDistance = function() {
+        return app.getDistanceOfNodes(this.stops[0], this.stops[1]);
       };
 
       Ship.prototype.move = function() {
@@ -37,16 +47,22 @@
         if (this.energy < 0) {
           this.suicide();
         }
+        this.checkNodeConflict();
+        return this.coords = Base.moveTo(this.coords, this.nextStop, this.getSpeed());
+      };
+
+      Ship.prototype.checkNodeConflict = function() {
         if (app.getCollection('nodes').checkConflict(this.stops[0], this.coords)) {
           if (this.stops.length > 1) {
+            console.log(this.getCollection().findClosePorts(this));
+            this.nextDistance = this.calculateNextDistance();
             this.stops = _.slice(this.stops, 1);
             this.nextStop = app.getCollection('nodes').nodeMapCoordinates(this.stops[0]);
-            this.rotation = this.calculateRotation();
+            return this.rotation = this.calculateRotation();
           } else {
-            this.suicide();
+            return this.suicide();
           }
         }
-        return this.coords = Base.moveTo(this.coords, this.nextStop, this.getSpeed());
       };
 
       Ship.prototype.calculateRotation = function() {
@@ -69,25 +85,36 @@
         return this.baseSpeed * app.state.game.time.timeSpeed;
       };
 
+      Ship.prototype.drawCargoBar = function() {
+        var cargopx, fullCargopx;
+        fullCargopx = 40 * app.state.zoom;
+        cargopx = (fullCargopx / this.fullCargo) * this.cargo;
+        app.ctx.strokeStyle = 'black';
+        app.ctx.fillStyle = 'orange';
+        app.ctx.strokeRect(this.shipCoord.x - fullCargopx / 2, this.shipCoord.y - fullCargopx / 2, fullCargopx, 3);
+        return app.ctx.fillRect(this.shipCoord.x - fullCargopx / 2, this.shipCoord.y - fullCargopx / 2, cargopx, 3);
+      };
+
       Ship.prototype.drawEnergyBar = function() {
         var energypx, fullEnergypx;
-        fullEnergypx = 60;
+        fullEnergypx = 40 * app.state.zoom;
         energypx = (fullEnergypx / this.fullEnergy) * this.energy;
         app.ctx.strokeStyle = 'black';
-        app.ctx.fillStyle = 'red';
-        app.ctx.strokeRect(this.shipCoord.x - 30, this.shipCoord.y - 30, fullEnergypx, 5);
-        return app.ctx.fillRect(this.shipCoord.x - 30, this.shipCoord.y - 30, energypx, 5);
+        app.ctx.fillStyle = 'blue';
+        app.ctx.strokeRect(this.shipCoord.x - fullEnergypx / 2, this.shipCoord.y - fullEnergypx / 2 - 6, fullEnergypx, 3);
+        return app.ctx.fillRect(this.shipCoord.x - fullEnergypx / 2, this.shipCoord.y - fullEnergypx / 2 - 6, energypx, 3);
       };
 
       Ship.prototype.draw = function() {
         this.shipCoord = app.coordinateToView(this.coords);
         this.move();
         this.drawEnergyBar();
+        this.drawCargoBar();
         Ship.__super__.draw.call(this);
       };
 
       Ship.prototype.suicide = function() {
-        app.getCollection(this.collectionName).unregisterGeometry(this.id);
+        this.getCollection().unregisterGeometry(this.id);
       };
 
       Ship.prototype.sprite = 'ship';

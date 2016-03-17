@@ -2,8 +2,6 @@ define 'App', ['Base', 'Ship'], (Base, Ship) ->
   window.app =
     state:
       game:
-        style:
-          background-color:
         time:
           timeSpeed: 1
           year: 400
@@ -42,10 +40,10 @@ define 'App', ['Base', 'Ship'], (Base, Ship) ->
 
     collections: []
 
-    # links
-    getPath: (start, end) ->
-      alt1 = start + '-' + end
-      alt2 = end + '-' + start
+    # links, paths, nodes
+    getPath: (from, to) ->
+      alt1 = from + '-' + to
+      alt2 = to + '-' + from
       path = false
 
       if @linksData[alt1]
@@ -54,6 +52,20 @@ define 'App', ['Base', 'Ship'], (Base, Ship) ->
         pathData = _.clone @linksData[alt2]
         path = _.reverse pathData
       path
+
+    getDistanceOfNodes: (from, to) ->
+      distance = 0
+      path = @getPath(from, to)
+      path.unshift(from)
+      path.push(to)
+      
+      _.each path, (node, n) =>
+        if path[n+1]
+          thisNode = node
+          nextNode = path[n+1]
+          distance += @getCollection('routes').getDistanceOfEdge(thisNode, nextNode)
+
+      distance
 
     registerCollection: (collection, z) ->
       @collections.push {'collection': collection, 'z': z}
@@ -67,7 +79,7 @@ define 'App', ['Base', 'Ship'], (Base, Ship) ->
       foundCollection
 
     newMonth: ->
-      app.getCollection('ships').createShip()
+      #app.getCollection('ships').createShip()
       return
 
     changeTime: ->
@@ -85,7 +97,7 @@ define 'App', ['Base', 'Ship'], (Base, Ship) ->
       return
 
     newYear: ->
-      app.getCollection('ships').createShip()
+      #app.getCollection('ships').createShip()
       return
 
     draw: ->

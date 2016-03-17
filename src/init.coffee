@@ -1,5 +1,6 @@
 require ['App', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'Nodes', 'Ships', 'Routes', 'Menu'], (app, Base, Island, Rectangle, MiniMap, Cursor, Route, Port, Ship, Islands, Nodes, Ships, Routes, Menu) ->
   console.log 'init'
+
   canvas = document.getElementById('game')
   canvas.width = app.state.view.w
   canvas.height = app.state.view.h
@@ -14,7 +15,7 @@ require ['App', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Po
   app.registerCollection(new Routes(JSON.parse Base.doXhr('data/edges.json').responseText), 2)
 
   app.getCollection('islands').registerGeometries()
-  #app.getCollection('nodes').registerGeometries()
+  app.getCollection('nodes').registerGeometries()
   app.getCollection('routes').registerGeometries()
 
   app.menu = new Menu()

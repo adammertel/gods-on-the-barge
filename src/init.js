@@ -13,6 +13,7 @@
     app.registerCollection(new Nodes(JSON.parse(Base.doXhr('data/nodes.json').responseText)), 3);
     app.registerCollection(new Routes(JSON.parse(Base.doXhr('data/edges.json').responseText)), 2);
     app.getCollection('islands').registerGeometries();
+    app.getCollection('nodes').registerGeometries();
     app.getCollection('routes').registerGeometries();
     app.menu = new Menu();
     app.cursor = new Cursor();

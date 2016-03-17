@@ -8,7 +8,8 @@
             timeSpeed: 1,
             year: 400,
             month: 1,
-            frameInterval: 0.001
+            day: 1,
+            frameInterval: 0.01
           }
         },
         fps: [],
@@ -47,10 +48,10 @@
         }
       },
       collections: [],
-      getPath: function(start, end) {
+      getPath: function(from, to) {
         var alt1, alt2, path, pathData;
-        alt1 = start + '-' + end;
-        alt2 = end + '-' + start;
+        alt1 = from + '-' + to;
+        alt2 = to + '-' + from;
         path = false;
         if (this.linksData[alt1]) {
           path = this.linksData[alt1];
@@ -59,6 +60,24 @@
           path = _.reverse(pathData);
         }
         return path;
+      },
+      getDistanceOfNodes: function(from, to) {
+        var distance, path;
+        distance = 0;
+        path = this.getPath(from, to);
+        path.unshift(from);
+        path.push(to);
+        _.each(path, (function(_this) {
+          return function(node, n) {
+            var nextNode, thisNode;
+            if (path[n + 1]) {
+              thisNode = node;
+              nextNode = path[n + 1];
+              return distance += _this.getCollection('routes').getDistanceOfEdge(thisNode, nextNode);
+            }
+          };
+        })(this));
+        return distance;
       },
       registerCollection: function(collection, z) {
         this.collections.push({
@@ -76,9 +95,7 @@
         });
         return foundCollection;
       },
-      newMonth: function() {
-        app.getCollection('ships').createShip();
-      },
+      newMonth: function() {},
       changeTime: function() {
         var lastFrame;
         lastFrame = _.clone(this.state.game.time.month);
@@ -94,9 +111,7 @@
           this.newYear();
         }
       },
-      newYear: function() {
-        app.getCollection('ships').createShip();
-      },
+      newYear: function() {},
       draw: function() {
         this.changeTime();
         _.each(_.orderBy(this.collections, 'z'), (function(_this) {
@@ -109,6 +124,23 @@
       },
       clear: function() {
         this.ctx.clearRect(0, 0, this.state.view.w, this.state.view.h);
+      },
+      loop: function() {
+        var now, nowValue;
+        now = new Date();
+        nowValue = now.valueOf();
+        if (app.state.lastTimeLoop) {
+          app.state.fps.push(parseInt(1 / (nowValue - app.state.lastTimeLoop) * 1000));
+        }
+        app.state.fps = _.takeRight(app.state.fps, 30);
+        app.state.lastTimeLoop = nowValue;
+        app.clear();
+        app.draw();
+        app.menu.draw();
+        app.cursor.draw();
+        app.checkPosition();
+        app.setInteractions();
+        window.requestAnimationFrame(app.loop);
       },
       calculateMap: function() {
         var c;
@@ -176,23 +208,6 @@
           x: (c.x - this.state.position.x) * this.state.zoom,
           y: (c.y - this.state.position.y) * this.state.zoom
         };
-      },
-      loop: function() {
-        var now, nowValue;
-        now = new Date();
-        nowValue = now.valueOf();
-        if (app.state.lastTimeLoop) {
-          app.state.fps.push(parseInt(1 / (nowValue - app.state.lastTimeLoop) * 1000));
-        }
-        app.state.fps = _.takeRight(app.state.fps, 30);
-        app.state.lastTimeLoop = nowValue;
-        app.clear();
-        app.draw();
-        app.menu.draw();
-        app.cursor.draw();
-        app.checkPosition();
-        app.setInteractions();
-        window.requestAnimationFrame(app.loop);
       },
       checkPosition: function() {
         var p, step;

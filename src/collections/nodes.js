@@ -17,10 +17,14 @@
       Nodes.prototype.limitConflict = 10;
 
       Nodes.prototype.registerGeometries = function() {
+        this.ports = [];
         _.each(_.keys(this.data), (function(_this) {
           return function(nodeId, n) {
             var islandValue;
             islandValue = _this.data[nodeId];
+            if (islandValue.island) {
+              _this.ports.push(nodeId);
+            }
             return _this.addGeometry(new Port(app.coordinateToMap({
               lon: islandValue.x,
               lat: islandValue.y
@@ -62,6 +66,12 @@
       Nodes.prototype.getNodesOnIsland = function(islandName) {
         return _.filter(this.data, function(node, n) {
           return node.island === islandName;
+        });
+      };
+
+      Nodes.prototype.getAllPorts = function() {
+        return _.filter(this.data, function(node, n) {
+          return node.island !== '';
         });
       };
 

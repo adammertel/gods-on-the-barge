@@ -6,17 +6,20 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
       return
 
     limitConflict: 10
-    registerGeometries: () ->
 
+    registerGeometries: () ->
+      @ports = []
       _.each _.keys(@data), (nodeId, n) =>
-        #if node.island
           #@addGeometry new Port(app.coordinateToMap {lon: node.x, lat: node.y})
         islandValue = @data[nodeId]
+        if islandValue.island
+          @ports.push nodeId
         @addGeometry new Port(app.coordinateToMap({lon: islandValue.x, lat: islandValue.y}), nodeId, islandValue.island)
       return
 
     getNode: (id) ->
       @data[id]
+
 
     nodeMapCoordinates: (id) ->
       node = @getNode(id)
@@ -35,6 +38,10 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
     getNodesOnIsland: (islandName) ->
       _.filter @data, (node, n) ->
         node.island == islandName
+
+    getAllPorts: () ->
+      _.filter @data, (node, n) ->
+        node.island != ''
 
     chooseShipStartingNodeId: () ->
       @getIdOfNode _.sample @getShipStartingNodes()

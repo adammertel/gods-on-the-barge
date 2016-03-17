@@ -37,6 +37,19 @@
         })(this));
       };
 
+      Routes.prototype.getDistanceOfEdge = function(from, to) {
+        var alt1, alt2, distance;
+        alt1 = from + '-' + to;
+        alt2 = to + '-' + from;
+        distance = false;
+        if (this.data[alt1]) {
+          distance = this.data[alt1];
+        } else if (this.data[alt2]) {
+          distance = this.data[alt2];
+        }
+        return distance;
+      };
+
       return Routes;
 
     })(Collection);

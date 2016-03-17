@@ -14,6 +14,27 @@
         return;
       }
 
+      Nodes.prototype.findClosePorts = function(ship) {
+        var allPorts, ports;
+        allPorts = app.getCollection('nodes').ports;
+        ports = [];
+        _.each(allPorts, (function(_this) {
+          return function(port, p) {
+            return ports.push({
+              'id': port,
+              'distance': app.getDistanceOfNodes(ship.stops[0], port)
+            });
+          };
+        })(this));
+        console.log(_.orderBy(ports, 'distance'));
+      };
+
+      Nodes.prototype.stopToRest = function(ship) {
+        if ((ship.nextDistance / 1000) / ship.energy < 2000) {
+          return findClosePorts;
+        }
+      };
+
       Nodes.prototype.createShip = function() {
         this.addGeometry(new Ship());
       };

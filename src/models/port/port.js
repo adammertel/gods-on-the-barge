@@ -18,18 +18,21 @@
 
       Port.prototype.draw = function() {
         var portCoord, radius;
-        portCoord = app.coordinateToView(this.coord);
         if (this.name) {
-          app.ctx.fillStyle = 'red';
-          radius = 5;
-        } else {
-          app.ctx.fillStyle = 'black';
-          radius = 3;
+          portCoord = app.coordinateToView(this.coord);
+          if (this.name) {
+            app.ctx.fillStyle = 'red';
+            radius = 5;
+          } else {
+            app.ctx.fillStyle = 'black';
+            radius = 3;
+          }
+          app.ctx.beginPath();
+          app.ctx.arc(portCoord.x, portCoord.y, radius * app.state.zoom, 0, 2 * Math.PI, false);
+          app.ctx.fill();
+          app.ctx.fillText(this.nodeId, portCoord.x + 10, portCoord.y + 10);
+          return;
         }
-        app.ctx.beginPath();
-        app.ctx.arc(portCoord.x, portCoord.y, radius * app.state.zoom, 0, 2 * Math.PI, false);
-        app.ctx.fill();
-        app.ctx.fillText(this.nodeId, portCoord.x + 10, portCoord.y + 10);
       };
 
       return Port;
