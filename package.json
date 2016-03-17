@@ -1,0 +1,34 @@
+{
+  "name": "gehir_game",
+  "version": "0.0.1",
+  "description": "prototype game for promoting interdisciplinary research of religions (see gehir.phil.muni.cz) ",
+  "main": "dist/index.html",
+  "dependencies": {
+    "live-reload": "latest"
+  },
+  "scripts": {
+    "devel": "SET NODE_ENV=production node",
+    "move-to-dist": "copyfiles -f src/index.html dist",
+    "coffee-to-js": "cjsx -cw src",
+
+    "onchange-js": "onchange src/**/*.js -- npm run move-js",
+    "onchange-html": "onchange src/index.html -- npm run move-to-dist",
+    "onchange-css": "onchange src/**/*.css -- node concat src/**/*.css dist/app.css",
+    "onchange-sprites": "onchange src/**/*.svg -- npm run move-sprites",
+    "onchange-data": "onchange src/data/**/* -- npm run move-data",
+
+    "move-js": "concat-glob-cli -f src/**/*.js -o dist/app.js",
+    "move-sprites": "copyfiles -f src/**/*.svg dist/sprites",
+    "move-data": "copyfiles -f src/data/**/*.* dist/data",
+    "http-server": "http-server dist",
+    "start": "parallelshell \"npm run devel\" \"npm run coffee-to-js\" \"npm run onchange-js\"  \"npm run onchange-html\" \"npm run onchange-css\" \"npm run move-to-dist\" \"npm run onchange-sprites\" \"npm run move-sprites\" \"npm run onchange-data\" \"npm run move-data\" \"npm run http-server\" "
+  },
+  "keywords": [
+    "religions",
+    "game",
+    "javascript",
+    "html5"
+  ],
+  "author": "Adam Mertel, Tomáš Glomb",
+  "license": "ISC"
+}
