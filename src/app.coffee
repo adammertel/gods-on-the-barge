@@ -117,14 +117,15 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       @ctx.clearRect 0, 0, @state.view.w, @state.view.h
       return
 
-    loop: ->
+    countFps: ->
       now = new Date()
       nowValue = now.valueOf()
       if app.state.lastTimeLoop
         app.state.fps.push parseInt(1/(nowValue - app.state.lastTimeLoop) * 1000)
-      app.state.fps = _.takeRight app.state.fps, 30
-      app.state.lastTimeLoop = nowValue
+        app.state.fps = _.takeRight app.state.fps, 30
+        app.state.lastTimeLoop = nowValue
 
+    loop: ->
       app.clear()
       app.draw()
       app.menu.draw()
@@ -150,7 +151,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     writeInfo: ->
       @ctx.fillStyle = 'black'
       @ctx.fillText 'x: ' + @state.position.x + ' y: ' + @state.position.y + ' zoom: ' + @state.zoom, 10, 10
-      @ctx.fillText 'fps : ' + parseInt(_.mean(@state.fps)), 10, 40
+      #@ctx.fillText 'fps : ' + parseInt(_.mean(@state.fps)), 10, 40
       return
 
     getClicked: ()->

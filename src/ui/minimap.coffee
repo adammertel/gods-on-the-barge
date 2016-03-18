@@ -27,7 +27,6 @@ define 'MiniMap', ['App'], (app) ->
       app.ctx.lineTo @x, @y + @h
       app.ctx.closePath()
 
-
       app.ctx.clip()
 
       islands = app.getCollection 'islands'

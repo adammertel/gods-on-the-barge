@@ -10,7 +10,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       frameInterval: 0.00005
 
     constructor: () ->
-      @labelx = app.state.view.w - 100
+      @labelx = app.state.view.w - 40
       @labely = 20
       return
 
@@ -18,8 +18,11 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       @state.timeSpeed = newSpeed
       return
 
-    getDatumLabel: () ->
-      'week: ' + @state.week + '; year: ' + @state.year + ' BC'
+    getWeekLabel: () ->
+      'week ' + @state.week + '/13'
+
+    getSeasonYearLabel: () ->
+      @state.season + ', ' + @state.year + ' BC'
 
     nextTick: () ->
       lastFrame = _.clone @state.yearPart
@@ -71,7 +74,57 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       app.newYear()
       return
 
-    draw: () ->
+    drawGlassHours: ->
+      h = 35
+      w = 20
+      d = 5
+      x1 = @labelx+10
+      x2 = x1 + w
+      y1 = @labely-10
+      y2 = y1 + h
+
+      xc1 = x1 + (w/2 - d/2)
+      xc2 = x1 + (w/2 + d/2)
+      yc = y1 + h/2
+
+      app.ctx.fillStyle = 'orange'
+      dh = h * @state.day/7
+      app.ctx.fillRect x1, y1 + dh, w, h - dh
+
+      app.ctx.fillStyle = 'white'
+      app.ctx.beginPath()
+      app.ctx.moveTo x1, y1
+      app.ctx.lineTo xc1, yc
+      app.ctx.lineTo x1, y2
+      app.ctx.closePath()
+      app.ctx.fill()
+      app.ctx.beginPath()
+      app.ctx.moveTo x2, y1
+      app.ctx.lineTo xc2, yc
+      app.ctx.lineTo x2, y2
+      app.ctx.closePath()
+      app.ctx.fill()
+
       app.ctx.fillStyle = 'black'
-      app.ctx.fillText @getDatumLabel(), @labelx, @labely
+      app.ctx.beginPath()
+      app.ctx.lineWidth = 2
+      app.ctx.moveTo x1, y1
+      app.ctx.lineTo xc1, yc
+      app.ctx.lineTo x1, y2
+      app.ctx.lineTo x2, y2
+      app.ctx.lineTo xc2, yc
+      app.ctx.lineTo x2, y1
+      app.ctx.closePath()
+      app.ctx.stroke()
+
+      return
+
+    draw: () ->
+      app.ctx.fillStyle = 'white'
+      app.ctx.fillRect @labelx - 80, 0, 200, 50
+      app.ctx.fillStyle = 'black'
+      app.ctx.textAlign = 'right';
+      app.ctx.fillText @getWeekLabel(), @labelx, @labely
+      app.ctx.fillText @getSeasonYearLabel(), @labelx, @labely + 20
+      @drawGlassHours()
       return
