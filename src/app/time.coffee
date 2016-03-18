@@ -123,8 +123,9 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       app.ctx.fillStyle = 'white'
       app.ctx.fillRect @labelx - 80, 0, 200, 50
       app.ctx.fillStyle = 'black'
-      app.ctx.textAlign = 'right';
+      app.ctx.textAlign = 'right'
       app.ctx.fillText @getWeekLabel(), @labelx, @labely
       app.ctx.fillText @getSeasonYearLabel(), @labelx, @labely + 20
       @drawGlassHours()
+      app.ctx.textAlign = 'left'
       return

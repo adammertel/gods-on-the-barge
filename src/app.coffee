@@ -84,21 +84,21 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       foundCollection
 
     newDay: ->
-      console.log 'newDay'
+      #console.log 'newDay'
       return
 
     newWeek: ->
-      console.log 'newWeek'
+      #console.log 'newWeek'
       #app.getCollection('ships').createShip()
       return
 
     newSeason: (newSeason)->
-      console.log 'newSeason'
+      #console.log 'newSeason'
       #app.getCollection('ships').createShip()
       return
 
     newYear: ->
-      console.log 'newYear'
+      #console.log 'newYear'
       #app.getCollection('ships').createShip()
       return
 
