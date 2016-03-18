@@ -1,4 +1,4 @@
-require ['App', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'Nodes', 'Ships', 'Routes', 'Menu'], (app, Base, Island, Rectangle, MiniMap, Cursor, Route, Port, Ship, Islands, Nodes, Ships, Routes, Menu) ->
+require ['App', 'Time', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'Nodes', 'Ships', 'Routes', 'Menu'], (app, Time, Base, Island, Rectangle, MiniMap, Cursor, Route, Port, Ship, Islands, Nodes, Ships, Routes, Menu) ->
   console.log 'init'
 
   canvas = document.getElementById('game')
@@ -18,6 +18,7 @@ require ['App', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Po
   app.getCollection('nodes').registerGeometries()
   app.getCollection('routes').registerGeometries()
 
+  app.time = new Time()
   app.menu = new Menu()
   app.cursor = new Cursor()
 

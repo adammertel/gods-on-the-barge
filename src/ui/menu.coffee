@@ -19,8 +19,8 @@ define 'Menu', ['App', 'MiniMap', 'Text', 'Button'], (app, MiniMap, Text, Button
 
     init: () ->
       bs = _.clone @buttonStyles
-      @registerText 'datum', {x: @w - @mm.w - 200, y: @h - 25 + @y}, @getDatumValue
-      gameSpeed = app.state.game.time.timeSpeed
+      #@registerText 'datum', {x: @w - @mm.w - 200, y: @h - 25 + @y}, app.time.getDatumLabel
+      gameSpeed = app.time.state.timeSpeed
 
       @registerButton 'speed0', {x: @w - @mm.w - 75, y: @h - 25 + @y, w: 25, h: 25}, @makeStaticText.bind(@, '||'), @changeSpeed0.bind(@), bs['speed'], gameSpeed == 0
       @registerButton 'speed1', {x: @w - @mm.w - 50, y: @h - 25 + @y, w: 25, h: 25}, @makeStaticText.bind(@, '>'), @changeSpeed1.bind(@), bs['speed'], gameSpeed == 1
@@ -34,21 +34,21 @@ define 'Menu', ['App', 'MiniMap', 'Text', 'Button'], (app, MiniMap, Text, Button
       @getButton('speed0').activate()
       @getButton('speed1').deactivate()
       @getButton('speed2').deactivate()
-      app.state.game.time.timeSpeed = 0
+      app.time.changeGameSpeed 0
       return
 
     changeSpeed1: () ->
       @getButton('speed0').deactivate()
       @getButton('speed1').activate()
       @getButton('speed2').deactivate()
-      app.state.game.time.timeSpeed = 1
+      app.time.changeGameSpeed 1
       return
 
     changeSpeed2: () ->
       @getButton('speed0').deactivate()
       @getButton('speed1').deactivate()
       @getButton('speed2').activate()
-      app.state.game.time.timeSpeed = 2
+      app.time.changeGameSpeed 2
       return
 
     zoomOut: () ->
@@ -61,9 +61,6 @@ define 'Menu', ['App', 'MiniMap', 'Text', 'Button'], (app, MiniMap, Text, Button
 
     makeStaticText: (text) ->
       text
-
-    getDatumValue: () ->
-      'year: ' + app.state.game.time.year + ' BC, month: ' + _.floor app.state.game.time.month
 
     getButton: (buttonId) ->
       _.find @buttons, (button) =>

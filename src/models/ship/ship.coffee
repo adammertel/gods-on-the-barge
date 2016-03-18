@@ -14,7 +14,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @cargo = @fullCargo
 
       @baseResting = 20
-      @fullEnergy = 600
+      @fullEnergy = 400
       @energyConsumption = 0.5
       @energy = @fullEnergy
       @resting = false
@@ -25,7 +25,6 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       app.getCollection('ships')
 
     addCheckPoint: (id) ->
-      console.log 'adding checkPoint', id
       if _.indexOf(@checkPointIds, id) == -1
         @checkPointIds.unshift id
         @recalculateStops()
@@ -39,7 +38,6 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       return
 
     recalculateStops: () ->
-      console.log @checkPointIds
       @stops = app.getPathWithCheckPoints(@stops[0], @endId, @checkPointIds)
       return
 
@@ -51,13 +49,12 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
 
     move: () ->
       if @resting
-        console.log 'resting'
         @energy += @baseResting
         @energy = _.clamp @energy, @fullEnergy
         if @energy == @fullEnergy
           @resting = false
       else
-        @energy -= @energyConsumption * app.state.game.time.timeSpeed
+        @energy -= @energyConsumption * app.time.state.timeSpeed
         if @energy < 0
           @suicide()
         @checkNodeConflict()
@@ -77,7 +74,6 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
               @addCheckPoint @getCollection().findClosestPort(@)
 
           @nextDistance = @calculateNextDistance()
-          #console.log @getCollection().stopToRest(@)
 
           @stops = _.slice @stops, 1
           @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
@@ -99,7 +95,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       theta
 
     getSpeed: () ->
-      @baseSpeed * app.state.game.time.timeSpeed
+      @baseSpeed * app.time.state.timeSpeed
 
     drawCargoBar: () ->
       fullCargopx = 40 * app.state.zoom

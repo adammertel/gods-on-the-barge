@@ -1,13 +1,6 @@
-define 'App', ['Base', 'Ship'], (Base, Ship) ->
+define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
   window.app =
     state:
-      game:
-        time:
-          timeSpeed: 1
-          year: 400
-          month: 1
-          day: 1
-          frameInterval: 0.01 # 0.001
       fps: []
       lastTimeLoop: null
       view:
@@ -90,36 +83,34 @@ define 'App', ['Base', 'Ship'], (Base, Ship) ->
           foundCollection = collection.collection
       foundCollection
 
-    newMonth: ->
+    newDay: ->
+      console.log 'newDay'
+      return
+
+    newWeek: ->
+      console.log 'newWeek'
       #app.getCollection('ships').createShip()
       return
 
-    changeTime: ->
-      lastFrame = _.clone @state.game.time.month
-      @state.game.time.month += @state.game.time.timeSpeed * @state.game.time.frameInterval
-      if _.floor(lastFrame) != _.floor(@state.game.time.month)
-        console.log 'new month'
-        @newMonth()
-
-      if @state.game.time.month > 13
-        console.log 'new year'
-        @state.game.time.year -= 1
-        @state.game.time.month = 1
-        @newYear()
+    newSeason: (newSeason)->
+      console.log 'newSeason'
+      #app.getCollection('ships').createShip()
       return
 
     newYear: ->
+      console.log 'newYear'
       #app.getCollection('ships').createShip()
       return
 
     draw: ->
-      @changeTime()
+      @time.nextTick()
 
       _.each _.orderBy(@collections, 'z'), (collection, c) =>
         collection.collection.draw()
 
       @drawBorders()
       @writeInfo()
+      @time.draw()
       return
 
     clear: ->
