@@ -201,8 +201,8 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         @coordinateToView coord
 
     coordinateToView: (c) ->
-      x: (c.x - (@state.position.x)) * @state.zoom,
-      y: (c.y - (@state.position.y)) * @state.zoom
+      x: (0.5 + (c.x - (@state.position.x)) * @state.zoom) | 0,
+      y: (0.5 + (c.y - (@state.position.y)) * @state.zoom) | 0
 
     checkPosition: ->
       step = 5

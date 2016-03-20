@@ -31,9 +31,9 @@ define 'MiniMap', ['App'], (app) ->
 
       islands = app.getCollection 'islands'
 
+      app.ctx.fillStyle = 'grey'
+      app.ctx.beginPath()
       _.each islands.geometries, (islandGeometry) =>
-        app.ctx.fillStyle = 'grey'
-        app.ctx.beginPath()
         _.each islandGeometry.coords, (coord, c) =>
           mmCoord = @coordinateToMiniMap {x:coord.x, y:coord.y}
           if c == 0
@@ -41,12 +41,12 @@ define 'MiniMap', ['App'], (app) ->
           else
             app.ctx.lineTo mmCoord.x, mmCoord.y
 
-        app.ctx.closePath()
-        app.ctx.fill()
+      app.ctx.closePath()
+      app.ctx.fill()
 
       app.ctx.restore()
       app.ctx.strokeRect @x + @lw/2, @y + @lw/2, @w - @lw, @h - @lw
-      app.ctx.fillStyle = 'grey'
+
       x1 = @dx * app.state.position.x
       y1 = @dy * app.state.position.y
       mmCoord = @coordinateToMiniMap(x: app.state.position.x, y: app.state.position.y)
@@ -54,7 +54,6 @@ define 'MiniMap', ['App'], (app) ->
       mh = @dy * app.state.view.h / app.state.zoom - 2 * @lw
       app.ctx.strokeRect mmCoord.x + @lw, mmCoord.y + @lw, mw, mh
       return
-
 
     mouseConflict: ->
       mouseX = app.state.controls.mousePosition.x

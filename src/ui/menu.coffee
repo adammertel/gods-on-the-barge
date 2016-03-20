@@ -122,8 +122,10 @@ define 'Menu', ['App', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPan
         button.draw()
 
     draw: () ->
-      _.each @buttons, (button, b) =>
-        button.isClicked()
+      app.ctx.font = 'bold 8pt Calibri'
+      if @mouseConflict()
+        _.each @buttons, (button, b) =>
+          button.isClicked()
 
       app.ctx.lineWidth = @lw
       app.ctx.fillStyle = 'white'
@@ -131,6 +133,7 @@ define 'Menu', ['App', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPan
       app.ctx.fillRect @x, @y, @w, @h
       app.ctx.strokeRect @x + @lw/2, @y + @lw/2, @w - @lw , @h - @lw
 
+      app.ctx.fillStyle = 'black'
       @drawTexts()
       @drawActivePanel()
       @drawButtons()

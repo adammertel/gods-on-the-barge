@@ -48,36 +48,31 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
       app.ctx.fillText 'name : ' + @data.name, mouseX + 20, mouseY + 20
       app.ctx.fillText 'population : ' + @data.population, mouseX + 20, mouseY + 35
 
+    drawIsland: ->
+      app.ctx.beginPath()
+      _.each @viewCoords, (viewCoord, c) =>
+        if c == 0
+          app.ctx.moveTo viewCoord.x, viewCoord.y
+        else
+          app.ctx.lineTo viewCoord.x, viewCoord.y
+
+      app.ctx.closePath()
+      app.ctx.fill()
+      return
 
     draw: ->
       @getCoords()
       #if @isVisible
       if @data
         app.ctx.fillStyle = '#777'
-        app.ctx.beginPath()
-        _.each @viewCoords, (viewCoord, c) =>
-          if c == 0
-            app.ctx.moveTo viewCoord.x, viewCoord.y
-          else
-            app.ctx.lineTo viewCoord.x, viewCoord.y
-
-        app.ctx.closePath()
-        app.ctx.fill()
-
         if @over
           app.ctx.fillStyle = '#555'
-          app.ctx.fill()
           @drawInfo()
+
+        @drawIsland()
+
       else
         app.ctx.fillStyle = '#aaa'
-        app.ctx.beginPath()
-        _.each @viewCoords, (viewCoord, c) =>
-          if c == 0
-            app.ctx.moveTo viewCoord.x, viewCoord.y
-          else
-            app.ctx.lineTo viewCoord.x, viewCoord.y
-
-        app.ctx.closePath()
-        app.ctx.fill()
+        @drawIsland()
 
       return

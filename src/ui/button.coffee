@@ -10,7 +10,6 @@ define 'Button', ['App'], (app) ->
       @style = if @active then @styles.active else @styles.inactive
       app.ctx.lineWidth = @style.lw
       app.ctx.fillStyle = @style.fill
-      app.ctx.font = 'bold 8pt Calibri'
       app.ctx.fillRect @x, @y - @style.lw, @w, @h
       app.ctx.strokeRect @x, @y - @style.lw, @w, @h
       app.ctx.fillStyle =  @style.text

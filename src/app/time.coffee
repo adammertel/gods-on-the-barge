@@ -1,7 +1,7 @@
 define 'Time', ['Base', 'Season'], (Base, Season) ->
   class Time
     state:
-      timeSpeed: 1
+      timeSpeed: 0
       year: 400
       week: 1
       season: Season[0]
@@ -12,6 +12,15 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
     constructor: () ->
       @labelx = app.state.view.w - 40
       @labely = 20
+      return
+
+    pause: () ->
+      @state.timeSpeedBeforePause = @state.timeSpeedBeforePause
+      @state.timeSpeed = 0
+      return
+
+    resume: () ->
+      @state.timeSpeed = @state.timeSpeedBeforePause
       return
 
     changeGameSpeed: (newSpeed) ->
@@ -89,6 +98,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       yc = y1 + h/2
 
       app.ctx.fillStyle = 'orange'
+      app.ctx.lineWidth = 2
       dh = h * @state.day/7
       app.ctx.fillRect x1, y1 + dh, w, h - dh
 
@@ -97,18 +107,14 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       app.ctx.moveTo x1, y1
       app.ctx.lineTo xc1, yc
       app.ctx.lineTo x1, y2
-      app.ctx.closePath()
-      app.ctx.fill()
-      app.ctx.beginPath()
+
       app.ctx.moveTo x2, y1
       app.ctx.lineTo xc2, yc
       app.ctx.lineTo x2, y2
       app.ctx.closePath()
       app.ctx.fill()
 
-      app.ctx.fillStyle = 'black'
       app.ctx.beginPath()
-      app.ctx.lineWidth = 2
       app.ctx.moveTo x1, y1
       app.ctx.lineTo xc1, yc
       app.ctx.lineTo x1, y2

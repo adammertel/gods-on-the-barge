@@ -5,6 +5,5 @@ define 'Text', ['App'], (app) ->
       @y = position.y
 
     draw: () ->
-      app.ctx.fillStyle = 'black'
       app.ctx.fillText @text(), @x, @y + 8
       return
