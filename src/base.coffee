@@ -58,3 +58,22 @@ define 'Base', [], () ->
       array.splice(index, 1)
       array.push item
       array
+
+    wrapText: (context, text, maxWidth) ->
+      words = text.split(' ')
+      line = ''
+      wrapped = []
+      n = 0
+      while n < words.length
+        testLine = line + words[n] + ' '
+        metrics = context.measureText(testLine)
+        testWidth = metrics.width
+        if testWidth > maxWidth and n > 0
+          wrapped.push line
+          line = words[n] + ' '
+        else
+          line = testLine
+        n++
+
+      wrapped.push line
+      wrapped

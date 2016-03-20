@@ -30,8 +30,22 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         s: 30
         e: 32
         w: 22
-
     collections: []
+    infoWindows: []
+
+    registerInfoWindow: (infoWindow) ->
+      @infoWindows.push infoWindow
+      return
+
+    getInfoWindow: (id) ->
+      _.find @infoWindows, (infoWindow) =>
+        infoWindow.id == id
+
+    drawInfoWindows: () ->
+      _.each @infoWindows, (infoWindow) =>
+        if infoWindow.open
+          infoWindow.draw()
+      return
 
     # links, paths, nodes
     getPathWithCheckPoints: (from, to, checkPoints) ->
@@ -83,6 +97,15 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
           foundCollection = collection.collection
       foundCollection
 
+    drawTextArea: (text, x, y, lineHeight, lineWidth, font) ->
+      app.ctx.font = font
+      app.ctx.fillStyle = 'black'
+      texts = Base.wrapText(app.ctx, text, lineWidth)
+
+      _.each texts, (text, t) ->
+        app.ctx.fillText text, x, y + t * lineHeight
+      return
+
     newDay: ->
       #console.log 'newDay'
       return
@@ -123,13 +146,18 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       app.state.fps.push parseInt(1/(nowValue - app.state.lastTimeLoop) * 1000)
       app.state.fps = _.takeRight app.state.fps, 30
       app.state.lastTimeLoop = nowValue
+      return
 
     loop: ->
       app.clear()
       app.countFps()
       app.draw()
       app.menu.draw()
+
+      app.drawInfoWindows()
+
       app.cursor.draw()
+
       app.checkPosition()
       app.setInteractions()
 
