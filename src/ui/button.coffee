@@ -6,14 +6,17 @@ define 'Button', ['App'], (app) ->
       @x = position.x
       @y = position.y
 
+
     draw: () ->
       @style = if @active then @styles.active else @styles.inactive
-      app.ctx.lineWidth = @style.lw
+
+      app.ctx.textAlign = 'center'
+      app.ctx.font = @style.font
       app.ctx.fillStyle = @style.fill
       app.ctx.fillRect @x, @y - @style.lw, @w, @h
       app.ctx.strokeRect @x, @y - @style.lw, @w, @h
       app.ctx.fillStyle =  @style.text
-      app.ctx.fillText @text(), @x + 8, @y + 16
+      app.ctx.fillText @text(), @x + @w/2, @y + @h/2
       return
 
     isClicked: () ->

@@ -59,6 +59,10 @@ define 'Base', [], () ->
       array.push item
       array
 
+    openWebPage: (url) ->
+      window.open(url, '_blank');
+      return
+
     wrapText: (context, text, maxWidth) ->
       words = text.split(' ')
       line = ''

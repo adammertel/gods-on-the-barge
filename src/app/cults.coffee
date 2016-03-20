@@ -20,7 +20,7 @@ define 'Cults', ['Base'], (Base) ->
           iconLabel: 'anubis'
           label: 'Anubis'
           color: '#a65628'
-          text: 'And also Anubis was here. We is blablabla...'
+          text: 'And also Anubis was here. He was a blablabla...'
         'Bastet':
           no: 4
           iconLabel: 'bastet'
@@ -30,8 +30,6 @@ define 'Cults', ['Base'], (Base) ->
 
     constructor: ->
       @loadIcons()
-
-
 
 
     loadIcons: () ->

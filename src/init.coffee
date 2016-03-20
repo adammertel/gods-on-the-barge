@@ -23,7 +23,7 @@ require ['App', 'Time', 'Cults', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Curs
   app.menu = new Menu()
   app.cursor = new Cursor()
 
-  app.registerInfoWindow(new WelcomeWindow('welcome', 500, 500))
+  app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
 
   app.registerCollection(new Ships [], 10)
 
@@ -36,6 +36,11 @@ require ['App', 'Time', 'Cults', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Curs
     app.state.controls.mouseClickedPosition =
       x: e.clientX
       y: e.clientY
+    return
+
+  canvas.addEventListener 'dblclick', (e) ->
+    if app.state.controls.mouseClicked and app.mouseOverMap()
+      app.zoomIn()
     return
 
   canvas.addEventListener 'mouseup', (e) ->

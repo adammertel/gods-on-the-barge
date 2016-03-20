@@ -1,7 +1,7 @@
 define 'Time', ['Base', 'Season'], (Base, Season) ->
   class Time
     state:
-      timeSpeed: 0
+      timeSpeed: 1
       year: 400
       week: 1
       season: Season[0]
@@ -15,7 +15,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       return
 
     pause: () ->
-      @state.timeSpeedBeforePause = @state.timeSpeedBeforePause
+      @state.timeSpeedBeforePause = @state.timeSpeed
       @state.timeSpeed = 0
       return
 

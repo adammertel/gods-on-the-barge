@@ -30,8 +30,15 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         s: 30
         e: 32
         w: 22
+      player: {}
+
     collections: []
     infoWindows: []
+
+    play: (cult) ->
+      @state.player.cult = cult
+      @time.resume()
+      return
 
     registerInfoWindow: (infoWindow) ->
       @infoWindows.push infoWindow
@@ -40,6 +47,13 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     getInfoWindow: (id) ->
       _.find @infoWindows, (infoWindow) =>
         infoWindow.id == id
+
+    isInfoWindowOpen: () ->
+      open = false
+      _.each @infoWindows, (infoWindow) =>
+        if infoWindow.open
+          open = true
+      open
 
     drawInfoWindows: () ->
       _.each @infoWindows, (infoWindow) =>
@@ -254,7 +268,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       return
 
     mouseOverMap: () ->
-      !@menu.mouseConflict()
+      !@menu.mouseConflict() and !@isInfoWindowOpen()
 
     zoomIn: ->
       if @state.zoom < @state.maxZoom
