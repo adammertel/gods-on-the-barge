@@ -13,7 +13,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       _.orderBy ports, 'distance'
 
     findClosestPort: (ship) ->
-      console.log @findClosePorts(ship)
+      #console.log @findClosePorts(ship)
       @findClosePorts(ship)[0].id
 
     stopToRest: (ship) ->

@@ -4,4 +4,6 @@ define 'IslandsPanel', ['Text', 'Button'], (Text, Button) ->
       @label = 'Islands'
 
     draw: ->
+      app.ctx.fillStyle = 'black'
+      app.ctx.fillText @label, 200, @menu.y + @menu.h/2
       return

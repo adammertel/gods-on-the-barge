@@ -71,6 +71,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       @state.day = 0
       @state.week = 0
       @state.season = Season[0]
+      @state.year += 1
       app.newYear()
       return
 
