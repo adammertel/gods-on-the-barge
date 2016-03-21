@@ -45,6 +45,7 @@ define 'MiniMap', ['App'], (app) ->
       app.ctx.fill()
 
       app.ctx.restore()
+      app.ctx.lineWidth = 2
       app.ctx.strokeRect @x + @lw/2, @y + @lw/2, @w - @lw, @h - @lw
 
       x1 = @dx * app.state.position.x

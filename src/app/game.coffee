@@ -105,7 +105,7 @@ define 'Game', ['Base'], (Base) ->
       @getCultStats(cult).ships.out -= 1
       return
 
-    shipBuilt: (cult) ->=
+    shipBuilt: (cult) ->
       @getCultStats(cult).ships.out += 1
       return
 

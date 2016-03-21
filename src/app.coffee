@@ -99,7 +99,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       else if @linksData[alt2]
         pathData = _.clone @linksData[alt2]
         path = _.reverse pathData
-      path.push to
+      path.push parseInt to
       path
 
     getDistanceOfNodes: (from, to) ->

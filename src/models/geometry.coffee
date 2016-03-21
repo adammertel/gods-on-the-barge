@@ -51,8 +51,8 @@ define 'Geometry', ['Base'], (Base) ->
         #@rotate()
       if app.state.zoom >= @props.minZoom
         #position = app.coordinateToView({x: @coords.x, y: @coords.y})
-        sizeW = @size.w * app.state.zoom
-        sizeH = @size.h * app.state.zoom
+        sizeW = Base.round @size.w * app.state.zoom
+        sizeH = Base.round @size.h * app.state.zoom
 
         if @rotation and @sprite
           app.ctx.translate @shipCoord.x, @shipCoord.y

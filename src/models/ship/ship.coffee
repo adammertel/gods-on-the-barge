@@ -20,7 +20,6 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @energyConsumption = @cultStats.energyConsumption
       @energy = @fullEnergy
       @resting = false
-
       return
 
     getCollection: () ->
@@ -34,7 +33,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
 
     calculateStops: () ->
       @stops = app.getPath @startId, @endId
-      @nextDistance = @calculateNextDistance()
+      #@nextDistance = @calculateNextDistance()
       @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
       @rotation = @calculateRotation()
       return
@@ -61,11 +60,11 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
           @getCollection().destroyShip(@)
         @checkNodeConflict()
         @coords = Base.moveTo @coords, @nextStop, @getSpeed()
+      return
 
     checkNodeConflict: () ->
       if app.getCollection('nodes').checkConflict @stops[0], @coords
         if @stops.length > 1
-
           _.pull @checkPointIds, @stops[0] # removes checkpoint
 
           if app.getCollection('nodes').isNodePort @stops[0]
@@ -75,13 +74,17 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
             if @needRestCondition()
               @addCheckPoint @getCollection().findClosestPort(@)
 
-          @nextDistance = @calculateNextDistance()
+          #@nextDistance = @calculateNextDistance()
 
           @stops = _.slice @stops, 1
           @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
           @rotation = @calculateRotation()
-        else
+          return
+        else # ship
           @getCollection().destroyShip(@)
+          return
+      else
+        return false
 
     calculateRotation: () ->
       dy = @coords.y - @nextStop.y
@@ -106,6 +109,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       app.ctx.fillStyle = 'orange'
       app.ctx.strokeRect @shipCoord.x - fullCargopx/2, @shipCoord.y - fullCargopx/2, fullCargopx, 3
       app.ctx.fillRect @shipCoord.x - fullCargopx/2, @shipCoord.y - fullCargopx/2, cargopx, 3
+      return
 
     drawEnergyBar: () ->
       fullEnergypx = 40 * app.state.zoom
@@ -114,6 +118,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       app.ctx.fillStyle = 'blue'
       app.ctx.strokeRect @shipCoord.x - fullEnergypx/2, @shipCoord.y - fullEnergypx/2 - 6, fullEnergypx, 3
       app.ctx.fillRect @shipCoord.x - fullEnergypx/2, @shipCoord.y - fullEnergypx/2 - 6, energypx, 3
+      return
 
     draw: () ->
       @shipCoord = app.coordinateToView @coords

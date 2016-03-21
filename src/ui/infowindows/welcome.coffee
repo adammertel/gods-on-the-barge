@@ -58,8 +58,6 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
           app.ctx.strokeRect @x + @m, @y + @m + 100*cult.no - 20, @w - 2*@m, 80
 
         logo = cult.logo
-        try
-          app.ctx.drawImage logo, @x + @m, @y + @m + 100*cult.no - 20, 70, 70
-        catch error
+        app.ctx.drawImage logo, @x + @m, @y + @m + 100*cult.no - 20, 70, 70
         return
       return

@@ -10,11 +10,11 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
     registerGeometries: () ->
       @ports = []
       _.each _.keys(@data), (nodeId, n) =>
-          #@addGeometry new Port(app.coordinateToMap {lon: node.x, lat: node.y})
         islandValue = @data[nodeId]
         if islandValue.island
           @ports.push nodeId
         @addGeometry new Port(app.coordinateToMap({lon: islandValue.x, lat: islandValue.y}), nodeId, islandValue.island)
+        return
       return
 
     getNode: (id) ->
@@ -28,13 +28,15 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
       app.coordinateToMap {lon: node.x, lat: node.y}
 
     checkConflict: (id, coords) ->
-      Base.distance(@nodeMapCoordinates(id), coords) < @limitConflict
+      Base.distance(@nodeMapCoordinates(id), coords) < @limitConflict * app.time.state.timeSpeed
 
     getIdOfNode: (node) ->
       id = false
-      _.each _.keys(@data), (nodeKey, k) =>
-        if @data[nodeKey].x == node.x
+      self = @
+      _.each _.keys(@data), (nodeKey, k) ->
+        if self.data[nodeKey].x == node.x
           id = nodeKey
+        return
       id
 
     getNodesOnIsland: (islandName) ->

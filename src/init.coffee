@@ -31,6 +31,14 @@ require ['App', 'Time', 'Game', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Curso
 
   app.loop()
 
+  canvas.addEventListener 'mousewheel', (e) ->
+    if e.deltaY < 0
+      app.zoomIn()
+    else
+      app.zoomOut()
+
+    return
+
   canvas.addEventListener 'mousedown', (e) ->
     app.state.controls.mouseClicked = true
     app.state.controls.mouseClickedPosition =
