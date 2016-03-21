@@ -1,9 +1,12 @@
 define 'OverviewPanel', ['Panel', 'Text', 'Button'], (Panel, Text, Button) ->
   class OverviewPanel extends Panel
     constructor: (@menu) ->
-      super @menu, 'Overview'
+      @label = 'Overview'
+      super @menu, @label
+
+    init: () ->
+      super()
 
     draw: ->
       super()
-      app.ctx.fillText @label, 200, @menu.y + @menu.h/2
       return

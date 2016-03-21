@@ -3,7 +3,7 @@ define 'Geometry', ['Base'], (Base) ->
 
     constructor: (@coords, @size, props) ->
       @props = _.assign( {
-        color: '#666'
+        defaultColor: '#666666'
         minZoom: 1
       }, props
       )
@@ -17,11 +17,12 @@ define 'Geometry', ['Base'], (Base) ->
       false
 
     changeColor: (newColor) ->
-      @svg = @svg.replace(new RegExp(@color, 'g'), newColor)
+      @svg = @svg.replace(new RegExp(@props.defaultColor, 'g'), newColor)
       @color = newColor
       @loadImage()
       return
 
+    # doesnt work
     rotate: () ->
       @svg = @svg.replace(new RegExp(/rotate\((\d*)/), 'rotate(' + @rotation)
       console.log @svg

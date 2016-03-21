@@ -20,8 +20,8 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       if (ship.nextDistance/1000) / ship.energy < 2000
         findClosePorts
 
-    createShip: () ->
-      @addGeometry new Ship()
+    createShip: (cult) ->
+      @addGeometry new Ship(cult)
       return
 
     registerGeometries: () ->

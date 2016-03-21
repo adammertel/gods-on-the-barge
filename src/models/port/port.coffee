@@ -16,6 +16,7 @@ define 'Port', ['Geography', 'Base'], (Geography, Base) ->
         radius = 3
 
       #console.log portCoord
+      app.ctx.font = 'bold 8pt Calibri'
       app.ctx.beginPath()
       app.ctx.arc(portCoord.x, portCoord.y, radius*app.state.zoom, 0, 2 * Math.PI, false)
       app.ctx.fill()

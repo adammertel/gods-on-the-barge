@@ -1,4 +1,4 @@
-require ['App', 'Time', 'Cults', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'Nodes', 'Ships', 'Routes', 'Menu', 'WelcomeWindow'], (app, Time, Cults, Base, Island, Rectangle, MiniMap, Cursor, Route, Port, Ship, Islands, Nodes, Ships, Routes, Menu, WelcomeWindow) ->
+require ['App', 'Time', 'Game', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'Nodes', 'Ships', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum'], (app, Time, Game, Base, Island, Rectangle, MiniMap, Cursor, Route, Port, Ship, Islands, Nodes, Ships, Routes, Menu, WelcomeWindow, Cults) ->
   console.log 'init'
 
   canvas = document.getElementById('game')
@@ -18,7 +18,7 @@ require ['App', 'Time', 'Cults', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Curs
   app.getCollection('nodes').registerGeometries()
   app.getCollection('routes').registerGeometries()
 
-  app.cults = new Cults()
+  app.game = new Game()
   app.time = new Time()
   app.menu = new Menu()
   app.cursor = new Cursor()
@@ -27,7 +27,7 @@ require ['App', 'Time', 'Cults', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Curs
 
   app.registerCollection(new Ships [], 10)
 
-  app.getCollection('ships').createShip()
+  app.getCollection('ships').createShip(Cults.SERAPIS)
 
   app.loop()
 

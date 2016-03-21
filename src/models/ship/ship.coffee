@@ -1,21 +1,23 @@
 define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
   class Ship extends Geometry
-    constructor: ()->
+    constructor: (@cult)->
+      @cultStats = app.game.getCultStats(@cult).ships
       @startId = app.getCollection('nodes').chooseShipStartingNodeId()
       @endId = app.getCollection('nodes').chooseShipEndingNodeId()
       @checkPointIds = []
 
       super app.getCollection('nodes').nodeMapCoordinates(@startId), {w: 10, h: 30}, {minZoom: 0.4}
+      @changeColor app.game.state.cults[@cult].color
       @calculateStops()
 
-      @baseSpeed = 1
+      @baseSpeed = @cultStats.baseSpeed
 
-      @fullCargo = 1000
+      @fullCargo = @cultStats.maxCargo
       @cargo = @fullCargo
 
-      @baseResting = 20
-      @fullEnergy = 400
-      @energyConsumption = 0.5
+      @restingSpeed = @cultStats.restingSpeed
+      @fullEnergy = @cultStats.maxEnergy
+      @energyConsumption = @cultStats.energyConsumption
       @energy = @fullEnergy
       @resting = false
 
@@ -49,7 +51,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
 
     move: () ->
       if @resting
-        @energy += @baseResting
+        @energy += @restingSpeed
         @energy = _.clamp @energy, @fullEnergy
         if @energy == @fullEnergy
           @resting = false

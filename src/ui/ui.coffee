@@ -29,8 +29,8 @@ define 'Ui', ['Button', 'Text'], (Button, Text) ->
       _.find @buttons, (button) =>
         button.id == buttonId
 
-    registerText: (id, position, text)->
-      @texts.push new Text(id, position, text)
+    registerText: (id, position, text, font)->
+      @texts.push new Text(id, position, text, font)
       return
 
     registerButton: (id, position, text, action, style, active)->

@@ -13,8 +13,8 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       bs.inactive.font = 'bold 12pt Calibri'
       console.log bs
 
-      _.each app.cults.state.cults, (cult, c) =>
-        @registerClickableArea @x + @m, @y + @m + 100*cult.no, @w - 2*@m, 100, @chooseCultToPlay.bind(@, cult.label)
+      _.each app.game.state.cults, (cult, c) =>
+        @registerClickableArea @x + @m, @y + @m + 100*cult.no, @w - 2*@m, 80, @chooseCultToPlay.bind(@, cult.label)
 
       buttonY = @y + @h - 60
       @registerButton 'play', {x: @x + @m, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'play!'), @play.bind(@), bs, false
@@ -49,18 +49,16 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       app.drawTextArea text3, @x + @m, @y + @m + 40, @lineHeight, @lineWidth, '8pt Calibri'
       app.drawTextArea text4, @x + @m, @y + @m + 60, @lineHeight, @lineWidth, '8pt Calibri'
 
-      _.each app.cults.state.cults, (cult, c) =>
+      _.each app.game.state.cults, (cult, c) =>
         app.drawTextArea cult.label, @x + @m + 80, @y + @m + 100*cult.no, @lineHeight, @lineWidth, 'bold 10pt Calibri'
         app.drawTextArea cult.text, @x + @m + 80, @y + @m + 20 + 100*cult.no, @lineHeight, @lineWidth, '8pt Calibri'
 
         if @chosenCult == cult.label
-          app.ctx.strokeRect @x + @m, @y + @m + 100*cult.no - 20, @w - 2*@m, 100
+          app.ctx.strokeRect @x + @m, @y + @m + 100*cult.no - 20, @w - 2*@m, 80
 
         logo = cult.logo
         try
-          #console.log logo
           app.ctx.drawImage logo, @x + @m, @y + @m + 100*cult.no - 20, 70, 70
         catch error
-          #console.log 'logo not loaded yet', error
         return
       return
