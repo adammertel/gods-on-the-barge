@@ -26,8 +26,7 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       app.play @chosenCult
 
     visitGehir: () ->
-      Base.openWebPage 'gehir.phil.muni.cz'
-      console.log 'gehir'
+      Base.openWebPage 'http://gehir.phil.muni.cz'
       return
 
     getGameInfo: () ->

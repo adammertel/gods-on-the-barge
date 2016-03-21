@@ -6,6 +6,9 @@ define 'Base', [], () ->
       xhr.send ''
       xhr
 
+    round: (n) ->
+      (0.5 + n) | 0
+
     distance: (c1, c2) ->
       dx = c1.x - c2.x
       dy = c1.y - c2.y

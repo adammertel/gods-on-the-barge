@@ -20,16 +20,6 @@ define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
       @open = true
       return
 
-    isClicked: () ->
-      mouseX = app.state.controls.mousePosition.x
-      mouseY = app.state.controls.mousePosition.y
-
-      _.each @clickableAreas, (area, a) =>
-        if mouseX > area.x and mouseX < area.x + area.w and mouseY > area.y and mouseY < area.y + area.h
-          area.action()
-      return
-
-
     draw: () ->
       super()
       return

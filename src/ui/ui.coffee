@@ -9,18 +9,16 @@ define 'Ui', ['Button', 'Text'], (Button, Text) ->
       return
 
     mouseConflict: ->
-      if app.state.controls.mouseClicked
+      if app.isClicked()
         mouseX = app.state.controls.mousePosition.x
         mouseY = app.state.controls.mousePosition.y
         if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
           _.each @buttons, (button, b) =>
             button.isClicked()
 
-          _.each @buttons, (button, b) =>
-            button.isClicked()
-
           _.each @clickableAreas, (area, a) =>
             if mouseX > area.x and mouseX < area.x + area.w and mouseY > area.y and mouseY < area.y + area.h
+              app.deactivateClick()
               area.action()
       return
 
@@ -53,11 +51,12 @@ define 'Ui', ['Button', 'Text'], (Button, Text) ->
       return
 
     drawBackground: () ->
+      m = 2
       app.ctx.lineWidth = 2
       app.ctx.fillStyle = 'white'
-      app.ctx.fillRect @x, @y, @w, @h
+      app.ctx.fillRect @x - m/2, @y, @w - m/2, @h - m/2
       app.ctx.strokeStyle = 'black'
-      app.ctx.strokeRect @x, @y, @w, @h
+      app.ctx.strokeRect @x - m/2, @y, @w - m/2, @h - m/2
 
     draw: () ->
       app.ctx.lineWidth = 2

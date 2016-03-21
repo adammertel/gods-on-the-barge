@@ -35,6 +35,13 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     collections: []
     infoWindows: []
 
+    deactivateClick: () ->
+      @state.controls.mouseClicked = false
+      return
+
+    isClicked: () ->
+      @state.controls.mouseClicked
+
     play: (cult) ->
       @state.player.cult = cult
       @time.resume()
@@ -191,6 +198,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       return
 
     writeInfo: ->
+      @ctx.textAlign = 'left'
       @ctx.fillStyle = 'black'
       @ctx.fillText 'x: ' + @state.position.x + ' y: ' + @state.position.y + ' zoom: ' + @state.zoom, 10, 10
       @ctx.fillText 'fps : ' + parseInt(_.mean(@state.fps)), 10, 40
@@ -243,8 +251,8 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         @coordinateToView coord
 
     coordinateToView: (c) ->
-      x: (0.5 + (c.x - (@state.position.x)) * @state.zoom) | 0,
-      y: (0.5 + (c.y - (@state.position.y)) * @state.zoom) | 0
+      x: Base.round c.x - (@state.position.x)) * @state.zoom,
+      y: Base.round c.y - (@state.position.y)) * @state.zoom
 
     checkPosition: ->
       step = 5
