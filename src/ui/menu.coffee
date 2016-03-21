@@ -23,7 +23,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       @registerButton 'speed0', {x: x, y: y - 6*s, w: s, h: s}, @makeStaticText.bind(@, '||'), @changeSpeed0.bind(@), bs, gameSpeed == 0
       @registerButton 'speed1', {x: x, y: y - 5*s, w: s, h: s}, @makeStaticText.bind(@, '>'), @changeSpeed1.bind(@), bs, gameSpeed == 1
       @registerButton 'speed2', {x: x, y: y - 4*s, w: s, h: s}, @makeStaticText.bind(@, '>>'), @changeSpeed2.bind(@), bs, gameSpeed == 2
-      @registerButton 'speed3', {x: x, y: y - 3*s, w: s, h: s}, @makeStaticText.bind(@, '>>>'), @changeSpeed3.bind(@), bs, gameSpeed == 3
+      @registerButton 'speed3', {x: x, y: y - 3*s, w: s, h: s}, @makeStaticText.bind(@, '>>>'), @changeSpeed3.bind(@), bs, gameSpeed == 10
 
       @registerButton 'zoomIn', {x: x, y: y - 2*s, w: s, h: s}, @makeStaticText.bind(@, '+'), @zoomIn.bind(@), bs, false
       @registerButton 'zoomOut', {x: x, y: y - s, w: s, h: s}, @makeStaticText.bind(@, '-'), @zoomOut.bind(@), bs, false
@@ -80,7 +80,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       return
 
     changeSpeed3: () ->
-      app.time.changeGameSpeed 3
+      app.time.changeGameSpeed 10
       @deactivateSpeedButtons()
       @getButton('speed3').activate()
       return

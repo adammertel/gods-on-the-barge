@@ -9,7 +9,9 @@ define 'Game', ['Base'], (Base) ->
           iconLabel: 'serapis'
           color: '#377eb8'
           text: 'Serapis was a god of blablabla'
-          stats: {}
+          stats:
+            ships:
+              maxEnergy: 2000
         'Isis':
           no: 2
           iconLabel: 'isis'

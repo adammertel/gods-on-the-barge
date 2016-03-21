@@ -35,9 +35,11 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
 
     nextTick: () ->
       lastFrame = _.clone @state.yearPart
-      yearPart = @state.yearPart += @state.timeSpeed * @state.frameInterval
+      @state.yearPart += @state.timeSpeed * @state.frameInterval
+      yearPart = @state.yearPart
 
       if yearPart > 1
+        @state.yearPart = 0
         @newYear()
       else
         dayOfYearLastFrame = Math.floor(lastFrame*364)
@@ -62,25 +64,25 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
 
     newWeek: ->
       console.log 'newWeek'
-      @state.day = 0
+      @state.day = 1
       @state.week += 1
       app.newWeek()
       return
 
     newSeason: (newSeason)->
       console.log 'newSeason'
-      @state.day = 0
-      @state.week = 0
+      @state.day = 1
+      @state.week = 1
       @state.season = newSeason
       app.newSeason()
       return
 
     newYear: ->
       console.log 'newYear'
-      @state.day = 0
-      @state.week = 0
+      @state.day = 1
+      @state.week = 1
       @state.season = Season[0]
-      @state.year += 1
+      @state.year -= 1
       app.newYear()
       return
 
@@ -99,7 +101,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
 
       app.ctx.fillStyle = 'orange'
       app.ctx.lineWidth = 2
-      dh = h * @state.day/7
+      dh = h * (@state.day-1)/7
       app.ctx.fillRect x1, y1 + dh, w, h - dh
 
       app.ctx.fillStyle = 'white'
