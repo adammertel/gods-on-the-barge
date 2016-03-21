@@ -4,6 +4,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       h = 150
       super 'menu', 0, app.state.view.h - h, app.state.view.w, h
       @mm = new MiniMap()
+      @mmButtonSize = (@h-1)/6
       @panelW = 80
       @panels = []
 
@@ -15,7 +16,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       #@registerText 'datum', {x: @w - @mm.w - 200, y: @h - 25 + @y}, app.time.getDatumLabel
       gameSpeed = app.time.state.timeSpeed
 
-      s = (@h-1)/6
+      s = @mmButtonSize
       m = 2
       x =  @w - @mm.w - s + 1
       y = @h + @y + 1
@@ -48,7 +49,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
 
     getActivePanel: ->
       _.find @panels, (panel) =>
-        panel.label == @activePanel
+        panel.id == @activePanel
 
     changeActivePanel: (panelLabel)->
       @activePanel = panelLabel

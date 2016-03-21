@@ -1,8 +1,9 @@
-define 'CultPanel', ['Text', 'Button'], (Text, Button) ->
-  class CultPanel
+define 'CultPanel', ['Panel', 'Text', 'Button'], (Panel, Text, Button) ->
+  class CultPanel extends Panel
     constructor: (@menu) ->
-      @label = 'Cult'
+      super @menu, 'Cult'
 
-    draw: ->
+    draw: () ->
+      super()
       app.ctx.fillText @label, 200, @menu.y + @menu.h/2
       return
