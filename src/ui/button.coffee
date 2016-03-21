@@ -20,11 +20,12 @@ define 'Button', ['App'], (app) ->
       return
 
     isClicked: () ->
-      mouseX = app.state.controls.mousePosition.x
-      mouseY = app.state.controls.mousePosition.y
-      if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
-        app.deactivateClick()
-        @action()
+      if app.isClicked()
+        mouseX = app.state.controls.mousePosition.x
+        mouseY = app.state.controls.mousePosition.y
+        if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
+          app.deactivateClick()
+          @action()
       return
 
     activate: () ->

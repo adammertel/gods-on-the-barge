@@ -6,6 +6,15 @@ define 'Base', [], () ->
       xhr.send ''
       xhr
 
+    loadIcon: (iconName, color) ->
+      xhr = Base.doXhr './sprites/' + iconName + '.svg'
+      img = new Image()
+      svg = new XMLSerializer().serializeToString xhr.responseXML.documentElement
+      if color
+        svg = svg.replace(new RegExp('#666666', 'g'), color)
+      img.src = 'data:image/svg+xml;base64,' + btoa unescape encodeURIComponent svg
+      img
+
     round: (n) ->
       (0.5 + n) | 0
 

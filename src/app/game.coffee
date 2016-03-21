@@ -1,7 +1,8 @@
 define 'Game', ['Base'], (Base) ->
   class Game
     state:
-      playerCult: ''
+      player:
+        cult: ''
       cults:
         'Serapis':
           no: 1
@@ -41,6 +42,7 @@ define 'Game', ['Base'], (Base) ->
     defaultCultStats:
       ships:
         no: 3
+        out: 0
         baseSpeed: 1
         maxCargo: 1000
         maxEnergy: 400
@@ -54,25 +56,64 @@ define 'Game', ['Base'], (Base) ->
 
     loadStats: ->
       _.each @state.cults, (cult, cultLabel) =>
-        cult.stats = _.merge(@defaultCultStats, cult.stats)
+        defaultCultStats = _.clone(@defaultCultStats)
+        cultStats = _.clone(cult.stats)
+        @state.cults[cultLabel].stats = _.merge({}, defaultCultStats, cultStats)
+        return
+
       return
 
+    getPlayerStat: (category, value) ->
+      if @getPlayerCultLabel()
+        @getStat @getPlayerCultLabel(), category, value
+      else
+        false
+
+    getStat: (cult, category, value) ->
+      @getCultStats(cult)[category][value]
+
     getCultStats: (cult) ->
-      @state.cults[cult].stats
+      if @state.cults[cult]
+        @state.cults[cult].stats
+      else
+        false
 
-    getChosenCultIcon: ->
-      @state.cults[@getChosenCultLabel()].logo
+    getPlayerCultStats: ->
+      if @getPlayerCultLabel()
+        @getCultStats(@getPlayerCultLabel())
+      else
+        false
 
-    getChosenCultLabel: ->
-      app.state.player.cult
+    getPlayerCult: () ->
+      @state.cults[@getPlayerCultLabel()]
+
+    getPlayerColor: () ->
+      @getPlayerCult().color
+
+    getPlayerCultIcon: ->
+      @getPlayerCult().logo
+
+    getPlayerCultLabel: ->
+      @state.player.cult
+
+    chooseCult: (cult) ->
+      console.log 'choosing cult', cult
+      @state.player.cult = cult
+      return
+
+    shipRemoved: (cult) ->
+      @getCultStats(cult).ships.out -= 1
+      return
+
+    shipBuilt: (cult) ->=
+      @getCultStats(cult).ships.out += 1
+      return
+
+    freeShips: (cult) ->
+      @getCultStats(cult).ships.no - @getCultStats(cult).ships.out
 
     loadIcons: () ->
       _.each @state.cults, (cult, cultLabel) =>
-        xhr = Base.doXhr './sprites/' + cult.iconLabel + '.svg'
-        img = new Image()
-        svg = new XMLSerializer().serializeToString xhr.responseXML.documentElement
-        svg = svg.replace(new RegExp('#666666', 'g'), cult.color) # change color
-        img.src = 'data:image/svg+xml;base64,' + btoa unescape encodeURIComponent svg
-        cult.logo = img
+        cult.logo = Base.loadIcon cult.iconLabel, cult.color
         return
       return

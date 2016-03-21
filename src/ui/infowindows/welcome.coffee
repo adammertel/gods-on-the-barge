@@ -23,7 +23,8 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
 
     play: () ->
       @open = false
-      app.play @chosenCult
+      app.startGame @chosenCult
+      return
 
     visitGehir: () ->
       Base.openWebPage 'http://gehir.phil.muni.cz'

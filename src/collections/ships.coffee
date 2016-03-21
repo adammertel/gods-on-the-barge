@@ -18,10 +18,19 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
 
     stopToRest: (ship) ->
       if (ship.nextDistance/1000) / ship.energy < 2000
-        findClosePorts
+        @findClosePorts(ship)
+      else
+        return
 
     createShip: (cult) ->
-      @addGeometry new Ship(cult)
+      if app.game.freeShips(cult) > 0
+        app.game.shipBuilt(cult)
+        @addGeometry new Ship(cult)
+      return
+
+    destroyShip: (ship) ->
+      app.game.shipRemoved(ship.cult)
+      @unregisterGeometry ship.id
       return
 
     registerGeometries: () ->

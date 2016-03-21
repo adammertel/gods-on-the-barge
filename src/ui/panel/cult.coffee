@@ -3,15 +3,17 @@ define 'CultPanel', ['Panel', 'Text', 'Button'], (Panel, Text, Button) ->
     constructor: (@menu) ->
       @label = 'Cult'
       super @menu, @label
+      app.registerStartGameFunction @loadCultText.bind(@)
       return
 
     init: () ->
-      @registerText 'cultName', {x: @x + 20, y: @y + 40}, app.game.getChosenCultLabel.bind(@), @textStyle
       super()
 
-
+    loadCultText: () ->
+      @registerText 'cultName', {x: @x + 20, y: @y + 40}, @mst.bind(@, app.game.getPlayerCultLabel()), @boldTextStyle
+      return
 
     draw: () ->
       super()
-      app.ctx.drawImage app.game.getChosenCultIcon(), @x + 20, @y + 60, 70, 70
+      app.ctx.drawImage app.game.getPlayerCultIcon(), @x + 20, @y + 60, 70, 70
       return

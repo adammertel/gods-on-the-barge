@@ -1,1 +1,1 @@
-# game "GODS ON THE BARGE" is inspired by project of [GEHIR](https://gehir.phil.muni.cz)
+# game "GODS ON THE BARGE" is inspired by the project of [GEHIR](https://gehir.phil.muni.cz)

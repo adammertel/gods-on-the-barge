@@ -30,10 +30,10 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         s: 30
         e: 32
         w: 22
-      player: {}
 
     collections: []
     infoWindows: []
+    startGameFunctions: []
 
     deactivateClick: () ->
       @state.controls.mouseClicked = false
@@ -42,8 +42,16 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     isClicked: () ->
       @state.controls.mouseClicked
 
-    play: (cult) ->
-      @state.player.cult = cult
+    # functions that need to wait untill player chooses his cult
+    registerStartGameFunction: (startGameFunction) ->
+      @startGameFunctions.push startGameFunction
+      return
+
+    startGame: (cult) ->
+      @game.chooseCult cult
+      _.each @startGameFunctions, (startGameFunction) ->
+        startGameFunction()
+
       @time.resume()
       return
 
@@ -251,8 +259,8 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         @coordinateToView coord
 
     coordinateToView: (c) ->
-      x: Base.round c.x - (@state.position.x)) * @state.zoom,
-      y: Base.round c.y - (@state.position.y)) * @state.zoom
+      x: Base.round((c.x - @state.position.x) * @state.zoom),
+      y: Base.round((c.y - @state.position.y) * @state.zoom)
 
     checkPosition: ->
       step = 5

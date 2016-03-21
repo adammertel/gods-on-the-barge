@@ -58,7 +58,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       else
         @energy -= @energyConsumption * app.time.state.timeSpeed
         if @energy < 0
-          @suicide()
+          @getCollection().destroyShip(@)
         @checkNodeConflict()
         @coords = Base.moveTo @coords, @nextStop, @getSpeed()
 
@@ -81,7 +81,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
           @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
           @rotation = @calculateRotation()
         else
-          @suicide()
+          @getCollection().destroyShip(@)
 
     calculateRotation: () ->
       dy = @coords.y - @nextStop.y
@@ -121,10 +121,6 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @drawEnergyBar()
       @drawCargoBar()
       super()
-      return
-
-    suicide: () ->
-      @getCollection().unregisterGeometry @id
       return
 
     sprite: 'ship'
