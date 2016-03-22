@@ -235,8 +235,8 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       return
 
     coordinateToMap: (c) ->
-      x: (c.lon - @state.boundingCoordinates.w) * @state.pxDensity
-      y: @state.map.h - (c.lat - @state.boundingCoordinates.s) * @state.pxDensity
+      x: Base.round((c.lon - @state.boundingCoordinates.w) * @state.pxDensity)
+      y: Base.round(@state.map.h - (c.lat - @state.boundingCoordinates.s) * @state.pxDensity)
 
     pointToUTM: (point) ->
 
@@ -259,7 +259,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         @coordinateToView coord
 
     coordinateToView: (c) ->
-      x: Base.round((c.x - @state.position.x) * @state.zoom),
+      x: Base.round((c.x - @state.position.x) * @state.zoom)
       y: Base.round((c.y - @state.position.y) * @state.zoom)
 
     checkPosition: ->

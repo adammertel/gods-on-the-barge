@@ -3,7 +3,7 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Bu
     constructor: (@menu) ->
       @label = 'Ships'
       super @menu, @label
-      app.registerStartGameFunction @loadShipIcon.bind(@)
+      #app.registerStartGameFunction @loadShipIcon.bind(@)
       return
 
     init: ->
@@ -43,9 +43,9 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Bu
       ctx.stroke()
       return
 
-    loadShipIcon: ->
-      @shipIcon = Base.loadIcon 'ship', app.game.getPlayerColor()
-      return
+    # loadShipIcon: ->
+    #   @shipIcon = Base.loadIcon 'ship', app.game.getPlayerColor()
+    #   return
 
     drawFreeShips: ->
       playerCult = app.game.getPlayerCultLabel()
@@ -58,7 +58,6 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Bu
 
     draw: ->
       super()
-      if @shipIcon
-        @drawFreeShips()
+      @drawFreeShips()
 
       return

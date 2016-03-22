@@ -13,13 +13,14 @@ define 'Ui', ['Button', 'Text'], (Button, Text) ->
         mouseX = app.state.controls.mousePosition.x
         mouseY = app.state.controls.mousePosition.y
         if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
-          _.each @buttons, (button, b) =>
+          for button in @buttons
             button.isClicked()
 
-          _.each @clickableAreas, (area, a) =>
-            if mouseX > area.x and mouseX < area.x + area.w and mouseY > area.y and mouseY < area.y + area.h
-              app.deactivateClick()
-              area.action()
+          if @clickableAreas
+            for area in @clickableAreas
+              if mouseX > area.x and mouseX < area.x + area.w and mouseY > area.y and mouseY < area.y + area.h
+                app.deactivateClick()
+                area.action()
       return
 
     makeStaticText: (text) ->
@@ -41,22 +42,24 @@ define 'Ui', ['Button', 'Text'], (Button, Text) ->
       @clickableAreas.push({x: x, y: y, w: w, h: h, action: action})
 
     drawTexts: () ->
-      _.each @texts, (text, t) =>
+      for text in @texts
         text.draw()
       return
 
     drawButtons: () ->
-      _.each @buttons, (button, b) =>
+      for button in @buttons
         button.draw()
       return
 
     drawBackground: () ->
       m = 2
-      app.ctx.lineWidth = 2
+      app.ctx.beginPath()
       app.ctx.fillStyle = 'white'
-      app.ctx.fillRect @x - m/2, @y, @w - m/2, @h - m/2
       app.ctx.strokeStyle = 'black'
-      app.ctx.strokeRect @x - m/2, @y, @w - m/2, @h - m/2
+      app.ctx.lineWidth = 4
+      app.ctx.rect @x - m/2, @y, @w - m/2, @h - m/2
+      app.ctx.stroke()
+      app.ctx.fill()
 
     draw: () ->
       app.ctx.lineWidth = 2

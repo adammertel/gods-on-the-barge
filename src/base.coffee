@@ -6,6 +6,17 @@ define 'Base', [], () ->
       xhr.send ''
       xhr
 
+    buildPathString: (coords) ->
+      path = "M"
+      for c, i in coords
+        if i == 0
+          path += c[0] + " " + c[1]
+        else
+          path += " L " + c[0] + " " + c[1]
+      path
+
+
+
     loadIcon: (iconName, color) ->
       xhr = Base.doXhr './sprites/' + iconName + '.svg'
       img = new Image()

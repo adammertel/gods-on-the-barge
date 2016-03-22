@@ -1,4 +1,4 @@
-define 'MiniMap', ['App'], (app) ->
+define 'MiniMap', ['Base'], (Base) ->
   class MiniMap
     constructor: () ->
       @h = 150
@@ -11,7 +11,8 @@ define 'MiniMap', ['App'], (app) ->
       return
 
     coordinateToMiniMap: (c) ->
-      {x: @x + @dx * c.x, y: @y + @dy * c.y}
+      x: Base.round(@x + @dx * c.x)
+      y: Base.round(@y + @dy * c.y)
 
     draw: () ->
       app.ctx.save()
@@ -33,13 +34,14 @@ define 'MiniMap', ['App'], (app) ->
 
       app.ctx.fillStyle = 'grey'
       app.ctx.beginPath()
-      _.each islands.geometries, (islandGeometry) =>
-        _.each islandGeometry.coords, (coord, c) =>
-          mmCoord = @coordinateToMiniMap {x:coord.x, y:coord.y}
-          if c == 0
-            app.ctx.moveTo mmCoord.x, mmCoord.y
-          else
-            app.ctx.lineTo mmCoord.x, mmCoord.y
+      for islandGeometry in islands.geometries
+        if islandGeometry.coords.length > 80
+          for coord, c in islandGeometry.coords
+            mmCoord = @coordinateToMiniMap {x:coord.x, y:coord.y}
+            if c == 0
+              app.ctx.moveTo mmCoord.x, mmCoord.y
+            else
+              app.ctx.lineTo mmCoord.x, mmCoord.y
 
       app.ctx.closePath()
       app.ctx.fill()

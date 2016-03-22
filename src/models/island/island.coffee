@@ -12,10 +12,11 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
     calculateCoords: ->
       viewCoords = []
       @isVisible = false
-      _.each @coords, (coord, c) =>
+      for coord in @coords
         viewCoord = app.coordinateToView {x: coord.x, y: coord.y}
-        if app.isPointVisible viewCoord
-           @isVisible = true
+        if !@isVisible
+          if app.isPointVisible viewCoord
+             @isVisible = true
         viewCoords.push viewCoord
 
       viewCoords
@@ -50,13 +51,12 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
 
     drawIsland: ->
       app.ctx.beginPath()
-      _.each @viewCoords, (viewCoord, c) =>
+      for viewCoord, c in @viewCoords
         if c == 0
           app.ctx.moveTo viewCoord.x, viewCoord.y
         else
           app.ctx.lineTo viewCoord.x, viewCoord.y
 
-      app.ctx.closePath()
       app.ctx.fill()
       return
 

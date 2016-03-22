@@ -12,6 +12,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
     constructor: () ->
       @labelx = app.state.view.w - 40
       @labely = 20
+      @builGlass()
       return
 
     pause: () ->
@@ -87,9 +88,31 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       return
 
     drawGlassHours: ->
-      h = 35
+      h = 36
       w = 20
-      d = 5
+      d = 6
+      x1 = @labelx+10
+      y1 = @labely-10
+
+      xc1 = x1 + (w/2 - d/2)
+      xc2 = x1 + (w/2 + d/2)
+      yc = y1 + h/2
+
+      app.ctx.fillStyle = 'orange'
+      dh = h * (@state.day-1)/7
+      app.ctx.fillRect x1, y1 + dh, w, h - dh
+
+      app.ctx.lineWidth = 2
+      app.ctx.fillStyle = 'white'
+      app.ctx.fill @pathTriangle1
+      app.ctx.fill @pathTriangle2
+      app.ctx.stroke @pathGlass
+      return
+
+    builGlass: () ->
+      h = 36
+      w = 20
+      d = 6
       x1 = @labelx+10
       x2 = x1 + w
       y1 = @labely-10
@@ -99,32 +122,13 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       xc2 = x1 + (w/2 + d/2)
       yc = y1 + h/2
 
-      app.ctx.fillStyle = 'orange'
-      app.ctx.lineWidth = 2
-      dh = h * (@state.day-1)/7
-      app.ctx.fillRect x1, y1 + dh, w, h - dh
+      glassCoords = [[x1, y1], [xc1, yc], [x1, y2], [x2, y2], [xc2, yc], [x2, y1], [x1, y1]]
+      glassWhiteTriangle1Coords = [[x1, y1], [xc1, yc], [x1, y2], [x1, y1]]
+      glassWhiteTriangle2Coords = [[x2, y1], [xc2, yc], [x2, y2], [x2, y1]]
 
-      app.ctx.fillStyle = 'white'
-      app.ctx.beginPath()
-      app.ctx.moveTo x1, y1
-      app.ctx.lineTo xc1, yc
-      app.ctx.lineTo x1, y2
-
-      app.ctx.moveTo x2, y1
-      app.ctx.lineTo xc2, yc
-      app.ctx.lineTo x2, y2
-      app.ctx.closePath()
-      app.ctx.fill()
-
-      app.ctx.beginPath()
-      app.ctx.moveTo x1, y1
-      app.ctx.lineTo xc1, yc
-      app.ctx.lineTo x1, y2
-      app.ctx.lineTo x2, y2
-      app.ctx.lineTo xc2, yc
-      app.ctx.lineTo x2, y1
-      app.ctx.closePath()
-      app.ctx.stroke()
+      @pathGlass = new Path2D(Base.buildPathString(glassCoords))
+      @pathTriangle1 = new Path2D(Base.buildPathString(glassWhiteTriangle1Coords))
+      @pathTriangle2 = new Path2D(Base.buildPathString(glassWhiteTriangle2Coords))
 
       return
 

@@ -12,6 +12,7 @@ define 'Collection', ['Base'], (Base) ->
       _.each @geometries, (geometry, g) ->
         if geometry
           geometry.draw()
+        return
       return
 
     unregisterGeometry: (id) ->

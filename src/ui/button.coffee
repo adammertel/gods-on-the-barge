@@ -10,12 +10,14 @@ define 'Button', ['App'], (app) ->
     draw: () ->
       @style = if @active then @styles.active else @styles.inactive
 
+      app.ctx.beginPath()
       app.ctx.textAlign = 'center'
       app.ctx.font = @style.font
       app.ctx.fillStyle = @style.fill
-      app.ctx.fillRect @x, @y - @style.lw, @w, @h
-      app.ctx.strokeRect @x, @y - @style.lw, @w, @h
+      app.ctx.lineWidth = 2
+      app.ctx.rect @x, @y - @style.lw, @w, @h
       app.ctx.fillStyle =  @style.text
+      app.ctx.stroke()
       app.ctx.fillText @text(), @x + @w/2, @y + @h/2
       return
 
