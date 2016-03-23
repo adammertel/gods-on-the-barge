@@ -26,7 +26,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         mousePosition: {}
       pxDensity: 400
       boundingCoordinates:
-        n: 41
+        n: 39
         s: 30
         e: 32
         w: 22

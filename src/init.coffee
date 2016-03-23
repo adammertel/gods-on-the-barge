@@ -1,4 +1,4 @@
-require ['App', 'Time', 'Game', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'Nodes', 'Ships', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum'], (app, Time, Game, Base, Island, Rectangle, MiniMap, Cursor, Route, Port, Ship, Islands, Nodes, Ships, Routes, Menu, WelcomeWindow, Cults) ->
+require ['App', 'Time', 'Game', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum'], (app, Time, Game, Base, Island, Rectangle, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Routes, Menu, WelcomeWindow, Cults) ->
   console.log 'init'
 
   canvas = document.getElementById('game')
@@ -13,10 +13,12 @@ require ['App', 'Time', 'Game', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Curso
   app.registerCollection(new Islands(JSON.parse Base.doXhr('data/islands.json').responseText), 1)
   app.registerCollection(new Nodes(JSON.parse Base.doXhr('data/nodes.json').responseText), 3)
   app.registerCollection(new Routes(JSON.parse Base.doXhr('data/edges.json').responseText), 2)
+  app.registerCollection(new BackgroundIslands(JSON.parse Base.doXhr('data/backgroundislands.json').responseText), 0)
 
   app.getCollection('islands').registerGeometries()
   app.getCollection('nodes').registerGeometries()
   app.getCollection('routes').registerGeometries()
+  app.getCollection('backgroundIslands').registerGeometries()
 
   app.game = new Game()
   app.time = new Time()

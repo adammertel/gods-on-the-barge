@@ -16,6 +16,16 @@ define 'Base', [], () ->
       path
 
 
+    #not finished
+    ShipPath: () ->
+
+      ctx.moveTo(x, y)
+      ctx.lineTo(x + 10*size, y + 10*size)
+      ctx.lineTo(x + 10*size, y + 50*size)
+      ctx.lineTo(x - 10*size, y + 50*size)
+      ctx.lineTo(x - 10*size, y + 10*size)
+      shipCoords = [[0, 0], []]
+
 
     loadIcon: (iconName, color) ->
       xhr = Base.doXhr './sprites/' + iconName + '.svg'
