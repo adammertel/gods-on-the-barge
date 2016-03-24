@@ -176,7 +176,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     draw: ->
       @time.nextTick()
 
-      _.each _.orderBy(@collections, 'z'), (collection, c) =>
+      for collection in _.orderBy(@collections, 'z')
         collection.collection.draw()
 
       @drawBorders()

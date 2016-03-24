@@ -9,15 +9,14 @@ define 'Collection', ['Base'], (Base) ->
       return
 
     draw: ->
-      _.each @geometries, (geometry, g) ->
+      for geometry in @geometries
         if geometry
           geometry.draw()
-        return
       return
 
     unregisterGeometry: (id) ->
       spliceIndex = false
-      _.each @geometries, (geometry, g) =>
+      for geometry, g in @geometries
         if geometry.id == id
           spliceIndex = g
 

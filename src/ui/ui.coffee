@@ -1,6 +1,10 @@
-define 'Ui', ['Button', 'Text'], (Button, Text) ->
+define 'Ui', ['Base', 'Button', 'Text'], (Base, Button, Text) ->
   class Ui
     constructor: (@id, @x, @y, @w, @h) ->
+      y = @y - 1
+      bckCoords = [[@x, y], [@x, y + @h + 1], [@x + @w, y + @h + 1], [@x + @w, y]]
+      @bckPath = new Path2D Base.buildPathString(bckCoords, true)
+
       @buttons = []
       @texts = []
       @buttonStyle =
@@ -52,14 +56,10 @@ define 'Ui', ['Button', 'Text'], (Button, Text) ->
       return
 
     drawBackground: () ->
-      m = 2
-      app.ctx.beginPath()
       app.ctx.fillStyle = 'white'
       app.ctx.strokeStyle = 'black'
-      app.ctx.lineWidth = 4
-      app.ctx.rect @x - m/2, @y, @w - m/2, @h - m/2
-      app.ctx.stroke()
-      app.ctx.fill()
+      app.ctx.fill @bckPath
+      app.ctx.stroke @bckPath
 
     draw: () ->
       app.ctx.lineWidth = 2

@@ -9,6 +9,7 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
       super()
       return
 
+
     calculateCoords: ->
       viewCoords = []
       @isVisible = false
@@ -50,29 +51,24 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
       app.ctx.fillText 'population : ' + @data.population, mouseX + 20, mouseY + 35
 
     drawIsland: ->
-      app.ctx.beginPath()
       for viewCoord, c in @viewCoords
         if c == 0
           app.ctx.moveTo viewCoord.x, viewCoord.y
         else
           app.ctx.lineTo viewCoord.x, viewCoord.y
 
-      app.ctx.fill()
       return
 
     draw: ->
       @getCoords()
       if @isVisible
         if @data
-          app.ctx.fillStyle = '#777'
           if @over
-            app.ctx.fillStyle = '#555'
             @drawInfo()
 
           @drawIsland()
 
         else
-          app.ctx.fillStyle = '#aaa'
           @drawIsland()
 
       return

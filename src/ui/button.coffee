@@ -16,15 +16,15 @@ define 'Button', ['Base', 'App'], (Base, app) ->
       app.ctx.textAlign = 'center'
       app.ctx.font = @style.font
       app.ctx.lineWidth = 2
-      app.ctx.stroke @buttonPath
 
       if @style.fill != 'white'
         app.ctx.fillStyle = @style.fill
         app.ctx.fill @buttonPath
 
+      app.ctx.stroke @buttonPath
       app.ctx.fillStyle =  @style.text
 
-      app.ctx.fillText @text(), @x + @w/2, @y + @h/2
+      app.ctx.fillText @text(), @x + @w/2, @y + @h/2 + 2
       return
 
     isClicked: () ->

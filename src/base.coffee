@@ -17,6 +17,8 @@ define 'Base', [], () ->
         path += " Z"
       path
 
+    concatPathStrings: (paths) ->
+      paths.join ' '
 
     #not finished
     shipPath: () ->
