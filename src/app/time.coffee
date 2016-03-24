@@ -12,7 +12,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
     constructor: () ->
       @labelx = app.state.view.w - 40
       @labely = 20
-      @builGlass()
+      @buildGlassHour()
       return
 
     pause: () ->
@@ -56,6 +56,13 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
           else
             @newDay()
       return
+
+    indexOfSeason: ->
+      foundIndex = false
+      for index, seasonName of Season
+        if seasonName == @state.season
+          foundIndex = index
+      foundIndex
 
     newDay: ->
       console.log 'newDay'
@@ -109,7 +116,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       app.ctx.stroke @pathGlass
       return
 
-    builGlass: () ->
+    buildGlassHour: () ->
       h = 36
       w = 20
       d = 6

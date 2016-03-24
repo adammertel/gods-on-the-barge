@@ -31,6 +31,11 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         e: 32
         w: 22
 
+    dayActions: []
+    weekActions: []
+    seasonActions: []
+    yearActions: []
+
     collections: []
     infoWindows: []
     startGameFunctions: []
@@ -154,23 +159,45 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         app.ctx.fillText text, x, y + t * lineHeight
       return
 
+    registerNewDayAction: (action)->
+      @dayActions.push action
+      return
+
+    registerNewWeekAction: (action)->
+      @weekActions.push action
+      return
+
+    registerNewSeasonAction: (action)->
+      @seasonActions.push action
+      return
+
+    registerNewYearAction: (action)->
+      @yearActions.push action
+      return
+
     newDay: ->
+      for action in @dayActions
+        action()
       #console.log 'newDay'
       return
 
     newWeek: ->
+      for action in @weekActions
+        action()
       #console.log 'newWeek'
       #app.getCollection('ships').createShip()
       return
 
     newSeason: (newSeason)->
+      for action in @seasonActions
+        action()
       #console.log 'newSeason'
       #app.getCollection('ships').createShip()
       return
 
     newYear: ->
-      #console.log 'newYear'
-      #app.getCollection('ships').createShip()
+      for action in @yearActions
+        action()
       return
 
     draw: ->

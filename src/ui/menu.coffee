@@ -1,4 +1,4 @@
-define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPanel', 'CultPanel', 'ShipsPanel', 'PoliticsPanel'], (Ui, MiniMap, Text, Button, OverviewPanel, IslandsPanel, CultPanel, ShipsPanel, PoliticsPanel) ->
+define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPanel', 'CultPanel', 'ShipsPanel', 'PoliticsPanel', 'WeatherPanel'], (Ui, MiniMap, Text, Button, OverviewPanel, IslandsPanel, CultPanel, ShipsPanel, PoliticsPanel, WeatherPanel) ->
   class Menu extends Ui
     constructor: () ->
       h = 150
@@ -29,9 +29,10 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
 
       @registerPanel new OverviewPanel(@)
       @registerPanel new IslandsPanel(@)
-      @registerPanel new CultPanel(@)
       @registerPanel new ShipsPanel(@)
       @registerPanel new PoliticsPanel(@)
+      @registerPanel new WeatherPanel(@)
+      @registerPanel new CultPanel(@)
 
       lw = 2
       buttonH = @h/@panels.length# - lw/4 * @panels.length
