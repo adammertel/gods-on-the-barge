@@ -3,7 +3,6 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Bu
     constructor: (@menu) ->
       @label = 'Ships'
       super @menu, @label
-      #app.registerStartGameFunction @loadShipIcon.bind(@)
       return
 
     init: ->
@@ -22,35 +21,15 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Bu
 
       # port
       x = @x + 200
-      @registerText 'PortLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), @headerStyle
+      @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), @headerStyle
       @registerButton 'sendShip', {x: @x + 200, y: @y + 100, w: 120, h: 40}, @makeStaticText.bind(@, 'send ship'), @sendShip.bind(@), bs, false
-
-    drawShip: (x, y, size, color) ->
-      ctx = app.ctx
-      ctx.fillStyle = color
-      ctx.strokeStyle = "#000000"
-      ctx.lineWidth = 3 * size
-      ctx.lineCap = "round"
-      ctx.lineJoin = "round"
-      ctx.beginPath()
-      ctx.moveTo(x, y)
-      ctx.lineTo(x + 10*size, y + 10*size)
-      ctx.lineTo(x + 10*size, y + 50*size)
-      ctx.lineTo(x - 10*size, y + 50*size)
-      ctx.lineTo(x - 10*size, y + 10*size)
-      ctx.closePath()
-      ctx.fill()
-      ctx.stroke()
       return
-
-    # loadShipIcon: ->
-    #   @shipIcon = Base.loadIcon 'ship', app.game.getPlayerColor()
-    #   return
 
     drawFreeShips: ->
       playerCult = app.game.getPlayerCultLabel()
       for f in _.range(app.game.freeShips playerCult)
-        @drawShip @x + 200 + f*40, @y + 40, 1, app.game.getPlayerColor()
+        app.drawShip {x: @x + 210 + f*30, y: @y + 40}, 2, 0, app.game.getPlayerColor()
+      return
 
     sendShip: ->
       app.getCollection('ships').createShip(app.game.getPlayerCultLabel())

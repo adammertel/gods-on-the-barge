@@ -22,13 +22,6 @@ define 'Geometry', ['Base'], (Base) ->
       @loadImage()
       return
 
-    # doesnt work
-    rotate: () ->
-      @svg = @svg.replace(new RegExp(/rotate\((\d*)/), 'rotate(' + @rotation)
-      console.log @svg
-      @lastRotation = @rotation
-      return
-
     getCoords: ->
       hSize = (@size.w * app.state.zoom) / 2
       [
@@ -47,20 +40,19 @@ define 'Geometry', ['Base'], (Base) ->
       {x: (@x - (app.state.position.x)) * app.state.zoom, y: (@y - (app.state.position.y)) * app.state.zoom}
 
     draw: () ->
-      #if @rotation and @sprite and @lastRotation != @rotation
-        #@rotate()
       if app.state.zoom >= @props.minZoom
-        #position = app.coordinateToView({x: @coords.x, y: @coords.y})
         sizeW = Base.round @size.w * app.state.zoom
         sizeH = Base.round @size.h * app.state.zoom
 
         if @rotation and @sprite
           app.ctx.translate @shipCoord.x, @shipCoord.y
           app.ctx.rotate @rotation
+          app.ctx.scale 2, 2
 
         app.ctx.drawImage @img, -sizeW/2, -sizeH/2, sizeW, sizeH
 
         if @rotation and @sprite
+          app.ctx.scale 0.5, 0.5
           app.ctx.rotate -@rotation
           app.ctx.translate -@shipCoord.x, -@shipCoord.y
       return

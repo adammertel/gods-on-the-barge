@@ -125,7 +125,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @move()
       @drawEnergyBar()
       @drawCargoBar()
-      super()
+      app.drawShip @shipCoord, app.state.zoom, @rotation, app.game.state.cults[@cult].color
       return
 
     sprite: 'ship'

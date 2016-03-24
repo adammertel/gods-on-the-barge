@@ -122,13 +122,13 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       xc2 = x1 + (w/2 + d/2)
       yc = y1 + h/2
 
-      glassCoords = [[x1, y1], [xc1, yc], [x1, y2], [x2, y2], [xc2, yc], [x2, y1], [x1, y1]]
-      glassWhiteTriangle1Coords = [[x1, y1], [xc1, yc], [x1, y2], [x1, y1]]
-      glassWhiteTriangle2Coords = [[x2, y1], [xc2, yc], [x2, y2], [x2, y1]]
+      glassCoords = [[x1, y1], [xc1, yc], [x1, y2], [x2, y2], [xc2, yc], [x2, y1]]
+      glassWhiteTriangle1Coords = [[x1, y1], [xc1, yc], [x1, y2]]
+      glassWhiteTriangle2Coords = [[x2, y1], [xc2, yc], [x2, y2]]
 
-      @pathGlass = new Path2D(Base.buildPathString(glassCoords))
-      @pathTriangle1 = new Path2D(Base.buildPathString(glassWhiteTriangle1Coords))
-      @pathTriangle2 = new Path2D(Base.buildPathString(glassWhiteTriangle2Coords))
+      @pathGlass = new Path2D(Base.buildPathString glassCoords, true)
+      @pathTriangle1 = new Path2D(Base.buildPathString glassWhiteTriangle1Coords, true)
+      @pathTriangle2 = new Path2D(Base.buildPathString glassWhiteTriangle2Coords, true)
 
       return
 

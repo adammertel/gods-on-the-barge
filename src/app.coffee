@@ -34,6 +34,25 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     collections: []
     infoWindows: []
     startGameFunctions: []
+    shipPath: new Path2D Base.shipPath()
+
+    drawShip: (coords, size, rotation, color) ->
+      app.ctx.translate coords.x, coords.y
+      if rotation
+        app.ctx.rotate rotation
+      if size != 1
+        app.ctx.scale size, size
+
+      app.ctx.fillStyle = color
+      app.ctx.fill @shipPath
+      app.ctx.stroke @shipPath
+
+      if rotation
+        app.ctx.rotate -rotation
+      if size != 1
+        app.ctx.scale 1/size, 1/size
+      app.ctx.translate -coords.x, -coords.y
+      return
 
     deactivateClick: () ->
       @state.controls.mouseClicked = false

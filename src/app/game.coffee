@@ -41,7 +41,7 @@ define 'Game', ['Base'], (Base) ->
 
     defaultCultStats:
       ships:
-        no: 3
+        no: 7
         out: 0
         baseSpeed: 1
         maxCargo: 1000

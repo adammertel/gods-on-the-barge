@@ -6,26 +6,22 @@ define 'Base', [], () ->
       xhr.send ''
       xhr
 
-    buildPathString: (coords) ->
+    buildPathString: (coords, closed) ->
       path = "M"
       for c, i in coords
         if i == 0
           path += c[0] + " " + c[1]
         else
           path += " L " + c[0] + " " + c[1]
+      if closed
+        path += " Z"
       path
 
 
     #not finished
-    ShipPath: () ->
-
-      ctx.moveTo(x, y)
-      ctx.lineTo(x + 10*size, y + 10*size)
-      ctx.lineTo(x + 10*size, y + 50*size)
-      ctx.lineTo(x - 10*size, y + 50*size)
-      ctx.lineTo(x - 10*size, y + 10*size)
-      shipCoords = [[0, 0], []]
-
+    shipPath: () ->
+      shipCoords = [[0, 0], [5,5], [5,20], [-5,20], [-5,5], [0,0]]
+      @buildPathString shipCoords, true
 
     loadIcon: (iconName, color) ->
       xhr = Base.doXhr './sprites/' + iconName + '.svg'
