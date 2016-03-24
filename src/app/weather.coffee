@@ -1,7 +1,8 @@
-define 'Weather', ['Base', 'WeatherCalendar'], (Base, WeatherCalendar) ->
+define 'Weather', ['Base', 'WeatherCalendar', 'Storm'], (Base, WeatherCalendar, Storm) ->
   class Weather
+    storms: []
     state:
-      storms: []
+      lastStormId: 0
       windDirection: 0
       windSpeed: 0
       temperature: WeatherCalendar['temperature'][0][1] # 0-10
@@ -12,6 +13,33 @@ define 'Weather', ['Base', 'WeatherCalendar'], (Base, WeatherCalendar) ->
       app.registerNewWeekAction @checkIfNewStorm.bind @
       app.registerNewDayAction @changeTemperature.bind @
       app.registerNewDayAction @changeWinds.bind @
+      app.registerNewDayAction @reduceStormsPower.bind @
+      return
+
+    reduceStormsPower: () ->
+      for storm in @storms
+        if storm
+          storm.reducePower()
+      return
+
+    findStormWithId: (id) ->
+      foundStorm = false
+      for storm in @storms
+        if id == storm
+          foundStorm = storm
+      foundStorm
+
+    indexOfStormWithId: (id) ->
+      foundIndex = false
+      for storm, index in @storms
+        if id == storm.id
+          foundIndex = index
+      foundIndex
+
+    disbandStorm: (id) ->
+      index = @indexOfStormWithId(id)
+      if index != false
+        @storms.splice index, 1
       return
 
     getStormChanceForThisWeek: () ->
@@ -35,14 +63,14 @@ define 'Weather', ['Base', 'WeatherCalendar'], (Base, WeatherCalendar) ->
           @state.temperature = predicatedTemperature - anomalyPower
       else
         @state.temperature = predicatedTemperature
-        
+
       return
 
     checkIfNewStorm: () ->
-      newStorm = Math.random() > 0.7
+      newStorm = Math.random() > @getStormChanceForThisWeek()
       if newStorm
-        a = 4
-        #console.log 'storm'
+        @storms.push new Storm(@state.lastStormId)
+        @lastStormId += 1
       return
 
     changeWinds: () ->

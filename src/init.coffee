@@ -1,4 +1,4 @@
-require ['Time', 'Game', 'Weather', 'Base', 'Island', 'Rectangle', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum'], (Time, Game, Weather, Base, Island, Rectangle, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Routes, Menu, WelcomeWindow, Cults) ->
+require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum'], (Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Routes, Menu, WelcomeWindow, Cults) ->
   console.log 'init'
 
   canvas = document.getElementById('game')
