@@ -1,4 +1,4 @@
-require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum'], (Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Routes, Menu, WelcomeWindow, Cults) ->
+require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum'], (Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, Cults) ->
   console.log 'init'
 
   canvas = document.getElementById('game')
@@ -14,6 +14,7 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
   app.registerCollection(new Nodes(JSON.parse Base.doXhr('data/nodes.json').responseText), 3)
   app.registerCollection(new Routes(JSON.parse Base.doXhr('data/edges.json').responseText), 2)
   app.registerCollection(new BackgroundIslands(JSON.parse Base.doXhr('data/backgroundislands.json').responseText), 0)
+  app.registerCollection(new Storms(), 5)
 
   app.getCollection('islands').registerGeometries()
   app.getCollection('nodes').registerGeometries()
@@ -25,7 +26,6 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
   app.weather = new Weather()
   app.menu = new Menu()
   app.cursor = new Cursor()
-
 
   app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
   app.registerCollection(new Ships [], 10)

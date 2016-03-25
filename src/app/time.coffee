@@ -141,7 +141,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
 
     draw: () ->
       app.ctx.fillStyle = 'white'
-      app.ctx.fillRect @labelx - 80, 0, 200, 50
+      app.ctx.fillRect @labelx - 120, 0, 200, 50
       app.ctx.fillStyle = 'black'
       app.ctx.textAlign = 'right'
       app.ctx.fillText @getWeekLabel(), @labelx, @labely

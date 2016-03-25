@@ -6,6 +6,18 @@ define 'Base', [], () ->
       xhr.send ''
       xhr
 
+    validateAngle: (unvalidatedAngle) ->
+      angle = unvalidatedAngle % 360
+      if angle < 0
+        angle = 360 - Math.abs angle
+      angle
+
+    flipAngle: (angle) ->
+      if angle < 180
+        angle + 180
+      else
+        angle - 180
+
     buildPathString: (coords, closed) ->
       path = "M"
       for c, i in coords
@@ -34,6 +46,12 @@ define 'Base', [], () ->
       img.src = 'data:image/svg+xml;base64,' + btoa unescape encodeURIComponent svg
       img
 
+    degsToRad: (deg) ->
+      deg * (Math.PI/180)
+
+    radToDegs: (rad) ->
+      rad / (Math.PI/180)
+
     round: (n) ->
       (0.5 + n) | 0
 
@@ -53,17 +71,20 @@ define 'Base', [], () ->
 
       {x: d * dx + from.x, y: d * dy + from.y}
 
+    moveInDirection: (fromCoord, direction, distance) ->
+      rads = @degsToRad @flipAngle direction
+
+      dx = Math.sin(rads) * distance
+      dy = Math.cos(rads) * distance
+      {x: fromCoord.x + dx, y: fromCoord.y + dy}
 
     pointInsidePolygon: (polygon, mouseCoordinates) ->
-      #console.log mouseCoordinates
 
       x = mouseCoordinates.x
       y = mouseCoordinates.y
 
       inside = false
-      #console.log polygon.viewCoords
       polygonCoords = polygon.viewCoords
-      #console.log polygonCoords
       _.each polygonCoords, (p, i) =>
         j = i + 1
         if polygonCoords[j]
@@ -73,10 +94,6 @@ define 'Base', [], () ->
 
           xj = q.x
           yj = q.y
-
-          #console.log 'int', (yi > y) != (yj > y)
-          #console.log 'i', xi, yi
-          #console.log 'j', xj, yj
 
           intersect = (yi > y) != (yj > y) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)
           if intersect
