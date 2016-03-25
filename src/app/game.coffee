@@ -12,7 +12,7 @@ define 'Game', ['Base'], (Base) ->
           text: 'Serapis was a god of blablabla'
           stats:
             ships:
-              maxEnergy: 2000
+              maxEnergy: 500
         'Isis':
           no: 2
           iconLabel: 'isis'
@@ -46,8 +46,8 @@ define 'Game', ['Base'], (Base) ->
         baseSpeed: 1
         maxCargo: 1000
         maxEnergy: 400
-        energyConsumption: 0.5
-        restingSpeed: 20
+        energyConsumption: 40
+        restingSpeed: 120
         operationCost: 0.1
 
     constructor: ->

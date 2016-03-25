@@ -3,17 +3,19 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
     constructor: (data) ->
       @name = 'ships'
       super()
+      app.registerNewDayAction @updateEnergyForShips.bind @
       return
+
 
     findClosePorts: (ship) ->
       allPorts = app.getCollection('nodes').ports
       ports = []
-      _.each allPorts, (port, p) =>
+      for port in allPorts
         ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes ship.stops[0], port}
       _.orderBy ports, 'distance'
 
     findClosestPort: (ship) ->
-      #console.log @findClosePorts(ship)
+
       @findClosePorts(ship)[0].id
 
     stopToRest: (ship) ->
@@ -21,6 +23,11 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
         @findClosePorts(ship)
       else
         return
+
+    updateEnergyForShips: ->
+      for ship in @geometries
+        ship.updateEnergy()
+      return
 
     createShip: (cult) ->
       if app.game.freeShips(cult) > 0

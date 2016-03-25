@@ -25,7 +25,10 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
 
     nodeMapCoordinates: (id) ->
       node = @getNode(id)
-      app.coordinateToMap {lon: node.x, lat: node.y}
+      try
+        app.coordinateToMap {lon: node.x, lat: node.y}
+      catch
+        console.log 'node problem', node, 'id', id
 
     checkConflict: (id, coords) ->
       Base.distance(@nodeMapCoordinates(id), coords) < @limitConflict * app.time.state.timeSpeed

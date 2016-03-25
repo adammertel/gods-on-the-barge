@@ -5,10 +5,15 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @startId = app.getCollection('nodes').chooseShipStartingNodeId()
       @endId = app.getCollection('nodes').chooseShipEndingNodeId()
       @checkPointIds = []
+      @props = {
+        minZoom: 0.4
+      }
+      @rotation = 0
 
-      super app.getCollection('nodes').nodeMapCoordinates(@startId), {w: 10, h: 30}, {minZoom: 0.4}
-      @changeColor app.game.state.cults[@cult].color
+      @color = app.game.state.cults[@cult].color
       @calculateStops()
+      @coords = app.getCollection('nodes').nodeMapCoordinates @startId
+      @rotation = @calculateRotation()
 
       @baseSpeed = @cultStats.baseSpeed
 
@@ -19,7 +24,9 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @fullEnergy = @cultStats.maxEnergy
       @energyConsumption = @cultStats.energyConsumption
       @energy = @fullEnergy
+
       @resting = false
+      @willRest = false
       return
 
     getCollection: () ->
@@ -35,11 +42,12 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @stops = app.getPath @startId, @endId
       #@nextDistance = @calculateNextDistance()
       @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
-      @rotation = @calculateRotation()
       return
 
     recalculateStops: () ->
+      from = @stops[0]
       @stops = app.getPathWithCheckPoints(@stops[0], @endId, @checkPointIds)
+      @stops.unshift from
       return
 
     calculateNextDistance: () ->
@@ -50,41 +58,54 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
 
     move: () ->
       if @resting
-        @energy += @restingSpeed
-        @energy = _.clamp @energy, @fullEnergy
         if @energy == @fullEnergy
           @resting = false
+          @willRest = false
       else
-        @energy -= @energyConsumption * app.time.state.timeSpeed
         if @energy < 0
           @getCollection().destroyShip(@)
         @checkNodeConflict()
         @coords = Base.moveTo @coords, @nextStop, @getSpeed()
       return
 
-    checkNodeConflict: () ->
+    updateEnergy: ->
+      if @resting
+        @energy += @restingSpeed
+        @energy = _.clamp @energy, @fullEnergy
+      else
+        @energy -= @energyConsumption
+      return
+
+    prepareNextStop: ->
+      @stops = _.slice @stops, 1
+      @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
+      @rotation = @calculateRotation()
+
+    checkNodeConflict: ->
       if app.getCollection('nodes').checkConflict @stops[0], @coords
+
         if @stops.length > 1
           _.pull @checkPointIds, @stops[0] # removes checkpoint
 
+
           if app.getCollection('nodes').isNodePort @stops[0]
             @resting = true
+            @willRest = false
           else
           # sending ship to fill energy to the nearest port
-            if @needRestCondition()
+            if @needRestCondition() and !@willRest
+              @willRest = true
               @addCheckPoint @getCollection().findClosestPort(@)
 
-          #@nextDistance = @calculateNextDistance()
+          @prepareNextStop()
 
-          @stops = _.slice @stops, 1
-          @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
-          @rotation = @calculateRotation()
+          #@nextDistance = @calculateNextDistance()
           return
         else # ship
           @getCollection().destroyShip(@)
           return
       else
-        return false
+        return
 
     calculateRotation: () ->
       dy = @coords.y - @nextStop.y
@@ -125,7 +146,5 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @move()
       @drawEnergyBar()
       @drawCargoBar()
-      app.drawShip @shipCoord, app.state.zoom, @rotation, app.game.state.cults[@cult].color
+      app.drawShip @shipCoord, app.state.zoom, @rotation, @color
       return
-
-    sprite: 'ship'

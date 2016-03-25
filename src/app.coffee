@@ -107,11 +107,15 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         path = @getPath(from, to)
       else
         path = @getPath(from, checkPoints[0])
-        _.each checkPoints, (checkPoint, p) =>
-          if checkPoints[p+1]
+        for checkPoint, p in checkPoints
+          if _.isNumber path[p+1]
             path = _.concat path, @getPath(checkPoints[p], checkPoints[p+1])
         path = _.concat path, @getPath(checkPoints[checkPoints.length-1], to)
-      path
+
+      isNumber = (id) ->
+        !isNaN id
+
+      path.filter isNumber
 
     getPath: (from, to) ->
       alt1 = from + '-' + to
@@ -119,7 +123,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       path = []
 
       if @linksData[alt1]
-        path = @linksData[alt1]
+        path = _.clone @linksData[alt1]
       else if @linksData[alt2]
         pathData = _.clone @linksData[alt2]
         path = _.reverse pathData
@@ -131,8 +135,8 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       path = @getPath(from, to)
       path.unshift(from)
 
-      _.each path, (node, n) =>
-        if path[n+1]
+      for node, n in path
+        if typeof path[n+1] != 'undefined'
           thisNode = node
           nextNode = path[n+1]
           distance += @getCollection('routes').getDistanceOfEdge(thisNode, nextNode)
@@ -254,6 +258,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     writeInfo: ->
       @ctx.textAlign = 'left'
       @ctx.fillStyle = 'black'
+      @ctx.font = '10pt Calibri'
       @ctx.fillText 'x: ' + @state.position.x + ' y: ' + @state.position.y + ' zoom: ' + @state.zoom, 10, 10
       @ctx.fillText 'fps : ' + parseInt(_.mean(@state.fps)), 10, 40
       return

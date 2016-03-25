@@ -26,8 +26,8 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
   app.menu = new Menu()
   app.cursor = new Cursor()
 
-  app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
 
+  app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
   app.registerCollection(new Ships [], 10)
 
   app.getCollection('ships').createShip(Cults.SERAPIS)
