@@ -42,6 +42,12 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     startGameFunctions: []
     shipPath: new Path2D Base.shipPath()
 
+    mouseX: ->
+      @state.controls.mousePosition.x
+
+    mouseY: ->
+      @state.controls.mousePosition.y
+
     drawPath: (path, coords, size, rotation, fillStyle, lineWidth, strokeStyle) ->
       app.ctx.translate coords.x, coords.y
       if rotation
@@ -71,6 +77,9 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     deactivateClick: () ->
       @state.controls.mouseClicked = false
       return
+
+    isClickedMap: () ->
+      @isClicked() and @mouseY() < @menu.y
 
     isClicked: () ->
       @state.controls.mouseClicked
@@ -217,8 +226,14 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     draw: ->
       @time.nextTick()
 
-      for collection in _.orderBy(@collections, 'z')
+      orderedCollections =
+
+
+      for collection in @orderedCollection
         collection.collection.draw()
+
+      for collection in @orderedCollection
+        collection.collection.drawLabels()
 
       @drawBorders()
       @writeDevelInfo()
@@ -238,6 +253,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       return
 
     loop: ->
+      @orderedCollection = _.orderBy(@collections, 'z')
       app.clear()
       app.countFps()
       app.draw()
@@ -287,9 +303,9 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       point.x < @state.view.w and point.x > 0 and point.y < @state.view.h and point.y > 0
 
     drawBorders: ->
-      @ctx.lineWidth = 5
-      @ctx.strokeStyle = 'black'
-      @ctx.strokeRect (0 - (@state.position.x)) * @state.zoom, (0 - (@state.position.y)) * @state.zoom, @state.map.w * @state.zoom, @state.map.h * @state.zoom
+      #@ctx.lineWidth = 5
+      #@ctx.strokeStyle = 'black'
+      #@ctx.strokeRect (0 - (@state.position.x)) * @state.zoom, (0 - (@state.position.y)) * @state.zoom, @state.map.w * @state.zoom, @state.map.h * @state.zoom
       # @ctx.lineWidth = 5
       # @ctx.strokeStyle = 'black'
       # @ctx.strokeRect 0, 0, @state.view.w, @state.view.h

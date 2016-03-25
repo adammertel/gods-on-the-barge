@@ -21,7 +21,8 @@ define 'Button', ['Base', 'App'], (Base, app) ->
         app.ctx.fillStyle = @style.fill
         app.ctx.fill @buttonPath
 
-      app.ctx.stroke @buttonPath
+      if @style.stroke
+        app.ctx.stroke @buttonPath
       app.ctx.fillStyle =  @style.text
 
       app.ctx.fillText @text(), @x + @w/2, @y + @h/2 + 2
@@ -29,8 +30,8 @@ define 'Button', ['Base', 'App'], (Base, app) ->
 
     isClicked: () ->
       if app.isClicked()
-        mouseX = app.state.controls.mousePosition.x
-        mouseY = app.state.controls.mousePosition.y
+        mouseX = app.mouseX()
+        mouseY = app.mouseY()
         if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
           app.deactivateClick()
           @action()

@@ -15,6 +15,21 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings'], (Base, Collecti
           @addGeometry new Island(coords, island)
       return
 
+    deactivateIslands: ->
+      for island in @geometries
+        island.state.active = false
+      return
+
+    activateIsland: (island)->
+      @deactivateIslands()
+      island.state.active = true
+      return
+
+    activateIslandByName: (name) ->
+      @deactivateIslands()
+      @getIslandByName(name).state.active = true
+      return
+
     getIslandByName: (name) ->
       _.find @geometries, (island) ->
         island.data.name == name
@@ -32,12 +47,54 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings'], (Base, Collecti
           island.state.buildings[building.name] = true
       return
 
-    draw: () ->
-      app.ctx.beginPath()
+    getActiveIsland: ->
+      activeIsland = false
+      for island in @geometries
+        if island.state.active
+          activeIsland = island
+      activeIsland
+
+    activeteIslandByClick: (island) ->
+      @activateIsland(island)
+      app.menu.changeActivePanel 'Islands'
+      app.menu.getActivePanel().changeActiveIsland(island.state.name)
+      return
+
+    drawLabels: ->
+      if app.state.zoom > 0.6
+        app.ctx.font = 'bold 10pt Calibri'
+        app.ctx.fillStyle = 'white'
+
+        for island in @geometries
+          if island.isVisible
+            app.ctx.beginPath()
+            island.drawLabelBackground()
+            app.ctx.fill()
+            app.ctx.closePath()
+
+
+        app.ctx.textAlign = 'left'
+        app.ctx.fillStyle = 'black'
+        for island in @geometries
+          if island.isVisible
+            island.drawLabel()
+
+    draw: ->
       app.ctx.fillStyle = @color
-      for geometry in @geometries
-        if geometry
-          geometry.draw()
-      app.ctx.fill()
-      app.ctx.closePath()
+
+      for island in @geometries
+        if island
+          if app.isClickedMap()
+            if island.mouseConflict()
+              @activeteIslandByClick island
+
+          app.ctx.beginPath()
+          island.draw()
+          app.ctx.fill()
+          app.ctx.closePath()
+
+
+      activeIsland = @getActiveIsland()
+      if activeIsland
+        activeIsland.highlight()
       return

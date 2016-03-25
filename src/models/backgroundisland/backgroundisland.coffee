@@ -6,10 +6,12 @@ define 'BackgroundIsland', ['App', 'Geography', 'Base'], (app, Geography, Base) 
       return
 
     calculateCoords: ->
+      lastViewCoords = @viewCoords
       viewCoords = []
       @isVisible = false
-      for coord in @coords
+      for coord, c in @coords
         viewCoord = app.coordinateToView {x: coord.x, y: coord.y}
+
         if !@isVisible
           if app.isPointVisible viewCoord
              @isVisible = true
@@ -18,20 +20,18 @@ define 'BackgroundIsland', ['App', 'Geography', 'Base'], (app, Geography, Base) 
       viewCoords
 
     getCoords: ->
+      # coord0x = app.coordinateToView({x: @coords.x, y: 0}).x
+      # if !@viewCoords or @viewCoords[0].x != coord0x
+      #   @viewCoords = @calculateCoords()
       @viewCoords = @calculateCoords()
       return
 
     drawIsland: ->
-      app.ctx.beginPath()
       for viewCoord, c in @viewCoords
         if c == 0
           app.ctx.moveTo viewCoord.x, viewCoord.y
         else
           app.ctx.lineTo viewCoord.x, viewCoord.y
-
-      app.ctx.closePath()
-      app.ctx.fillStyle = '#ccc'
-      app.ctx.fill()
       return
 
     draw: ->

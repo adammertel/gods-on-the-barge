@@ -17,6 +17,7 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
         return
       return
 
+
     getNode: (id) ->
       @data[id]
 
@@ -61,3 +62,9 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
 
     getShipEndingNodes: () ->
       _.union @getNodesOnIsland('Greece'), @getNodesOnIsland('Turkey')
+
+    draw: ->
+      app.ctx.fillStyle = 'red'
+      for node in @geometries
+        if node.name
+          node.draw()

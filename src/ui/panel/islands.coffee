@@ -14,7 +14,7 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings'], (Panel, Text, B
 
     init: ->
       bs = {
-        inactive: {stroke: 'black', fill: '#ccc', text: 'black', lw: 2, font: 'bold 9pt Calibri'}
+        inactive: {stroke: false, fill: '#ccc', text: 'black', lw: 2, font: 'bold 9pt Calibri'}
       }
       @islands = _.orderBy app.getCollection('islands').geometries, 'data.name'
 
@@ -44,13 +44,11 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings'], (Panel, Text, B
 
       buildY = y + 20
       for key, building of Buildings
-        console.log building
         label = building.name
         @registerButton false, label, {x: @w - 30, y: buildY, w: 100, h: 20}, @mst.bind(@, label + ' - ' + building.price), @makeBuilding.bind(@, label), bs, false
         buildY += 30
 
       return
-
 
     dtdd: (props, dtdd) ->
       @registerText false, props.id + 'dt', {x: props.x , y: props.y}, dtdd.dt, @dtTextStyle
@@ -94,13 +92,14 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings'], (Panel, Text, B
 
     changeActiveIsland: (island) ->
       @activeIsland = island
-      console.log @activeIsland
+      @islandCollection.activateIslandByName island
       @buttons = _.clone @focusButtons
       @texts = _.clone @focusTexts
       @activateBuildingsButtons()
       return
 
     changeToOverviewMode: ->
+      @islandCollection.deactivateIslands()
       @activeIsland = ''
       @buttons = _.clone @overviewButtons
       @texts = _.clone @overviewTexts

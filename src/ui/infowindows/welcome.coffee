@@ -11,7 +11,6 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
     init: () ->
       bs = _.clone @buttonStyle
       bs.inactive.font = 'bold 12pt Calibri'
-      console.log bs
 
       _.each app.game.state.cults, (cult, c) =>
         @registerClickableArea @x + @m, @y + @m + 100*cult.no, @w - 2*@m, 80, @chooseCultToPlay.bind(@, cult.label)

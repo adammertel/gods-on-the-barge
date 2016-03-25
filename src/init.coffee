@@ -5,6 +5,8 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
   canvas.width = app.state.view.w
   canvas.height = app.state.view.h
   app.ctx = canvas.getContext('2d')
+  app.ctx.lineCap = 'round'
+  app.ctx.lineJoin = 'round'
 
   app.calculateMap()
 

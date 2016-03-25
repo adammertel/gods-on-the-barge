@@ -1,7 +1,6 @@
 define 'Routes', ['Base', 'Collection', 'Route'], (Base, Collection, Route) ->
   class Routes extends Collection
     constructor: (data) ->
-      console.log 'routes'
       @name = 'routes'
       super data
       return
@@ -29,3 +28,14 @@ define 'Routes', ['Base', 'Collection', 'Route'], (Base, Collection, Route) ->
         distance = @data[alt2]
 
       distance
+
+    draw: ->
+      app.ctx.strokeStyle = 'black'
+      app.ctx.lineWidth = 1
+
+      for route in @geometries
+        app.ctx.beginPath()
+        route.draw()
+        app.ctx.closePath()
+
+      return

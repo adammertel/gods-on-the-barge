@@ -14,6 +14,9 @@ define 'Collection', ['Base'], (Base) ->
           geometry.draw()
       return
 
+    drawLabels: ->
+      return
+
     unregisterGeometry: (id) ->
       spliceIndex = false
       for geometry, g in @geometries

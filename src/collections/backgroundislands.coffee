@@ -13,3 +13,11 @@ define 'BackgroundIslands', ['Base', 'Collection', 'BackgroundIsland'], (Base, C
             coords.push app.coordinateToMap {lon: coord[0], lat: coord[1]}
         @addGeometry new BackgroundIsland(coords)
       return
+
+    draw: ->
+      app.ctx.fillStyle = '#ccc'
+      for island in @geometries
+        app.ctx.beginPath()
+        island.draw()
+        app.ctx.fill()
+        app.ctx.closePath()

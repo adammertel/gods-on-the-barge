@@ -8,10 +8,13 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
           granary: false
           amphiteater: false
           dock: false
+        name: data.name
         population: data.population
         area: data.area
         grain: data.population * _.random 3, 5
+        active: false
       }
+      @collection = app.getCollection 'islands'
       if data.population
         @data = data
       else
@@ -32,32 +35,20 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
       viewCoords
 
     getCoords: ->
-      # if !@viewCoords
+      # coord0x = app.coordinateToView({x: @coords.x, y: 0}).x
+      # if !@viewCoords or @viewCoords[0].x != coord0x
       #   @viewCoords = @calculateCoords()
-      # else
-      #   firstCoord = app.coordinateToView({x: @coords[0].x, y: @coords[0].y})
-      #   if firstCoord.x != @viewCoords[0].x and firstCoord.y != @viewCoords[0].y
-      #     @viewCoords = @calculateCoords()
-      #
-      # @viewCoords
       @viewCoords = @calculateCoords()
       return
 
     mouseConflict: ->
       Base.pointInsidePolygon @, app.state.controls.mousePosition
 
-    drawInfo: ->
-      index = _.indexOf app.state.geometries, @
-      app.state.geometries = Base.moveAtTheEndOfArray app.state.geometries, index
+    drawLabelBackground: ->
+      app.ctx.rect @viewCoords[0].x - 5, @viewCoords[0].y - 10, app.ctx.measureText(@data.name).width + 10, 15
 
-      mouseX = app.state.controls.mousePosition.x
-      mouseY = app.state.controls.mousePosition.y
-
-      app.ctx.fillStyle = '#444'
-      app.ctx.fillRect(mouseX + 10, mouseY + 5, 200, 100)
-      app.ctx.fillStyle = 'white'
-      app.ctx.fillText 'name : ' + @data.name, mouseX + 20, mouseY + 20
-      app.ctx.fillText 'population : ' + @data.population, mouseX + 20, mouseY + 35
+    drawLabel: ->
+      app.ctx.fillText @data.name, @viewCoords[0].x, @viewCoords[0].y
 
     drawIsland: ->
       for viewCoord, c in @viewCoords
@@ -68,16 +59,14 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
 
       return
 
+    highlight: ->
+      app.ctx.beginPath()
+      @drawIsland()
+      app.ctx.stroke()
+      app.ctx.closePath()
+
     draw: ->
       @getCoords()
       if @isVisible
-        if @data
-          if @over
-            @drawInfo()
-
-          @drawIsland()
-
-        else
-          @drawIsland()
-
+        @drawIsland()
       return

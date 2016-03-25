@@ -14,8 +14,8 @@ define 'Ui', ['Base', 'Button', 'Text'], (Base, Button, Text) ->
 
     mouseConflict: ->
       if app.isClicked()
-        mouseX = app.state.controls.mousePosition.x
-        mouseY = app.state.controls.mousePosition.y
+        mouseX = app.mouseX()
+        mouseY = app.mouseY()
         if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
           for button in @buttons
             button.isClicked()

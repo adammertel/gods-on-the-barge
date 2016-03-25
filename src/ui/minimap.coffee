@@ -82,13 +82,13 @@ define 'MiniMap', ['Base'], (Base) ->
       return
 
     mouseConflict: ->
-      mouseX = app.state.controls.mousePosition.x
-      mouseY = app.state.controls.mousePosition.y
+      mouseX = app.mouseX()
+      mouseY = app.mouseY()
       mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
 
     mouseClick: ->
-      mouseX = app.state.controls.mousePosition.x
-      mouseY = app.state.controls.mousePosition.y
+      mouseX = app.mouseX()
+      mouseY = app.mouseY()
 
       app.setNewXPosition ((mouseX - @x)/@w * app.state.map.w) - app.state.view.w/2
       app.setNewYPosition ((mouseY - @y)/@h * app.state.map.h) - app.state.view.h/2
