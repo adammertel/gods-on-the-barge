@@ -37,7 +37,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       lw = 2
       buttonH = @h/@panels.length# - lw/4 * @panels.length
 
-      @activePanel = 'Overview'
+      @activePanel = 'Weather'
       _.each @panels, (panel, p) =>
         label = panel.label
         @registerButton 'panel' + label, {x: lw/2, y: @y + buttonH * p, w: @panelW, h: buttonH}, @makeStaticText.bind(@, label), @changeActivePanel.bind(@, label), bs, @activePanel == label

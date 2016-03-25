@@ -76,7 +76,7 @@ define 'Base', [], () ->
 
       dx = Math.sin(rads) * distance
       dy = Math.cos(rads) * distance
-      {x: fromCoord.x + dx, y: fromCoord.y + dy}
+      {x: fromCoord.x - dx, y: fromCoord.y + dy}
 
     pointInsidePolygon: (polygon, mouseCoordinates) ->
 

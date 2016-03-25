@@ -47,11 +47,11 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm'], (Base, WeatherCalendar, 
         anomalyPower = Math.ceil _.random(0, 1.5)
         positiveAnomaly = _.random(0, 1) < 0.5
         if positiveAnomaly
-          @state.windSpeed = predicatedWindSpeed + anomalyPower
+          @state.windSpeed = _.clamp predicatedWindSpeed + anomalyPower, 0, 10
         else
-          @state.windSpeed = predicatedWindSpeed - anomalyPower
+          @state.windSpeed = _.clamp predicatedWindSpeed - anomalyPower, 0, 10
       else
-        @state.windSpeed = predicatedWindSpeed
+        @state.windSpeed = _.clamp predicatedWindSpeed, 0, 10
 
       return
 
@@ -63,11 +63,11 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm'], (Base, WeatherCalendar, 
         anomalyPower = Math.ceil _.random(0, 1.5)
         positiveAnomaly = _.random(0, 1) < 0.5
         if positiveAnomaly
-          @state.temperature = predicatedTemperature + anomalyPower
+          @state.temperature = _.clamp predicatedTemperature + anomalyPower, 0, 10
         else
-          @state.temperature = predicatedTemperature - anomalyPower
+          @state.temperature = _.clamp predicatedTemperature - anomalyPower, 0, 10
       else
-        @state.temperature = predicatedTemperature
+        @state.temperature = _.clamp predicatedTemperature, 0, 10
 
       return
 
