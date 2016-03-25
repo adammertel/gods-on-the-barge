@@ -1,6 +1,7 @@
 define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
   window.app =
     state:
+      started: false
       fps: []
       lastTimeLoop: null
       view:
@@ -80,6 +81,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       return
 
     startGame: (cult) ->
+      @state.started = true
       @game.chooseCult cult
       _.each @startGameFunctions, (startGameFunction) ->
         startGameFunction()
@@ -219,8 +221,8 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         collection.collection.draw()
 
       @drawBorders()
-      @writeInfo()
-      @time.draw()
+      @writeDevelInfo()
+      @gameInfo.draw()
       return
 
     clear: ->
@@ -263,7 +265,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       @state.position.y = coordinate.y
       return
 
-    writeInfo: ->
+    writeDevelInfo: ->
       @ctx.textAlign = 'left'
       @ctx.fillStyle = 'black'
       @ctx.font = '10pt Calibri'

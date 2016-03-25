@@ -21,6 +21,8 @@ define 'Port', ['Geography', 'Base'], (Geography, Base) ->
       app.ctx.beginPath()
       app.ctx.arc(portCoord.x, portCoord.y, radius*app.state.zoom, 0, 2 * Math.PI, false)
       app.ctx.fill()
+      app.ctx.closePath()
+
       #app.ctx.fillText @nodeId, portCoord.x + 10, portCoord.y + 10
       return
       #return

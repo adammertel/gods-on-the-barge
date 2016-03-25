@@ -40,6 +40,8 @@ define 'Game', ['Base'], (Base) ->
           stats: {}
 
     defaultCultStats:
+      gold:
+        quantity: 1000
       ships:
         no: 7
         out: 0
@@ -49,6 +51,7 @@ define 'Game', ['Base'], (Base) ->
         energyConsumption: 40
         restingSpeed: 120
         operationCost: 0.1
+        rainPenalty: 0.3
 
     constructor: ->
       @loadIcons()
@@ -62,6 +65,8 @@ define 'Game', ['Base'], (Base) ->
         return
 
       return
+
+
 
     getPlayerStat: (category, value) ->
       if @getPlayerCultLabel()
@@ -112,8 +117,11 @@ define 'Game', ['Base'], (Base) ->
     freeShips: (cult) ->
       @getCultStats(cult).ships.no - @getCultStats(cult).ships.out
 
-    loadIcons: () ->
+    loadIcons: ->
       _.each @state.cults, (cult, cultLabel) =>
         cult.logo = Base.loadIcon cult.iconLabel, cult.color
         return
       return
+
+    getPlayerMoney: ->
+      app.game.getPlayerCultStats().gold.quantity

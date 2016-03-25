@@ -28,7 +28,6 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, 
 
       radiusG = radius/10
       windDirectionCoords = [[0, -radiusG], [radiusG/2, radiusG], [0, radiusG/2], [-radiusG/2, radiusG]]
-      console.log Base.buildPathString(windDirectionCoords, true)
 
       @windDirection = new Path2D Base.buildPathString(windDirectionCoords, true)
 
@@ -54,7 +53,6 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, 
 
       windSpeed = @weatherState.windSpeed
       windDirection = Base.degsToRad(@weatherState.windDirection)
-      console.log @weatherState.windDirection
 
       if windSpeed and windDirection
         app.drawPath @windDirection, {x: @windIndicatorCenterX, y: @windIndicatorCenterY}, windSpeed, windDirection, 'black', false, false

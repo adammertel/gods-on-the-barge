@@ -12,7 +12,6 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
     constructor: () ->
       @labelx = app.state.view.w - 40
       @labely = 20
-      @buildGlassHour()
       return
 
     pause: () ->
@@ -29,10 +28,10 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       return
 
     getWeekLabel: () ->
-      'week ' + @state.week + '/13'
+      'week ' + app.time.state.week + '/13'
 
     getSeasonYearLabel: () ->
-      @state.season + ', ' + @state.year + ' BC'
+      app.time.state.season + ', ' + app.time.state.year + ' BC'
 
     nextTick: () ->
       lastFrame = _.clone @state.yearPart
@@ -92,60 +91,4 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       @state.season = Season[0]
       @state.year -= 1
       app.newYear()
-      return
-
-    drawGlassHours: ->
-      h = 36
-      w = 20
-      d = 6
-      x1 = @labelx+10
-      y1 = @labely-10
-
-      xc1 = x1 + (w/2 - d/2)
-      xc2 = x1 + (w/2 + d/2)
-      yc = y1 + h/2
-
-      app.ctx.fillStyle = 'orange'
-      dh = h * (@state.day-1)/7
-      app.ctx.fillRect x1, y1 + dh, w, h - dh
-
-      app.ctx.lineWidth = 2
-      app.ctx.fillStyle = 'white'
-      app.ctx.fill @pathTriangle1
-      app.ctx.fill @pathTriangle2
-      app.ctx.stroke @pathGlass
-      return
-
-    buildGlassHour: () ->
-      h = 36
-      w = 20
-      d = 6
-      x1 = @labelx+10
-      x2 = x1 + w
-      y1 = @labely-10
-      y2 = y1 + h
-
-      xc1 = x1 + (w/2 - d/2)
-      xc2 = x1 + (w/2 + d/2)
-      yc = y1 + h/2
-
-      glassCoords = [[x1, y1], [xc1, yc], [x1, y2], [x2, y2], [xc2, yc], [x2, y1]]
-      glassWhiteTriangle1Coords = [[x1, y1], [xc1, yc], [x1, y2]]
-      glassWhiteTriangle2Coords = [[x2, y1], [xc2, yc], [x2, y2]]
-
-      @pathGlass = new Path2D(Base.buildPathString glassCoords, true)
-      @pathTriangle1 = new Path2D(Base.buildPathString glassWhiteTriangle1Coords, true)
-      @pathTriangle2 = new Path2D(Base.buildPathString glassWhiteTriangle2Coords, true)
-
-      return
-
-    draw: () ->
-      app.ctx.fillStyle = 'white'
-      app.ctx.fillRect @labelx - 120, 0, 200, 50
-      app.ctx.fillStyle = 'black'
-      app.ctx.textAlign = 'right'
-      app.ctx.fillText @getWeekLabel(), @labelx, @labely
-      app.ctx.fillText @getSeasonYearLabel(), @labelx, @labely + 20
-      @drawGlassHours()
-      app.ctx.textAlign = 'left'
       return

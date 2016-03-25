@@ -45,23 +45,23 @@ define 'Ui', ['Base', 'Button', 'Text'], (Base, Button, Text) ->
     registerClickableArea: (x, y, w, h, action) ->
       @clickableAreas.push({x: x, y: y, w: w, h: h, action: action})
 
-    drawTexts: () ->
+    drawTexts: ->
       for text in @texts
         text.draw()
       return
 
-    drawButtons: () ->
+    drawButtons: ->
       for button in @buttons
         button.draw()
       return
 
-    drawBackground: () ->
+    drawBackground: ->
       app.ctx.fillStyle = 'white'
       app.ctx.strokeStyle = 'black'
       app.ctx.fill @bckPath
       app.ctx.stroke @bckPath
 
-    draw: () ->
+    draw: ->
       app.ctx.lineWidth = 2
       @mouseConflict()
 

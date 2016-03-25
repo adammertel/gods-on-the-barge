@@ -1,6 +1,7 @@
 define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
   class Ship extends Geometry
     constructor: (@cult)->
+      @collection = app.getCollection('ships')
       @cultStats = app.game.getCultStats(@cult).ships
       @startId = app.getCollection('nodes').chooseShipStartingNodeId()
       @endId = app.getCollection('nodes').chooseShipEndingNodeId()
@@ -28,9 +29,6 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @resting = false
       @willRest = false
       return
-
-    getCollection: () ->
-      app.getCollection('ships')
 
     addCheckPoint: (id) ->
       if _.indexOf(@checkPointIds, id) == -1
@@ -63,7 +61,7 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
           @willRest = false
       else
         if @energy < 0
-          @getCollection().destroyShip(@)
+          @collection.destroyShip(@)
         @checkNodeConflict()
         @coords = Base.moveTo @coords, @nextStop, @getSpeed()
       return
@@ -95,14 +93,14 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
           # sending ship to fill energy to the nearest port
             if @needRestCondition() and !@willRest
               @willRest = true
-              @addCheckPoint @getCollection().findClosestPort(@)
+              @addCheckPoint @collection.findClosestPort(@)
 
           @prepareNextStop()
 
           #@nextDistance = @calculateNextDistance()
           return
         else # ship
-          @getCollection().destroyShip(@)
+          @collection.destroyShip(@)
           return
       else
         return
@@ -121,7 +119,9 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       theta
 
     getSpeed: () ->
-      @baseSpeed * app.time.state.timeSpeed
+      rainPenalty = if @collection.isInRain(@) then 1 - @cultStats.rainPenalty else 1
+
+      @baseSpeed * app.time.state.timeSpeed * rainPenalty
 
     drawCargoBar: () ->
       fullCargopx = 40 * app.state.zoom

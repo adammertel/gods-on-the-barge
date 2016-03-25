@@ -1,4 +1,4 @@
-require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum'], (Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, Cults) ->
+require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum', 'GameInfo'], (Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, Cults, GameInfo) ->
   console.log 'init'
 
   canvas = document.getElementById('game')
@@ -26,6 +26,7 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
   app.weather = new Weather()
   app.menu = new Menu()
   app.cursor = new Cursor()
+  app.gameInfo = new GameInfo()
 
   app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
   app.registerCollection(new Ships [], 10)

@@ -29,6 +29,14 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
         ship.updateEnergy()
       return
 
+
+    isInRain: (ship) ->
+      inRain = false
+      for storm in app.getCollection('storms').geometries
+        if Base.distance(storm.coords, ship.coords) < storm.radius
+          inRain = true
+      inRain
+
     createShip: (cult) ->
       if app.game.freeShips(cult) > 0
         app.game.shipBuilt(cult)
