@@ -34,11 +34,11 @@ define 'Ui', ['Base', 'Button', 'Text'], (Base, Button, Text) ->
       _.find @buttons, (button) =>
         button.id == buttonId
 
-    registerText: (id, position, text, font)->
+    registerText: (id, position, text, font) ->
       @texts.push new Text(id, position, text, font)
       return
 
-    registerButton: (id, position, text, action, style, active)->
+    registerButton: (id, position, text, action, style, active) ->
       @buttons.push new Button(id, position, text, action, style, active)
       return
 

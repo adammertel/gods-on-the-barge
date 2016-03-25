@@ -2,13 +2,22 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
   class Island extends Geography
 
     constructor: (@coords, data)->
+      @state = {
+        buildings:
+          hospital: false
+          granary: false
+          amphiteater: false
+          dock: false
+        population: data.population
+        area: data.area
+        grain: data.population * _.random 3, 5
+      }
       if data.population
         @data = data
       else
         @data = null
       super()
       return
-
 
     calculateCoords: ->
       viewCoords = []

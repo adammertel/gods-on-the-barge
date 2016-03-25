@@ -67,6 +67,23 @@ define 'Game', ['Base'], (Base) ->
       return
 
 
+    # gold
+    spendGold: (cult, quantity) ->
+      if @hasCultGold(cult, quantity)
+        @getCultStats(cult).gold.quantity -= quantity
+        true
+      else
+        false
+
+    hasCultGold: (cult, quantity) ->
+      @getCultStats(cult).gold.quantity > quantity
+
+    hasPlayerGold: (quantity) ->
+      @getPlayerCultStats().gold.quantity > quantity
+
+    getPlayerMoney: ->
+      app.game.getPlayerCultStats().gold.quantity
+
 
     getPlayerStat: (category, value) ->
       if @getPlayerCultLabel()
@@ -122,6 +139,3 @@ define 'Game', ['Base'], (Base) ->
         cult.logo = Base.loadIcon cult.iconLabel, cult.color
         return
       return
-
-    getPlayerMoney: ->
-      app.game.getPlayerCultStats().gold.quantity

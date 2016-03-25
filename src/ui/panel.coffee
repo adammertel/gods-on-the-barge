@@ -1,5 +1,5 @@
 define 'Panel', ['Ui'], (Ui, Text, Panel) ->
-  class CultPanel extends Ui
+  class Panel extends Ui
     constructor: (@menu, @label) ->
       @mst = @makeStaticText
       x = @menu.panelW + 2

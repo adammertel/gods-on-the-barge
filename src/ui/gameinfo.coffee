@@ -67,7 +67,7 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
 
     drawCoin: ->
         app.ctx.beginPath()
-        app.ctx.arc @x + 90, @y + 70, 10, 0, 2 * Math.PI, false
+        app.ctx.arc @x + 120, @y + 70, 10, 0, 2 * Math.PI, false
         app.ctx.fillStyle = 'gold'
         app.ctx.fill()
         app.ctx.stroke()
@@ -79,5 +79,4 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
         super()
         @drawGlassHours()
         @drawCoin()
-        console.log 'started'
       return
