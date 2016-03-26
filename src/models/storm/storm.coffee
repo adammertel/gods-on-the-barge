@@ -25,12 +25,12 @@ define 'Storm', ['Geography', 'Base'], (Geography, Base) ->
         app.ctx.globalAlpha = 0.3
         stormCoord = app.coordinateToView @coords
         @radius = @power * app.weather.state.config.stormRadiusCoefficient
-        
+
         app.ctx.beginPath()
         app.ctx.fillStyle = 'blue'
         app.ctx.arc(stormCoord.x, stormCoord.y, @radius*app.state.zoom, 0, 2 * Math.PI, false)
-        app.ctx.fill()
         app.ctx.closePath()
+        app.ctx.fill()
 
         app.ctx.globalAlpha = 1
 

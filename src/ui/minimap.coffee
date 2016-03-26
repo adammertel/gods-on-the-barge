@@ -7,7 +7,7 @@ define 'MiniMap', ['Base'], (Base) ->
       @y = app.state.view.h - @h - 1
       @lw = 2
       @dx = @w / app.state.map.w
-      @dy = @h / (app.state.map.h - @h)
+      @dy = @h / (app.state.map.h - 2*@h)
 
       pathCoords = [[@x, @y], [@x, @y + @h], [@x + @w, @y + @h], [@x + @w, @y]]
       @path = new Path2D Base.buildPathString(pathCoords, true)
@@ -17,7 +17,7 @@ define 'MiniMap', ['Base'], (Base) ->
 
     coordinateToMiniMap: (c) ->
       x: Base.round((@x + @dx * (c.x)) * 10)/10
-      y: Base.round((@y + @dy * (c.y + @h)) * 10)/10
+      y: Base.round((@y + @dy * (c.y)) * 10)/10
 
     getIslandPaths:() ->
       islandPaths = []

@@ -69,8 +69,8 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings'], (Base, Collecti
           if island.isVisible
             app.ctx.beginPath()
             island.drawLabelBackground()
-            app.ctx.fill()
             app.ctx.closePath()
+            app.ctx.fill()
 
 
         app.ctx.textAlign = 'left'

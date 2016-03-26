@@ -10,6 +10,6 @@ define 'Port', ['Geography', 'Base'], (Geography, Base) ->
       radius = 5
       app.ctx.beginPath()
       app.ctx.arc(portCoord.x, portCoord.y, radius*app.state.zoom, 0, 2 * Math.PI, false)
-      app.ctx.fill()
       app.ctx.closePath()
+      app.ctx.fill()
       return

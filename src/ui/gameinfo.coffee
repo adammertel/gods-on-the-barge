@@ -58,7 +58,6 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
       dh = h * (app.time.state.day-1)/7
       app.ctx.fillRect x1, y1 + dh, w, h - dh
 
-      app.ctx.lineWidth = 2
       app.ctx.fillStyle = 'white'
       app.ctx.fill @pathTriangle1
       app.ctx.fill @pathTriangle2
@@ -69,13 +68,14 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
         app.ctx.beginPath()
         app.ctx.arc @x + 120, @y + 65, 10, 0, 2 * Math.PI, false
         app.ctx.fillStyle = 'gold'
-        app.ctx.fill()
         app.ctx.stroke()
+        app.ctx.fill()
         app.ctx.closePath()
         return
 
     draw: ->
       if app.state.started
+        app.ctx.lineWidth = 2
         super()
         @drawGlassHours()
         @drawCoin()

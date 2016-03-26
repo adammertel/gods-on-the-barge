@@ -62,8 +62,8 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
     highlight: ->
       app.ctx.beginPath()
       @drawIsland()
-      app.ctx.stroke()
       app.ctx.closePath()
+      app.ctx.stroke()
 
     draw: ->
       @getCoords()

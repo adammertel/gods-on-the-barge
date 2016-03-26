@@ -11,6 +11,9 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       @init()
       return
 
+    mouseConflict: ->
+      app.mouseY() > @y
+
     init: ->
       bs = _.clone @buttonStyle
       gameSpeed = app.time.state.timeSpeed
@@ -36,11 +39,11 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
 
       lw = 2
       buttonH = @h/@panels.length# - lw/4 * @panels.length
-
       @activePanel = 'Overview'
+
       for panel, p in @panels
         label = panel.label
-        @registerButton 'panel' + label, {x: lw/2, y: @y + buttonH * p, w: @panelW, h: buttonH}, @makeStaticText.bind(@, label), @changeActivePanel.bind(@, label), bs, @activePanel == label
+        @registerButton 'panel' + label, {x: 0, y: @y + buttonH * p - 1, w: @panelW + 2, h: buttonH}, @makeStaticText.bind(@, label), @changeActivePanel.bind(@, label), bs, @activePanel == label
 
       return
 

@@ -2,8 +2,8 @@ define 'Ui', ['Base', 'Button', 'Text'], (Base, Button, Text) ->
   class Ui
     constructor: (@id, @x, @y, @w, @h) ->
       y = @y - 1
-      bckCoords = [[@x, y], [@x, y + @h + 1], [@x + @w, y + @h + 1], [@x + @w, y]]
-      @bckPath = new Path2D Base.buildPathString(bckCoords, true)
+      @bckPath = new Path2D()
+      @bckPath.rect @x, y, @w, @h
 
       @buttons = []
       @texts = []
