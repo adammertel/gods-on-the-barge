@@ -4,7 +4,7 @@ define 'Text', ['App'], (app) ->
       @x = position.x
       @y = position.y
 
-    draw: () ->
+    draw: ->
       app.ctx.font = @style.font
       app.ctx.textAlign = @style.textAlign
       app.ctx.fillText @text(), @x, @y + 8

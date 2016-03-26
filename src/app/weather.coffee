@@ -13,7 +13,7 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm'], (Base, WeatherCalendar, 
         stormRadiusCoefficient: 100
         stormSpeedCoefficient: 2
 
-    constructor: () ->
+    constructor: ->
       app.registerNewWeekAction @checkIfNewStorm.bind @
       app.registerNewDayAction @reduceStormsPower.bind @
 
@@ -23,23 +23,23 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm'], (Base, WeatherCalendar, 
 
       return
 
-    reduceStormsPower: () ->
+    reduceStormsPower: ->
       app.getCollection('storms').reducePower()
       return
 
-    getStormChanceForThisWeek: () ->
+    getStormChanceForThisWeek: ->
       seasonIndex = app.time.indexOfSeason()
       WeatherCalendar['stormChance'][seasonIndex][app.time.state.week]
 
-    getTemperatureForThisWeek: () ->
+    getTemperatureForThisWeek: ->
       seasonIndex = app.time.indexOfSeason()
       WeatherCalendar['temperature'][seasonIndex][app.time.state.week]
 
-    getWindSpeedForThisWeek: () ->
+    getWindSpeedForThisWeek: ->
       seasonIndex = app.time.indexOfSeason()
       WeatherCalendar['windSpeed'][seasonIndex][app.time.state.week]
 
-    changeWindSpeed: () ->
+    changeWindSpeed: ->
       anomaly = _.random(0, 1) < @state.config.windSpeedAnomalyChance
       predicatedWindSpeed = @getWindSpeedForThisWeek()
 
@@ -55,7 +55,7 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm'], (Base, WeatherCalendar, 
 
       return
 
-    changeTemperature: () ->
+    changeTemperature: ->
       anomaly = _.random(0, 1) < @state.config.temperatureAnomalyChance
       predicatedTemperature = @getTemperatureForThisWeek()
 
@@ -71,14 +71,14 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm'], (Base, WeatherCalendar, 
 
       return
 
-    checkIfNewStorm: () ->
+    checkIfNewStorm: ->
       newStorm = Math.random() > 0#@getStormChanceForThisWeek()
       if newStorm
         app.getCollection('storms').addGeometry new Storm(@state.lastStormId)
         @state.lastStormId += 1
       return
 
-    changeWinds: () ->
+    changeWinds: ->
       maxChange = @state.config.maxWindDirectionChange
       directionChange = _.random -maxChange, maxChange, false
       @state.windDirection = _.clamp(Base.validateAngle(@state.windDirection + directionChange), 90, 270)

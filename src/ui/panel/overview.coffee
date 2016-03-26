@@ -4,7 +4,7 @@ define 'OverviewPanel', ['Panel', 'Text', 'Button'], (Panel, Text, Button) ->
       @label = 'Overview'
       super @menu, @label
 
-    init: () ->
+    init: ->
       super()
 
     draw: ->

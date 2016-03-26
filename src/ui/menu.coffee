@@ -1,6 +1,6 @@
 define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPanel', 'CultPanel', 'ShipsPanel', 'PoliticsPanel', 'WeatherPanel'], (Ui, MiniMap, Text, Button, OverviewPanel, IslandsPanel, CultPanel, ShipsPanel, PoliticsPanel, WeatherPanel) ->
   class Menu extends Ui
-    constructor: () ->
+    constructor: ->
       h = 150
       super 'menu', 0, app.state.view.h - h, app.state.view.w, h
       @mm = new MiniMap()
@@ -11,7 +11,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       @init()
       return
 
-    init: () ->
+    init: ->
       bs = _.clone @buttonStyle
       gameSpeed = app.time.state.timeSpeed
 
@@ -38,7 +38,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       buttonH = @h/@panels.length# - lw/4 * @panels.length
 
       @activePanel = 'Overview'
-      _.each @panels, (panel, p) =>
+      for panel, p in @panels
         label = panel.label
         @registerButton 'panel' + label, {x: lw/2, y: @y + buttonH * p, w: @panelW, h: buttonH}, @makeStaticText.bind(@, label), @changeActivePanel.bind(@, label), bs, @activePanel == label
 
@@ -66,49 +66,49 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
           @getButton('panel' + panel.label).deactivate()
       return
 
-    changeSpeed0: () ->
+    changeSpeed0: ->
       app.time.changeGameSpeed 0
       @deactivateSpeedButtons()
       @getButton('speed0').activate()
       return
 
-    changeSpeed1: () ->
+    changeSpeed1: ->
       app.time.changeGameSpeed 1
       @deactivateSpeedButtons()
       @getButton('speed1').activate()
       return
 
-    changeSpeed2: () ->
+    changeSpeed2: ->
       app.time.changeGameSpeed 2
       @deactivateSpeedButtons()
       @getButton('speed2').activate()
       return
 
-    changeSpeed3: () ->
+    changeSpeed3: ->
       app.time.changeGameSpeed 10
       @deactivateSpeedButtons()
       @getButton('speed3').activate()
       return
 
-    deactivateSpeedButtons: () ->
+    deactivateSpeedButtons: ->
       speedButtons = ['speed0', 'speed1', 'speed2', 'speed3']
-      _.each speedButtons, (button) =>
+      for button in speedButtons
         @getButton(button).deactivate()
       return
 
-    zoomOut: () ->
+    zoomOut: ->
       app.zoomOut()
       return
 
-    zoomIn: () ->
+    zoomIn: ->
       app.zoomIn()
       return
 
-    drawActivePanel: () ->
+    drawActivePanel: ->
       @getActivePanel().draw()
       return
 
-    draw: () ->
+    draw: ->
       super()
       @drawActivePanel()
       @mm.draw()

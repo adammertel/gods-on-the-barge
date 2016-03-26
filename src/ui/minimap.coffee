@@ -1,6 +1,6 @@
 define 'MiniMap', ['Base'], (Base) ->
   class MiniMap
-    constructor: () ->
+    constructor: ->
       @h = 150
       @w = app.state.map.w / (app.state.map.h - @h) * @h
       @x = app.state.view.w - @w - 1
@@ -42,7 +42,7 @@ define 'MiniMap', ['Base'], (Base) ->
       @islandPathsConcated = new Path2D Base.concatPathStrings islandPaths
       return
 
-    drawIslands: () ->
+    drawIslands: ->
       app.ctx.strokeStyle = 'white'
       app.ctx.save()
       app.ctx.rect @x + @lw/2, @y + @lw/2, @w - @lw, @h - @lw
@@ -58,7 +58,7 @@ define 'MiniMap', ['Base'], (Base) ->
       app.ctx.restore()
       return
 
-    drawPosition: () ->
+    drawPosition: ->
       app.ctx.lineWidth = 2
       app.ctx.strokeStyle = 'black'
       app.ctx.stroke(@path)
@@ -71,7 +71,7 @@ define 'MiniMap', ['Base'], (Base) ->
       app.ctx.strokeRect mmCoord.x + @lw, mmCoord.y + @lw, mw, mh
       return
 
-    draw: () ->
+    draw: ->
       app.ctx.lineWidth = 1
       app.ctx.fillStyle = 'white'
       app.ctx.fill @path

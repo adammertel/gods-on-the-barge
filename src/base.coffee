@@ -33,7 +33,7 @@ define 'Base', [], () ->
       paths.join ' '
 
     #not finished
-    shipPath: () ->
+    shipPath: ->
       shipCoords = [[0, 0], [5,5], [5,20], [-5,20], [-5,5], [0,0]]
       @buildPathString shipCoords, true
 
@@ -85,7 +85,7 @@ define 'Base', [], () ->
 
       inside = false
       polygonCoords = polygon.viewCoords
-      _.each polygonCoords, (p, i) =>
+      for p, i in polygonCoords
         j = i + 1
         if polygonCoords[j]
           q = polygonCoords[j]

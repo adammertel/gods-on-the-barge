@@ -9,17 +9,17 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       yearPart: 0
       frameInterval: 0.00005
 
-    constructor: () ->
+    constructor: ->
       @labelx = app.state.view.w - 40
       @labely = 20
       return
 
-    pause: () ->
+    pause: ->
       @state.timeSpeedBeforePause = @state.timeSpeed
       @state.timeSpeed = 0
       return
 
-    resume: () ->
+    resume: ->
       @state.timeSpeed = @state.timeSpeedBeforePause
       return
 
@@ -27,13 +27,13 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       @state.timeSpeed = newSpeed
       return
 
-    getWeekLabel: () ->
+    getWeekLabel: ->
       'week ' + app.time.state.week + '/13'
 
-    getSeasonYearLabel: () ->
+    getSeasonYearLabel: ->
       app.time.state.season + ', ' + app.time.state.year + ' BC'
 
-    nextTick: () ->
+    nextTick: ->
       lastFrame = _.clone @state.yearPart
       @state.yearPart += @state.timeSpeed * @state.frameInterval
       yearPart = @state.yearPart

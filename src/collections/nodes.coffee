@@ -7,7 +7,7 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
 
     limitConflict: 10
 
-    registerGeometries: () ->
+    registerGeometries: ->
       @ports = []
       _.each _.keys(@data), (nodeId, n) =>
         islandValue = @data[nodeId]
@@ -47,20 +47,20 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
       _.filter @data, (node, n) ->
         node.island == islandName
 
-    getAllPorts: () ->
+    getAllPorts: ->
       _.filter @data, (node, n) ->
         node.island != ''
 
-    chooseShipStartingNodeId: () ->
+    chooseShipStartingNodeId: ->
       @getIdOfNode _.sample @getShipStartingNodes()
 
-    chooseShipEndingNodeId: () ->
+    chooseShipEndingNodeId: ->
       @getIdOfNode _.sample @getShipEndingNodes()
 
-    getShipStartingNodes: () ->
+    getShipStartingNodes: ->
       @getNodesOnIsland 'Egypt'
 
-    getShipEndingNodes: () ->
+    getShipEndingNodes: ->
       _.union @getNodesOnIsland('Greece'), @getNodesOnIsland('Turkey')
 
     draw: ->

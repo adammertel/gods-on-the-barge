@@ -8,7 +8,7 @@ define 'Storm', ['Geography', 'Base'], (Geography, Base) ->
       super()
       return
 
-    reducePower: () ->
+    reducePower: ->
       @power -= 1
       if @power < 1
         @collection.unregisterGeometry @id

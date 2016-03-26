@@ -1,10 +1,10 @@
 define 'Cursor', ['App', 'Base'], (app, Base) ->
   class Cursor
 
-    getPosition: () ->
+    getPosition: ->
       {x: (@x - (app.state.position.x)) * app.state.zoom, y: (@y - (app.state.position.y)) * app.state.zoom}
 
-    draw: () ->
+    draw: ->
       mp = app.state.controls.mousePosition
 
       app.ctx.beginPath();

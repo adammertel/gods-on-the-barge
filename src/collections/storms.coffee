@@ -1,11 +1,11 @@
 define 'Storms', ['Base', 'Collection', 'Storm'], (Base, Collection, Storm) ->
   class Storms extends Collection
-    constructor: () ->
+    constructor: ->
       @name = 'storms'
       super []
       return
 
-    registerGeometries: () ->
+    registerGeometries: ->
       return
 
     getNode: (id) ->

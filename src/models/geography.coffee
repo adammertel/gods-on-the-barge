@@ -2,7 +2,7 @@
 
 define 'Geography', ['Geometry'], (Geometry) ->
   class Geography extends Geometry
-    constructor: () ->
+    constructor: ->
       return
 
     getCoords: ->

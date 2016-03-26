@@ -41,14 +41,14 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, 
 
       return
 
-    init: () ->
+    init: ->
       @registerText 'windsLabel', {x: @x + 20, y: @y + 50}, @mst.bind(@, 'Winds'), @headerStyle
       @registerText 'temperatureLabel', {x: @x + 250, y: @y + 50}, @mst.bind(@, 'Temperature'), @headerStyle
       @buildWindIndicator()
       @buildTemperatureIndicator()
       super()
 
-    drawWindGraphics: () ->
+    drawWindGraphics: ->
       app.ctx.stroke @windIndicator
 
       windSpeed = @weatherState.windSpeed
@@ -58,7 +58,7 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, 
         app.drawPath @windDirection, {x: @windIndicatorCenterX, y: @windIndicatorCenterY}, windSpeed, windDirection, 'black', false, false
       return
 
-    drawingTemperatureGraphic: () ->
+    drawingTemperatureGraphic: ->
       app.ctx.stroke @temperatureMeter
       fullTemperature = -100
       thisTemperature = (fullTemperature / 10) * @weatherState.temperature
@@ -66,7 +66,7 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, 
       app.ctx.fillRect @x + 355, @y + 130, 10, thisTemperature
 
 
-    draw: () ->
+    draw: ->
       super()
       @drawWindGraphics()
       @drawingTemperatureGraphic()

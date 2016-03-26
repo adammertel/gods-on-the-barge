@@ -1,7 +1,7 @@
 define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
 
   class GameInfo extends Ui
-    constructor: () ->
+    constructor: ->
       h = 80
       w = 140
       x = app.state.view.w - w
@@ -21,7 +21,7 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
 
       return
 
-    buildGlassHour: () ->
+    buildGlassHour: ->
       h = 36
       w = 20
       d = 6

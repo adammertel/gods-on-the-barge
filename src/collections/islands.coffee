@@ -6,7 +6,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings'], (Base, Collecti
       super data
       return
 
-    registerGeometries: () ->
+    registerGeometries: ->
       for islandName, island of @data
         coords = []
         if island.coordinates
@@ -90,8 +90,8 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings'], (Base, Collecti
 
           app.ctx.beginPath()
           island.draw()
-          app.ctx.fill()
           app.ctx.closePath()
+          app.ctx.fill()
 
 
       activeIsland = @getActiveIsland()

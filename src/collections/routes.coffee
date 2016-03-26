@@ -5,7 +5,7 @@ define 'Routes', ['Base', 'Collection', 'Route'], (Base, Collection, Route) ->
       super data
       return
 
-    registerGeometries: () ->
+    registerGeometries: ->
       nodes = app.getCollection('nodes').data
 
       _.each _.keys(@data), (edge, e) =>
@@ -37,5 +37,6 @@ define 'Routes', ['Base', 'Collection', 'Route'], (Base, Collection, Route) ->
         app.ctx.beginPath()
         route.draw()
         app.ctx.closePath()
+        app.ctx.stroke()
 
       return

@@ -74,14 +74,14 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       @drawPath @shipPath, coords, size, rotation, color, 1, 'black'
       return
 
-    deactivateClick: () ->
+    deactivateClick: ->
       @state.controls.mouseClicked = false
       return
 
-    isClickedMap: () ->
+    isClickedMap: ->
       @isClicked() and @mouseY() < @menu.y
 
-    isClicked: () ->
+    isClicked: ->
       @state.controls.mouseClicked
 
     # functions that need to wait untill player chooses his cult
@@ -92,7 +92,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     startGame: (cult) ->
       @state.started = true
       @game.chooseCult cult
-      _.each @startGameFunctions, (startGameFunction) ->
+      for startGameFunction in @startGameFunctions
         startGameFunction()
 
       @time.resume()
@@ -106,15 +106,15 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       _.find @infoWindows, (infoWindow) =>
         infoWindow.id == id
 
-    isInfoWindowOpen: () ->
+    isInfoWindowOpen: ->
       open = false
-      _.each @infoWindows, (infoWindow) =>
+      for infoWindow in @infoWindows
         if infoWindow.open
           open = true
       open
 
-    drawInfoWindows: () ->
-      _.each @infoWindows, (infoWindow) =>
+    drawInfoWindows: ->
+      for infoWindow in @infoWindows
         if infoWindow.open
           infoWindow.draw()
       return
@@ -168,7 +168,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
 
     getCollection: (collectionName) ->
       foundCollection = false
-      _.each @collections, (collection, c) ->
+      for collection in @collections
         if collection.collection.name == collectionName
           foundCollection = collection.collection
       foundCollection
@@ -178,7 +178,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       app.ctx.fillStyle = 'black'
       texts = Base.wrapText(app.ctx, text, lineWidth)
 
-      _.each texts, (text, t) ->
+      for text, t in texts
         app.ctx.fillText text, x, y + t * lineHeight
       return
 
@@ -318,7 +318,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     pointToUTM: (point) ->
 
 
-    setInteractions: () ->
+    setInteractions: ->
       if @menu.mm.mouseConflict() and app.state.controls.mouseClicked
         @menu.mm.mouseClick()
         return
@@ -332,7 +332,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       #       g.clicked = false
 
     coordinatesToView: (coords) ->
-      _.each coords, (coord, c) =>
+      for coord in coords
         @coordinateToView coord
 
     coordinateToView: (c) ->
@@ -360,7 +360,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       @state.position.y = _.clamp(newY, 0, @state.map.h - (@state.view.h / @state.zoom))
       return
 
-    mouseOverMap: () ->
+    mouseOverMap: ->
       !@menu.mouseConflict() and !@isInfoWindowOpen()
 
     zoomIn: ->

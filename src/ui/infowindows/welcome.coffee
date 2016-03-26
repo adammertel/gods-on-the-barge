@@ -8,7 +8,7 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       @init()
       return
 
-    init: () ->
+    init: ->
       bs = _.clone @buttonStyle
       bs.inactive.font = 'bold 12pt Calibri'
 
@@ -20,16 +20,16 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       @registerButton 'info', {x: @x + @m + 200, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'game info'), @getGameInfo.bind(@), bs, false
       @registerButton 'gehir', {x: @x + @m + 400, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'gehir webpage'), @visitGehir.bind(@), bs, false
 
-    play: () ->
+    play: ->
       @open = false
       app.startGame @chosenCult
       return
 
-    visitGehir: () ->
+    visitGehir: ->
       Base.openWebPage 'http://gehir.phil.muni.cz'
       return
 
-    getGameInfo: () ->
+    getGameInfo: ->
       Base.openWebPage 'https://github.com/adammertel/gods_on_the_barge'
       return
 
@@ -37,7 +37,7 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       @chosenCult = cult
       return
 
-    draw: () ->
+    draw: ->
       super()
       app.ctx.textAlign = 'left'
       text1 = 'WELCOME!'

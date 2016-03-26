@@ -12,5 +12,5 @@ define 'Route', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
 
       app.ctx.moveTo fromView.x, fromView.y
       app.ctx.lineTo toView.x, toView.y
-      app.ctx.stroke()
+
       return

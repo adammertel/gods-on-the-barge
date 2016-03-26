@@ -5,11 +5,11 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button'], (Panel, Text, Button) ->
       super @menu, @label
       return
 
-    init: () ->
+    init: ->
       super()
 
 
 
-    draw: () ->
+    draw: ->
       super()
       return

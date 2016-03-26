@@ -31,15 +31,15 @@ define 'Geometry', ['Base'], (Base) ->
         {x: @coords.x + hSize,y: @coords.y + hSize},
       ]
 
-    loadImage: () ->
+    loadImage: ->
       @img = new Image()
       @img.src = 'data:image/svg+xml;base64,' + btoa @svg
       return
 
-    getPosition: () ->
+    getPosition: ->
       {x: (@x - (app.state.position.x)) * app.state.zoom, y: (@y - (app.state.position.y)) * app.state.zoom}
 
-    draw: () ->
+    draw: ->
       if app.state.zoom >= @props.minZoom
         sizeW = Base.round @size.w * app.state.zoom
         sizeH = Base.round @size.h * app.state.zoom
@@ -57,7 +57,7 @@ define 'Geometry', ['Base'], (Base) ->
           app.ctx.translate -@shipCoord.x, -@shipCoord.y
       return
 
-    loadSprite: () ->
+    loadSprite: ->
       if @sprite
         xhr = Base.doXhr './sprites/' + @sprite + '.svg'
         @svg = new XMLSerializer().serializeToString xhr.responseXML.documentElement

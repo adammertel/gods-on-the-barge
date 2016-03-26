@@ -48,5 +48,5 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       @unregisterGeometry ship.id
       return
 
-    registerGeometries: () ->
+    registerGeometries: ->
       return

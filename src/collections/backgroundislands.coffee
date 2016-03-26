@@ -5,7 +5,7 @@ define 'BackgroundIslands', ['Base', 'Collection', 'BackgroundIsland'], (Base, C
       @geometries = []
       return
 
-    registerGeometries: () ->
+    registerGeometries: ->
       for island, i in @data
         coords = []
         for islandGeom in island
@@ -19,5 +19,5 @@ define 'BackgroundIslands', ['Base', 'Collection', 'BackgroundIsland'], (Base, C
       for island in @geometries
         app.ctx.beginPath()
         island.draw()
-        app.ctx.fill()
         app.ctx.closePath()
+        app.ctx.fill()

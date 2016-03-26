@@ -22,5 +22,5 @@ define 'Panel', ['Ui'], (Ui, Text, Panel) ->
       @registerText props.id + 'dd', {x: props.x + 5, y: props.y}, dtdd.dd, @ddTextStyle
       return
 
-    init: () ->
+    init: ->
       @registerText 'label', {x: @x + 20, y: @y + 20}, @mst.bind(@, @label), @headerStyle

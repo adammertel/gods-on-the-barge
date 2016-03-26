@@ -11,15 +11,15 @@ define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
       @clickableAreas = []
       return
 
-    close: () ->
+    close: ->
       @open = false
       app.time.resume()
       return
 
-    open: () ->
+    open: ->
       @open = true
       return
 
-    draw: () ->
+    draw: ->
       super()
       return

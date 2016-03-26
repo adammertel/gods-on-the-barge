@@ -106,10 +106,10 @@ define 'Game', ['Base'], (Base) ->
       else
         false
 
-    getPlayerCult: () ->
+    getPlayerCult: ->
       @state.cults[@getPlayerCultLabel()]
 
-    getPlayerColor: () ->
+    getPlayerColor: ->
       @getPlayerCult().color
 
     getPlayerCultIcon: ->
