@@ -11,9 +11,6 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       @init()
       return
 
-    mouseConflict: ->
-      app.mouseY() > @y
-
     init: ->
       bs = _.clone @buttonStyle
       gameSpeed = app.time.state.timeSpeed

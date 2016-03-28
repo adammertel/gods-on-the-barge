@@ -1,9 +1,54 @@
-define 'Islands', ['Base', 'Collection', 'Island', 'Buildings'], (Base, Collection, Island, Buildings) ->
+define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base, Collection, Island, Buildings, Season) ->
   class Islands extends Collection
     constructor: (data) ->
       @name = 'islands'
       @color = '#777'
+
       super data
+
+      app.registerNewWeekAction @starvingPeople.bind @
+      app.registerNewWeekAction @feedPeople.bind @
+      app.registerNewSeasonAction @populationGrow.bind @
+      app.registerNewSeasonAction @harvest.bind @
+      return
+
+    starvingPeople: ->
+      for island in @geometries
+        if island.state.starving > 0
+          diedFromStarving = Math.ceil app.game.state.islands.starvingDeathRate * island.state.starving
+          console.log island.state.name, 'diedFromStarving', diedFromStarving
+          island.state.starving = _.clamp(island.state.starving - diedFromStarving, 0, island.state.starving)
+          island.state.population = _.clamp(island.state.population - diedFromStarving, 0, island.state.population)
+      return
+
+    feedPeople: ->
+      for island in @geometries
+        consumption = Base.round app.game.state.islands.citizenConsumption * island.state.population
+        island.state.grain -= consumption
+
+        # people not getting their food
+        if island.state.grain < 0
+          starvingChances = _.random 0.2, 0.8 # not everyone without food is starving
+          proportionOfStarving = Base.round (Math.abs(island.state.grain) / consumption) * starvingChances
+          console.log 'people starting to starve', island.state.name, proportionOfStarving
+          island.state.starving = _.max([island.state.starving, proportionOfStarving * island.state.population])
+          island.state.grain = 0
+
+      return
+
+    populationGrow: ->
+      for island in @geometries
+        if island.state.starving == 0
+          growth = Base.round app.game.state.islands.growth * island.state.population
+          island.state.population += growth
+      return
+
+    harvest: ->
+      if app.time.state.season == Season[1] or app.time.state.season == Season[3]
+        for island in @geometries
+          harvested = Base.round(island.state.area * app.game.state.islands.productionPerArea * 26)
+          island.state.harvestHistory.push harvested
+          island.state.grain = _.clamp(island.state.grain + +harvested, 0, island.state.maxGrain)
       return
 
     registerGeometries: ->

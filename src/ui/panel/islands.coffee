@@ -38,7 +38,8 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings'], (Panel, Text, B
       # island Statistics
       @dtdd {x: x + 60, y: @y + 50, id: 'islandstats1'}, {dt: @mst.bind(@, 'population:'), dd: @activeIslandStat.bind(@, 'population')}
       @dtdd {x: x + 60, y: @y + 70, id: 'islandstats2'}, {dt: @mst.bind(@, 'area:'), dd: @activeIslandStat.bind(@, 'area')}
-      @dtdd {x: x + 60, y: @y + 90, id: 'islandstats2'}, {dt: @mst.bind(@, 'grain:'), dd: @activeIslandStat.bind(@, 'grain')}
+      @dtdd {x: x + 60, y: @y + 90, id: 'islandstats3'}, {dt: @mst.bind(@, 'grain:'), dd: @activeIslandGrainStat.bind(@)}
+      @dtdd {x: x + 60, y: @y + 110, id: 'islandstats4'}, {dt: @mst.bind(@, 'starving:'), dd: @activeIslandStat.bind(@, 'starving')}
 
       @registerText false, 'construct', {x: @w - 30, y: y + 5}, @mst.bind(@, 'buildings:'), @boldTextStyle
 
@@ -54,6 +55,9 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings'], (Panel, Text, B
       @registerText false, props.id + 'dt', {x: props.x , y: props.y}, dtdd.dt, @dtTextStyle
       @registerText false, props.id + 'dd', {x: props.x + 5, y: props.y}, dtdd.dd, @ddTextStyle
       return
+
+    activeIslandGrainStat: ->
+      @activeIslandStat('grain') + '/' + @activeIslandStat('maxGrain')
 
     activeIslandStat: (param) ->
       activeIsland = @getActiveIsland().state[param]

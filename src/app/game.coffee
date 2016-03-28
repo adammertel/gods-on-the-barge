@@ -3,6 +3,11 @@ define 'Game', ['Base'], (Base) ->
     state:
       player:
         cult: ''
+      islands:
+        citizenConsumption: 0.02
+        productionPerArea: 0.7
+        growth: 0.01
+        starvingDeathRate: 0.05
       cults:
         'Serapis':
           no: 1
@@ -15,7 +20,7 @@ define 'Game', ['Base'], (Base) ->
               maxEnergy: 500
         'Isis':
           no: 2
-          iconLabel: 'isis'
+          iconLabel: 'isis'g
           label: 'Isis'
           color: '#4daf4a'
           text: 'Isis was a goddess of something else and blablabla...'

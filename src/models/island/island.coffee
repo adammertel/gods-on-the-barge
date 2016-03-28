@@ -11,14 +11,19 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
         name: data.name
         population: data.population
         area: data.area
-        grain: data.population * _.random 3, 5
+        grain: Base.round data.population * _.random 0.7, 2
+        harvestHistory: []
+        maxGrain: data.population * 2
+        starving: 0
         active: false
       }
       @collection = app.getCollection 'islands'
+
       if data.population
         @data = data
       else
         @data = null
+
       super()
       return
 

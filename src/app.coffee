@@ -361,7 +361,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       return
 
     mouseOverMap: ->
-      !@menu.mouseConflict() and !@isInfoWindowOpen()
+      !@menu.mouseConflict() and app.mouseY() < @menu.y
 
     zoomIn: ->
       if @state.zoom < @state.maxZoom
