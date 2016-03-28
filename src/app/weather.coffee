@@ -1,6 +1,5 @@
 define 'Weather', ['Base', 'WeatherCalendar', 'Storm', 'Colors'], (Base, WeatherCalendar, Storm, Colors) ->
   class Weather
-    storms: []
     state:
       lastStormId: 0
       windDirection: 180
@@ -68,8 +67,17 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm', 'Colors'], (Base, Weather
           @state.temperature = _.clamp predicatedTemperature - anomalyPower, 0, 10
       else
         @state.temperature = _.clamp predicatedTemperature, 0, 10
-
       return
+
+    pourIslands: ->
+      islands = app.getCollection('islands').geometries
+      storms = app.getCollection('storms').geometries
+      for storm in storms
+        for island in islands
+          if island.distanceFromIsland(storm.coords) < storm.radius
+            island.state.rainfall += 5
+      return
+
 
     checkIfNewStorm: ->
       newStorm = Math.random() > 0#@getStormChanceForThisWeek()

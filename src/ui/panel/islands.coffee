@@ -40,6 +40,7 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings'], (Panel, Text, B
       @dtdd {x: x + 60, y: @y + 50, id: 'islandstats2'}, {dt: @mst.bind(@, 'area:'), dd: @activeIslandStat.bind(@, 'area')}
       @dtdd {x: x + 60, y: @y + 70, id: 'islandstats3'}, {dt: @mst.bind(@, 'grain:'), dd: @activeIslandGrainStat.bind(@)}
       @dtdd {x: x + 60, y: @y + 90, id: 'islandstats4'}, {dt: @mst.bind(@, 'starving:'), dd: @activeIslandStat.bind(@, 'starving')}
+      @dtdd {x: x + 60, y: @y + 110, id: 'islandstats5'}, {dt: @mst.bind(@, 'rainfall:'), dd: @activeIslandStat.bind(@, 'rainfall')}
 
       @registerText false, 'construct', {x: @w - 30, y: y + 5}, @mst.bind(@, 'buildings:'), @boldTextStyle
 

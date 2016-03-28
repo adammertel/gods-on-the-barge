@@ -60,6 +60,14 @@ define 'Base', [], () ->
       dy = c1.y - c2.y
       Math.sqrt(dx * dx + dy * dy)
 
+    distanceFromPolygon: (polygonCoords, point) ->
+      minDistance = 100000
+      for coord in polygonCoords
+        coordDistance = @distance(coord, point)
+        if coordDistance < minDistance
+          minDistance = coordDistance
+      minDistance
+
     moveTo: (from, to, distance) ->
       dx = to.x - from.x
       dy = to.y - from.y
@@ -78,10 +86,10 @@ define 'Base', [], () ->
       dy = Math.cos(rads) * distance
       {x: fromCoord.x - dx, y: fromCoord.y + dy}
 
-    pointInsidePolygon: (polygon, mouseCoordinates) ->
+    pointInsidePolygon: (polygon, point) ->
 
-      x = mouseCoordinates.x
-      y = mouseCoordinates.y
+      x = point.x
+      y = point.y
 
       inside = false
       polygonCoords = polygon.viewCoords

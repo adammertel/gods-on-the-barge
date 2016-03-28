@@ -14,6 +14,7 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
         grain: Base.round data.population * _.random 0.7, 2
         harvestHistory: []
         maxGrain: data.population * 2
+        rainfall: 0
         starving: 0
         active: false
       }
@@ -59,7 +60,14 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
       return
 
     mouseConflict: ->
-      Base.pointInsidePolygon @, app.state.controls.mousePosition
+      @pointConflict app.state.controls.mousePosition
+
+    pointConflict: (point)->
+      Base.pointInsidePolygon @, point
+
+    # should be simplified to some representative coordinates
+    distanceFromIsland: (point) ->
+      Base.distanceFromPolygon @coords, point
 
     drawLabelBackground: (w, h)->
       @centroidCoord = app.coordinateToView @centroid
@@ -72,8 +80,8 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
       fullFoodPx = w - 10
       foodPx = (fullFoodPx / @state.maxGrain) * @state.grain
       app.ctx.fillStyle = @foodIndicatorColor()
-      app.ctx.strokeRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2, fullFoodPx, 3
-      app.ctx.fillRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2, foodPx, 3
+      app.ctx.strokeRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2 - 8, fullFoodPx, 5
+      app.ctx.fillRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2 - 7, foodPx, 3
       return
 
     foodIndicatorColor: ->

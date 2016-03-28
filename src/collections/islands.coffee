@@ -44,11 +44,25 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
       return
 
     harvest: ->
+      config = app.game.state.islands
       if app.time.state.season == Season[1] or app.time.state.season == Season[3]
         for island in @geometries
-          harvested = Base.round(island.state.area * app.game.state.islands.productionPerArea * 26)
+          rainfall = island.state.rainfall
+
+          if rainfall > config.idealRainfallMin and rainfall < config.idealRainfallMax
+            rainfallCoefficient = 1
+          else if rainfall > config.criticalRainfallMax or rainfall < config.criticalRainfallMin
+            rainfallCoefficient = 0.1
+          else if rainfall < config.idealRainfallMin
+            rainfallCoefficient = rainfall/config.idealRainfallMin - 0.1
+          else if rainfall > config.idealRainfallMax
+            rainfallCoefficient = config.idealRainfallMax/rainfall - 0.1
+          console.log rainfallCoefficient, island.state.name
+
+          harvested = Base.round(island.state.area * config.productionPerArea * 26 * rainfallCoefficient)
           island.state.harvestHistory.push harvested
           island.state.grain = _.clamp(island.state.grain + +harvested, 0, island.state.maxGrain)
+          island.state.rainfall = 0
       return
 
     registerGeometries: ->
@@ -108,7 +122,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
     drawLabels: ->
       if app.state.zoom > 0.6
         labelW = 80
-        labelH = 30
+        labelH = 25
 
         app.ctx.font = 'bold 9pt Calibri'
         app.ctx.globalAlpha = 0.7

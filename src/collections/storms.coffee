@@ -32,7 +32,9 @@ define 'Storms', ['Base', 'Collection', 'Storm', 'Colors'], (Base, Collection, S
       app.ctx.fillStyle = Colors.STORMMAP
       for storm in @geometries
         storm.draw()
+      app.weather.pourIslands()
       return
+
 
     newStormCoordinates: ->
       windDirection = app.weather.state.windDirection

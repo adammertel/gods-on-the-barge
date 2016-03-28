@@ -8,6 +8,10 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         productionPerArea: 0.7
         growth: 0.01
         starvingDeathRate: 0.05
+        idealRainfallMin: 500
+        idealRainfallMin: 800
+        criticalRainfallMin: 100
+        criticalRainfallMax: 1200
       cults:
         'Serapis':
           no: 1
@@ -20,7 +24,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
               maxEnergy: 500
         'Isis':
           no: 2
-          iconLabel: 'isis'g
+          iconLabel: 'isis'
           label: 'Isis'
           color: Colors.CULTISIS
           text: 'Isis was a goddess of something else and blablabla...'

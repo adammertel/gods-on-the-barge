@@ -33,4 +33,5 @@ define 'Storm', ['Geography', 'Colors', 'Base'], (Geography, Colors, Base) ->
 
         app.ctx.globalAlpha = 1
 
+
       return

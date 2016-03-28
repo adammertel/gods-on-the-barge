@@ -1,6 +1,6 @@
 define 'Colors', [], () ->
   Colors =
-    BCKISLANDMAP: '#948661'
+    BCKISLANDMAP: '#ddd'
     CULTSERAPIS: '#377eb8'
     CULTISIS: '#4daf4a'
     CULTANUBIS: '#a65628'
