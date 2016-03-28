@@ -18,10 +18,12 @@ define 'Button', ['Base', 'App'], (Base, app) ->
 
       if @style.fill != 'white'
         app.ctx.fillStyle = @style.fill
-        app.ctx.fill @buttonPath
+        #app.ctx.fill @buttonPath
+        app.ctx.fillRect @x, @y, @w, @h
 
       if @style.stroke
-        app.ctx.stroke @buttonPath
+        #app.ctx.stroke @buttonPath
+        app.ctx.strokeRect @x, @y, @w, @h
       app.ctx.fillStyle =  @style.text
 
       app.ctx.fillText @text(), @x + @w/2, @y + @h/2 + 2

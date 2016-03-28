@@ -33,10 +33,13 @@ define 'Routes', ['Base', 'Collection', 'Route'], (Base, Collection, Route) ->
       app.ctx.strokeStyle = 'black'
       app.ctx.lineWidth = 1
 
+      routes = []
       for route in @geometries
-        app.ctx.beginPath()
-        route.draw()
-        app.ctx.closePath()
-        app.ctx.stroke()
+        fromView = app.coordinateToView route.from
+        toView = app.coordinateToView route.to
+        path = "M " + fromView.x + " " + fromView.y + " L " + toView.x + " " + toView.y
+        routes.push path
+
+      app.ctx.stroke new Path2D routes.join ' '
 
       return
