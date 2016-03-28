@@ -78,12 +78,14 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
 
     foodIndicatorColor: ->
       foodRelative = @state.grain/@state.maxGrain
-      if foodRelative > 0.5
+      if foodRelative > 0.8
+        Colors.FOODINDICATORSUPER
+      else if foodRelative > 0.5
         Colors.FOODINDICATORGOOD
-      else if foodRelative > 0.2
-        Colors.FOODINDICATORMEDIUM
+      else if foodRelative > 0.25
+        Colors.FOODINDICATORBAD
       else
-        Colors.FOODINDICATORLOW
+        Colors.FOODINDICATORCRITICAL
 
     drawIsland: ->
       for viewCoord, c in @viewCoords

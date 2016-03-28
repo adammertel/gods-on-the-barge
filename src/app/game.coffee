@@ -1,4 +1,4 @@
-define 'Game', ['Base'], (Base) ->
+define 'Game', ['Base', 'Colors'], (Base, Colors) ->
   class Game
     state:
       player:
@@ -13,7 +13,7 @@ define 'Game', ['Base'], (Base) ->
           no: 1
           label: 'Serapis'
           iconLabel: 'serapis'
-          color: '#377eb8'
+          color: Colors.CULTSERAPIS
           text: 'Serapis was a god of blablabla'
           stats:
             ships:
@@ -22,7 +22,7 @@ define 'Game', ['Base'], (Base) ->
           no: 2
           iconLabel: 'isis'g
           label: 'Isis'
-          color: '#4daf4a'
+          color: Colors.CULTISIS
           text: 'Isis was a goddess of something else and blablabla...'
           stats:
             ships:
@@ -31,7 +31,7 @@ define 'Game', ['Base'], (Base) ->
           no: 3
           iconLabel: 'anubis'
           label: 'Anubis'
-          color: '#a65628'
+          color: Colors.CULTANUBIS
           text: 'And also Anubis was here. He was a blablabla...'
           stats:
             ships:
@@ -40,7 +40,7 @@ define 'Game', ['Base'], (Base) ->
           no: 4
           iconLabel: 'bastet'
           label: 'Bastet'
-          color: '#e41a1c'
+          color: Colors.CULTBASTET
           text: 'Bastet is the last one here but not blablabla...'
           stats: {}
 

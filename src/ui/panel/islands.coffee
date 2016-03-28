@@ -36,10 +36,10 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings'], (Panel, Text, B
       @registerButton false, 'returnToOverview', {x: x, y: y + 120, w: 60, h: 20}, @mst.bind(@, '< list'), @changeToOverviewMode.bind(@), bs, false
 
       # island Statistics
-      @dtdd {x: x + 60, y: @y + 50, id: 'islandstats1'}, {dt: @mst.bind(@, 'population:'), dd: @activeIslandStat.bind(@, 'population')}
-      @dtdd {x: x + 60, y: @y + 70, id: 'islandstats2'}, {dt: @mst.bind(@, 'area:'), dd: @activeIslandStat.bind(@, 'area')}
-      @dtdd {x: x + 60, y: @y + 90, id: 'islandstats3'}, {dt: @mst.bind(@, 'grain:'), dd: @activeIslandGrainStat.bind(@)}
-      @dtdd {x: x + 60, y: @y + 110, id: 'islandstats4'}, {dt: @mst.bind(@, 'starving:'), dd: @activeIslandStat.bind(@, 'starving')}
+      @dtdd {x: x + 60, y: @y + 30, id: 'islandstats1'}, {dt: @mst.bind(@, 'population:'), dd: @activeIslandStat.bind(@, 'population')}
+      @dtdd {x: x + 60, y: @y + 50, id: 'islandstats2'}, {dt: @mst.bind(@, 'area:'), dd: @activeIslandStat.bind(@, 'area')}
+      @dtdd {x: x + 60, y: @y + 70, id: 'islandstats3'}, {dt: @mst.bind(@, 'grain:'), dd: @activeIslandGrainStat.bind(@)}
+      @dtdd {x: x + 60, y: @y + 90, id: 'islandstats4'}, {dt: @mst.bind(@, 'starving:'), dd: @activeIslandStat.bind(@, 'starving')}
 
       @registerText false, 'construct', {x: @w - 30, y: y + 5}, @mst.bind(@, 'buildings:'), @boldTextStyle
 

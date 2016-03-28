@@ -1,4 +1,4 @@
-define 'Weather', ['Base', 'WeatherCalendar', 'Storm'], (Base, WeatherCalendar, Storm) ->
+define 'Weather', ['Base', 'WeatherCalendar', 'Storm', 'Colors'], (Base, WeatherCalendar, Storm, Colors) ->
   class Weather
     storms: []
     state:

@@ -1,4 +1,4 @@
-define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
+define 'Nodes', ['Base', 'Collection', 'Port', 'Colors'], (Base, Collection, Port, Colors) ->
   class Nodes extends Collection
     constructor: (data) ->
       @name = 'nodes'
@@ -64,7 +64,7 @@ define 'Nodes', ['Base', 'Collection', 'Port'], (Base, Collection, Port) ->
       _.union @getNodesOnIsland('Greece'), @getNodesOnIsland('Turkey')
 
     draw: ->
-      app.ctx.fillStyle = 'red'
+      app.ctx.fillStyle = Colors.PORTMAP
       for node in @geometries
         if node.name
           node.draw()

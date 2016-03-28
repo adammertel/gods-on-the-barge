@@ -322,14 +322,6 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       if @menu.mm.mouseConflict() and app.state.controls.mouseClicked
         @menu.mm.mouseClick()
         return
-      # else
-      #   for g in @state.geometries
-      #     conflict = g.mouseConflict()
-      #     g.over = conflict
-      #     if app.state.controls.mouseClicked
-      #       g.clicked = conflict
-      #     else
-      #       g.clicked = false
 
     coordinatesToView: (coords) ->
       for coord in coords

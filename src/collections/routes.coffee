@@ -1,4 +1,4 @@
-define 'Routes', ['Base', 'Collection', 'Route'], (Base, Collection, Route) ->
+define 'Routes', ['Base', 'Collection', 'Route', 'Colors'], (Base, Collection, Route, Colors) ->
   class Routes extends Collection
     constructor: (data) ->
       @name = 'routes'
@@ -30,7 +30,7 @@ define 'Routes', ['Base', 'Collection', 'Route'], (Base, Collection, Route) ->
       distance
 
     draw: ->
-      app.ctx.strokeStyle = 'black'
+      app.ctx.strokeStyle = Colors.ROUTEMAP
       app.ctx.lineWidth = 1
 
       routes = []

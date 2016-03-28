@@ -1,4 +1,4 @@
-define 'BackgroundIslands', ['Base', 'Collection', 'BackgroundIsland'], (Base, Collection, BackgroundIsland) ->
+define 'BackgroundIslands', ['Base', 'Collection', 'BackgroundIsland', 'Colors'], (Base, Collection, BackgroundIsland, Colors) ->
   class BackgroundIslands extends Collection
     constructor: (@data) ->
       @name = 'backgroundIslands'
@@ -15,7 +15,7 @@ define 'BackgroundIslands', ['Base', 'Collection', 'BackgroundIsland'], (Base, C
       return
 
     draw: ->
-      app.ctx.fillStyle = '#ccc'
+      app.ctx.fillStyle = Colors.BCKISLANDMAP
       for island in @geometries
         app.ctx.beginPath()
         island.draw()

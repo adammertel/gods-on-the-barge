@@ -134,7 +134,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
           if island.isVisible
             island.drawFoodIndicator labelW, labelH
 
-
     draw: ->
       app.ctx.fillStyle = @color
 
@@ -148,7 +147,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
           island.draw()
           app.ctx.closePath()
           app.ctx.fill()
-
 
       activeIsland = @getActiveIsland()
       if activeIsland

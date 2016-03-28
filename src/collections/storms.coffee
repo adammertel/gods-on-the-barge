@@ -1,4 +1,4 @@
-define 'Storms', ['Base', 'Collection', 'Storm'], (Base, Collection, Storm) ->
+define 'Storms', ['Base', 'Collection', 'Storm', 'Colors'], (Base, Collection, Storm, Colors) ->
   class Storms extends Collection
     constructor: ->
       @name = 'storms'
@@ -29,6 +29,7 @@ define 'Storms', ['Base', 'Collection', 'Storm'], (Base, Collection, Storm) ->
       return
 
     draw: ->
+      app.ctx.fillStyle = Colors.STORMMAP
       for storm in @geometries
         storm.draw()
       return

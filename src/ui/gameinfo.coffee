@@ -1,4 +1,4 @@
-define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
+define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button, Base, Colors) ->
 
   class GameInfo extends Ui
     constructor: ->
@@ -54,7 +54,7 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
       x1 = @x + 110
       y1 = @y + 10
 
-      app.ctx.fillStyle = 'orange'
+      app.ctx.fillStyle = Colors.SAND
       dh = h * (app.time.state.day-1)/7
       app.ctx.fillRect x1, y1 + dh, w, h - dh
 
@@ -67,7 +67,7 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base'], (Ui, Text, Button, Base) ->
     drawCoin: ->
         app.ctx.beginPath()
         app.ctx.arc @x + 120, @y + 65, 10, 0, 2 * Math.PI, false
-        app.ctx.fillStyle = 'gold'
+        app.ctx.fillStyle = Colors.GOLD
         app.ctx.stroke()
         app.ctx.fill()
         app.ctx.closePath()

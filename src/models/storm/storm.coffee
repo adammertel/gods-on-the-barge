@@ -1,4 +1,4 @@
-define 'Storm', ['Geography', 'Base'], (Geography, Base) ->
+define 'Storm', ['Geography', 'Colors', 'Base'], (Geography, Colors, Base) ->
   class Storm extends Geography
 
     constructor: (@id)->
@@ -9,7 +9,7 @@ define 'Storm', ['Geography', 'Base'], (Geography, Base) ->
       return
 
     reducePower: ->
-      @power -= 1
+      @power -= _.random 0, 0.7
       if @power < 1
         @collection.unregisterGeometry @id
       return
@@ -27,7 +27,6 @@ define 'Storm', ['Geography', 'Base'], (Geography, Base) ->
         @radius = @power * app.weather.state.config.stormRadiusCoefficient
 
         app.ctx.beginPath()
-        app.ctx.fillStyle = 'blue'
         app.ctx.arc(stormCoord.x, stormCoord.y, @radius*app.state.zoom, 0, 2 * Math.PI, false)
         app.ctx.closePath()
         app.ctx.fill()
