@@ -12,8 +12,8 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         w: 0
       zoom: 0.5
       zoomStep: 0.1
-      minZoom: 0.3
-      maxZoom: 10
+      minZoom: 0.4
+      maxZoom: 2
       position:
         x: 0
         y: 300

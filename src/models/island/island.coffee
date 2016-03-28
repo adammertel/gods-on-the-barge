@@ -1,4 +1,4 @@
-define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
+define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, Colors) ->
   class Island extends Geography
 
     constructor: (@coords, data)->
@@ -24,7 +24,19 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
       else
         @data = null
 
+      @calculateCentroid()
+      if @state.name == 'Delos'
+        @centroid.y += 30
       super()
+      return
+
+    calculateCentroid: ->
+      xs = []
+      ys = []
+      for c in @coords
+        xs.push c.x
+        ys.push c.y
+      @centroid = {x: _.mean(xs), y: _.mean(ys)}
       return
 
     calculateCoords: ->
@@ -49,11 +61,29 @@ define 'Island', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
     mouseConflict: ->
       Base.pointInsidePolygon @, app.state.controls.mousePosition
 
-    drawLabelBackground: ->
-      app.ctx.rect @viewCoords[0].x - 5, @viewCoords[0].y - 10, app.ctx.measureText(@data.name).width + 10, 15
+    drawLabelBackground: (w, h)->
+      @centroidCoord = app.coordinateToView @centroid
+      app.ctx.rect @centroidCoord.x - w/2, @centroidCoord.y - h - 10, w, h
 
-    drawLabel: ->
-      app.ctx.fillText @data.name, @viewCoords[0].x, @viewCoords[0].y
+    drawLabel: (w, h) ->
+      app.ctx.fillText @data.name, @centroidCoord.x, @centroidCoord.y - h
+
+    drawFoodIndicator: (w, h) ->
+      fullFoodPx = w - 10
+      foodPx = (fullFoodPx / @state.maxGrain) * @state.grain
+      app.ctx.fillStyle = @foodIndicatorColor()
+      app.ctx.strokeRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2, fullFoodPx, 3
+      app.ctx.fillRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2, foodPx, 3
+      return
+
+    foodIndicatorColor: ->
+      foodRelative = @state.grain/@state.maxGrain
+      if foodRelative > 0.5
+        Colors.FOODINDICATORGOOD
+      else if foodRelative > 0.2
+        Colors.FOODINDICATORMEDIUM
+      else
+        Colors.FOODINDICATORLOW
 
     drawIsland: ->
       for viewCoord, c in @viewCoords

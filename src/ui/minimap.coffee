@@ -90,5 +90,5 @@ define 'MiniMap', ['Base'], (Base) ->
       mouseX = app.mouseX()
       mouseY = app.mouseY()
 
-      app.setNewXPosition ((mouseX - @x)/@w * app.state.map.w) - app.state.view.w/2
-      app.setNewYPosition ((mouseY - @y)/@h * app.state.map.h) - app.state.view.h/2
+      app.setNewXPosition ((mouseX - @x)/@w * app.state.map.w) - app.state.view.w/2 * 1/app.state.zoom
+      app.setNewYPosition ((mouseY - @y)/@h * app.state.map.h) - app.state.view.h/2 * 1/app.state.zoom

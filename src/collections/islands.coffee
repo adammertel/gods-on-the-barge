@@ -107,22 +107,33 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
 
     drawLabels: ->
       if app.state.zoom > 0.6
-        app.ctx.font = 'bold 10pt Calibri'
+        labelW = 80
+        labelH = 30
+
+        app.ctx.font = 'bold 9pt Calibri'
+        app.ctx.globalAlpha = 0.7
         app.ctx.fillStyle = 'white'
+        app.ctx.textAlign = 'center'
 
         for island in @geometries
           if island.isVisible
             app.ctx.beginPath()
-            island.drawLabelBackground()
+            island.drawLabelBackground labelW, labelH
             app.ctx.closePath()
             app.ctx.fill()
 
-
-        app.ctx.textAlign = 'left'
+        app.ctx.globalAlpha = 1
         app.ctx.fillStyle = 'black'
         for island in @geometries
           if island.isVisible
-            island.drawLabel()
+            island.drawLabel labelW, labelH
+
+        app.ctx.strokeStyle = 'black'
+        app.ctx.fillStyle = 'green'
+        for island in @geometries
+          if island.isVisible
+            island.drawFoodIndicator labelW, labelH
+
 
     draw: ->
       app.ctx.fillStyle = @color
