@@ -43,10 +43,10 @@ define 'MiniMap', ['Base'], (Base) ->
       return
 
     drawIslands: ->
-      app.ctx.strokeStyle = 'white'
+      app.ctx.strokeStyle = 'black'
       app.ctx.save()
       app.ctx.rect @x + @lw/2, @y + @lw/2, @w - @lw, @h - @lw
-      app.ctx.stroke()
+      #app.ctx.stroke()
       app.ctx.clip()
 
       app.ctx.fillStyle = 'grey'
@@ -61,7 +61,7 @@ define 'MiniMap', ['Base'], (Base) ->
     drawPosition: ->
       app.ctx.lineWidth = 2
       app.ctx.strokeStyle = 'black'
-      app.ctx.stroke(@path)
+      app.ctx.strokeRect @x - app.menu.mmButtonSize, @y, @w + app.menu.mmButtonSize, @h
       x1 = @dx * app.state.position.x
       y1 = @dy * app.state.position.y
 
@@ -75,7 +75,6 @@ define 'MiniMap', ['Base'], (Base) ->
       app.ctx.lineWidth = 1
       app.ctx.fillStyle = 'white'
       app.ctx.fill @path
-
 
       @drawIslands()
       @drawPosition()

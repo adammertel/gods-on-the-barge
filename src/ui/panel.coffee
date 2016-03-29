@@ -1,7 +1,6 @@
-define 'Panel', ['Ui'], (Ui, Text, Panel) ->
+define 'Panel', ['Ui', 'TextStyle'], (Ui, TextStyle) ->
   class Panel extends Ui
     constructor: (@menu, @label) ->
-      @mst = @makeStaticText
       x = @menu.panelW + 2
       y = app.state.view.h - @menu.h
       w = app.state.view.w + 1 - @menu.panelW - @menu.mm.w - @menu.mmButtonSize
@@ -14,13 +13,10 @@ define 'Panel', ['Ui'], (Ui, Text, Panel) ->
       @dtTextStyle = {font: 'bold 9pt Calibri', textAlign: 'right'}
       @ddTextStyle = {font: '9pt Calibri', textAlign: 'left'}
       @init()
-
       return
 
-    dtdd: (props, dtdd) ->
-      @registerText props.id + 'dt', {x: props.x , y: props.y}, dtdd.dt, @dtTextStyle
-      @registerText props.id + 'dd', {x: props.x + 5, y: props.y}, dtdd.dd, @ddTextStyle
+    drawBackground: ->
       return
 
     init: ->
-      @registerText 'label', {x: @x + 20, y: @y + 20}, @mst.bind(@, @label), @headerStyle
+      @registerText 'label', {x: @x + 20, y: @y + 20}, @mst.bind(@, @label), TextStyle.HEADER

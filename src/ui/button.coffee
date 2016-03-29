@@ -1,6 +1,6 @@
 define 'Button', ['Base', 'App'], (Base, app) ->
   class Button
-    constructor: (@id, position, @text, @action, @styles, @active) ->
+    constructor: (@id, position, @text, @action, @style) ->
       @h = position.h
       @w = position.w
       @x = position.x
@@ -9,28 +9,30 @@ define 'Button', ['Base', 'App'], (Base, app) ->
       @buttonPath = new Path2D()
       @buttonPath.rect @x, @y, @w, @h
 
+
     draw: ->
-      if typeof @active == 'function'
-        @style = if @active() then @styles.active else @styles.inactive
+      if typeof @style == 'function'
+        style = @style()
       else
-        @style = if @active then @styles.active else @styles.inactive
+        style = @style
 
-      app.ctx.textAlign = 'center'
-      app.ctx.font = @style.font
-      app.ctx.lineWidth = 2
-
-      if @style.fill != 'white'
-        app.ctx.fillStyle = @style.fill
+      if style.fill
+        app.ctx.fillStyle = style.fill
         #app.ctx.fill @buttonPath
         app.ctx.fillRect @x, @y, @w, @h
 
-      if @style.stroke
+      if style.stroke
+        app.ctx.lineWidth = 2
         #app.ctx.stroke @buttonPath
         app.ctx.strokeRect @x, @y, @w, @h
-      app.ctx.fillStyle =  @style.text
 
+      app.ctx.textAlign = 'center'
+      app.ctx.font = style.font
+      app.ctx.fillStyle =  style.text
       app.ctx.fillText @text(), @x + @w/2, @y + @h/2 + 2
+
       return
+
 
     isClicked: ->
       if app.isClicked()
@@ -39,12 +41,4 @@ define 'Button', ['Base', 'App'], (Base, app) ->
         if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
           app.deactivateClick()
           @action()
-      return
-
-    activate: ->
-      @active = true
-      return
-
-    deactivate: ->
-      @active = false
       return

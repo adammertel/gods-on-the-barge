@@ -1,4 +1,4 @@
-define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Button) ->
+define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle'], (Base, Panel, Text, Button, ButtonStyle) ->
   class ShipsPanel extends Panel
     constructor: (@menu) ->
       @label = 'Ships'
@@ -22,12 +22,15 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Bu
       # port
       x = @x + 200
       @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), @headerStyle
-      @registerButton 'sendShip', {x: @x + 200, y: @y + 100, w: 120, h: 40}, @buildShipButtonText.bind(@), @sendShip.bind(@), bs, @haveMoneyToBuildShip.bind(@)
+      @registerButton 'sendShip', {x: @x + 200, y: @y + 100, w: 150, h: 40}, @buildShipButtonText.bind(@), @sendShip.bind(@), @buildShipButtonStyle.bind(@)
       return
 
-    haveMoneyToBuildShip: ->
+    buildShipButtonStyle: ->
       playerCult = app.game.getPlayerCultLabel()
-      app.game.hasCultGoldToBuildShip playerCult
+      if app.game.hasCultGoldToBuildShip playerCult
+        ButtonStyle.NORMALINACTIVE
+      else
+        ButtonStyle.NORMALDISABLED
 
     buildShipButtonText: ->
       'build ship (' + app.game.state.ships.buildCost + ' gold)'

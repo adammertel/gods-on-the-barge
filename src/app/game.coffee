@@ -13,8 +13,8 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         criticalRainfallMin: 100
         criticalRainfallMax: 1200
       ships:
-        buildCost: 10
-        baseBuildCost: 10
+        buildCost: 100
+        baseBuildCost: 100
         buildCostVariability: 0.3
         buildCostTemperatureSignificance: 0.1
       cults:

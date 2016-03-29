@@ -9,16 +9,16 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       return
 
     init: ->
-      bs = _.clone @buttonStyle
-      bs.inactive.font = 'bold 12pt Calibri'
+      bs = _.clone @buttonStyle.inactive
+      bs.font = 'bold 12pt Calibri'
 
       _.each app.game.state.cults, (cult, c) =>
         @registerClickableArea @x + @m, @y + @m + 100*cult.no, @w - 2*@m, 80, @chooseCultToPlay.bind(@, cult.label)
 
       buttonY = @y + @h - 60
-      @registerButton 'play', {x: @x + @m, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'play!'), @play.bind(@), bs, false
-      @registerButton 'info', {x: @x + @m + 200, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'game info'), @getGameInfo.bind(@), bs, false
-      @registerButton 'gehir', {x: @x + @m + 400, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'gehir webpage'), @visitGehir.bind(@), bs, false
+      @registerButton 'play', {x: @x + @m, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'play!'), @play.bind(@), bs
+      @registerButton 'info', {x: @x + @m + 200, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'game info'), @getGameInfo.bind(@), bs
+      @registerButton 'gehir', {x: @x + @m + 400, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'gehir webpage'), @visitGehir.bind(@), bs
 
     play: ->
       @open = false

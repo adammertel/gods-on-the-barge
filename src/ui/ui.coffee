@@ -1,9 +1,11 @@
-define 'Ui', ['Base', 'Button', 'Text', 'Colors'], (Base, Button, Text, Colors) ->
+define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle'], (Base, Button, Text, Colors, TextStyle) ->
   class Ui
     constructor: (@id, @x, @y, @w, @h) ->
       y = @y - 1
       @bckPath = new Path2D()
       @bckPath.rect @x, y, @w, @h
+
+      @mst = @makeStaticText
 
       @buttons = []
       @texts = []
@@ -11,6 +13,11 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors'], (Base, Button, Text, Colors) 
         inactive: {stroke: 'black', fill: Colors.BUTTONINACTIVE, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
         active: {stroke: 'black', fill: Colors.BUTTONACTIVE, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
         notAllowed: {stroke: 'black', fill: Colors.BUTTONNOTALLOWED, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
+      return
+
+    dtdd: (props, dtdd) ->
+      @registerText props.id + 'dt', {x: props.x , y: props.y}, dtdd.dt, TextStyle.DT
+      @registerText props.id + 'dd', {x: props.x + 5, y: props.y}, dtdd.dd, TextStyle.DD
       return
 
     mouseConflict: ->
@@ -58,9 +65,9 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors'], (Base, Button, Text, Colors) 
 
     drawBackground: ->
       app.ctx.fillStyle = 'white'
-      app.ctx.strokeStyle = 'black'
+      #app.ctx.strokeStyle = 'black'
       app.ctx.fill @bckPath
-      app.ctx.stroke @bckPath
+      #app.ctx.stroke @bckPath
 
     draw: ->
       app.ctx.lineWidth = 2
