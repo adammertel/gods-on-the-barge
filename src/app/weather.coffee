@@ -75,7 +75,7 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm', 'Colors'], (Base, Weather
       for storm in storms
         for island in islands
           if island.distanceFromIsland(storm.coords) < storm.radius
-            island.state.rainfall += 5
+            island.state.rainfall += 2
       return
 
 

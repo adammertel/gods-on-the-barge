@@ -1,4 +1,4 @@
-define 'Ui', ['Base', 'Button', 'Text'], (Base, Button, Text) ->
+define 'Ui', ['Base', 'Button', 'Text', 'Colors'], (Base, Button, Text, Colors) ->
   class Ui
     constructor: (@id, @x, @y, @w, @h) ->
       y = @y - 1
@@ -8,8 +8,9 @@ define 'Ui', ['Base', 'Button', 'Text'], (Base, Button, Text) ->
       @buttons = []
       @texts = []
       @buttonStyle =
-        inactive: {stroke: 'black', fill: 'white', text: 'black', lw: 2, font: 'bold 8pt Calibri'}
-        active: {stroke: 'black', fill: 'grey', text: 'black', lw: 2, font: 'bold 8pt Calibri'}
+        inactive: {stroke: 'black', fill: Colors.BUTTONINACTIVE, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
+        active: {stroke: 'black', fill: Colors.BUTTONACTIVE, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
+        notAllowed: {stroke: 'black', fill: Colors.BUTTONNOTALLOWED, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
       return
 
     mouseConflict: ->

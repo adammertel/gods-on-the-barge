@@ -12,6 +12,11 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         idealRainfallMin: 800
         criticalRainfallMin: 100
         criticalRainfallMax: 1200
+      ships:
+        buildCost: 10
+        baseBuildCost: 10
+        buildCostVariability: 0.3
+        buildCostTemperatureSignificance: 0.1
       cults:
         'Serapis':
           no: 1
@@ -75,7 +80,6 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
       return
 
-
     # gold
     spendGold: (cult, quantity) ->
       if @hasCultGold(cult, quantity)
@@ -83,6 +87,13 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         true
       else
         false
+
+    payShip: (cult) ->
+      @spendGold cult, @state.ships.buildCost
+      return
+
+    hasCultGoldToBuildShip: (cult) ->
+      @hasCultGold cult, @state.ships.buildCost
 
     hasCultGold: (cult, quantity) ->
       @getCultStats(cult).gold.quantity > quantity
@@ -138,6 +149,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
     shipBuilt: (cult) ->
       @getCultStats(cult).ships.out += 1
+      @payShip(cult)
       return
 
     freeShips: (cult) ->

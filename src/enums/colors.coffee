@@ -1,5 +1,8 @@
 define 'Colors', [], () ->
   Colors =
+    BUTTONACTIVE: '#948661'
+    BUTTONINACTIVE: 'white'
+    BUTTONNOTALLOWED: 'grey'
     BCKISLANDMAP: '#ddd'
     CULTSERAPIS: '#377eb8'
     CULTISIS: '#4daf4a'

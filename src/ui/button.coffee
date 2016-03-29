@@ -10,7 +10,10 @@ define 'Button', ['Base', 'App'], (Base, app) ->
       @buttonPath.rect @x, @y, @w, @h
 
     draw: ->
-      @style = if @active then @styles.active else @styles.inactive
+      if typeof @active == 'function'
+        @style = if @active() then @styles.active else @styles.inactive
+      else
+        @style = if @active then @styles.active else @styles.inactive
 
       app.ctx.textAlign = 'center'
       app.ctx.font = @style.font

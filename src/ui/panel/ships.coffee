@@ -22,8 +22,15 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Bu
       # port
       x = @x + 200
       @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), @headerStyle
-      @registerButton 'sendShip', {x: @x + 200, y: @y + 100, w: 120, h: 40}, @makeStaticText.bind(@, 'send ship'), @sendShip.bind(@), bs, false
+      @registerButton 'sendShip', {x: @x + 200, y: @y + 100, w: 120, h: 40}, @buildShipButtonText.bind(@), @sendShip.bind(@), bs, @haveMoneyToBuildShip.bind(@)
       return
+
+    haveMoneyToBuildShip: ->
+      playerCult = app.game.getPlayerCultLabel()
+      app.game.hasCultGoldToBuildShip playerCult
+
+    buildShipButtonText: ->
+      'build ship (' + app.game.state.ships.buildCost + ' gold)'
 
     drawFreeShips: ->
       playerCult = app.game.getPlayerCultLabel()
