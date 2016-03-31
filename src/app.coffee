@@ -71,7 +71,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
       return
 
     drawShip: (coords, size, rotation, color) ->
-      @drawPath @shipPath, coords, size, rotation, color, 1, 'black'
+      @drawPath @shipPath, coords, size, rotation, color, 3, 'black'
       return
 
     deactivateClick: ->

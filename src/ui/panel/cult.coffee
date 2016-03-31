@@ -1,4 +1,4 @@
-define 'CultPanel', ['Panel', 'Text', 'Button'], (Panel, Text, Button) ->
+define 'CultPanel', ['Panel', 'Text', 'Button', 'ButtonStyle', 'TextStyle'], (Panel, Text, Button, ButtonStyle, TextStyle) ->
   class CultPanel extends Panel
     constructor: (@menu) ->
       @label = 'Cult'
@@ -10,7 +10,7 @@ define 'CultPanel', ['Panel', 'Text', 'Button'], (Panel, Text, Button) ->
       super()
 
     loadCultText: ->
-      @registerText 'cultName', {x: @x + 20, y: @y + 40}, @mst.bind(@, app.game.getPlayerCultLabel()), @boldTextStyle
+      @registerText 'cultName', {x: @x + 20, y: @y + 40}, @mst.bind(@, app.game.getPlayerCultLabel()), TextStyle.BOLD
       return
 
     draw: ->

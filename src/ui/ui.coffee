@@ -6,13 +6,8 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle'], (Base, Button, T
       @bckPath.rect @x, y, @w, @h
 
       @mst = @makeStaticText
-
       @buttons = []
       @texts = []
-      @buttonStyle =
-        inactive: {stroke: 'black', fill: Colors.BUTTONINACTIVE, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
-        active: {stroke: 'black', fill: Colors.BUTTONACTIVE, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
-        notAllowed: {stroke: 'black', fill: Colors.BUTTONNOTALLOWED, text: 'black', lw: 2, font: 'bold 8pt Calibri'}
       return
 
     dtdd: (props, dtdd) ->

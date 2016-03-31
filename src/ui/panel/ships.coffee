@@ -1,4 +1,4 @@
-define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle'], (Base, Panel, Text, Button, ButtonStyle) ->
+define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextStyle'], (Base, Panel, Text, Button, ButtonStyle, TextStyle) ->
   class ShipsPanel extends Panel
     constructor: (@menu) ->
       @label = 'Ships'
@@ -7,11 +7,10 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle'], (Base, 
 
     init: ->
       super()
-      bs = _.clone @buttonStyle
-      bs.inactive.font = 'bold 12pt Calibri'
       shipStats = app.game.getPlayerStat
       x = @x + 100
       ss = 'shipStats'
+
       @dtdd {x: x, y: @y + 50, id: ss + '1'}, {dt: @mst.bind(@, 'number:'), dd: shipStats.bind(app.game, 'ships', 'no')}
       @dtdd {x: x, y: @y + 60, id: ss + '2'}, {dt: @mst.bind(@, 'base speed:'), dd: shipStats.bind(app.game, 'ships', 'baseSpeed')}
       @dtdd {x: x, y: @y + 70, id: ss + '3'}, {dt: @mst.bind(@, 'cargo:'), dd: shipStats.bind(app.game, 'ships', 'maxCargo')}
@@ -21,7 +20,7 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle'], (Base, 
 
       # port
       x = @x + 200
-      @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), @headerStyle
+      @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), TextStyle.HEADER
       @registerButton 'sendShip', {x: @x + 200, y: @y + 100, w: 150, h: 40}, @buildShipButtonText.bind(@), @sendShip.bind(@), @buildShipButtonStyle.bind(@)
       return
 

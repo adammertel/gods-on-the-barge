@@ -34,6 +34,7 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
     calculateCentroid: ->
       xs = []
       ys = []
+
       for c in @coords
         xs.push c.x
         ys.push c.y
@@ -43,6 +44,7 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
     calculateCoords: ->
       viewCoords = []
       @isVisible = false
+
       for coord in @coords
         viewCoord = app.coordinateToView {x: coord.x, y: coord.y}
         if !@isVisible
@@ -86,6 +88,7 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
 
     foodIndicatorColor: ->
       foodRelative = @state.grain/@state.maxGrain
+      
       if foodRelative > 0.8
         Colors.FOODINDICATORSUPER
       else if foodRelative > 0.5

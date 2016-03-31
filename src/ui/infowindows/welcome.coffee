@@ -1,4 +1,4 @@
-define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Base) ->
+define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 'ButtonStyle', 'FontStyle'], (InfoWindow, Button, Base, Colors, TextStyle, ButtonStyle, FontStyle) ->
   class WelcomeWindow extends InfoWindow
 
     constructor: (@id, @w, @h) ->
@@ -9,16 +9,14 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       return
 
     init: ->
-      bs = _.clone @buttonStyle.inactive
-      bs.font = 'bold 12pt Calibri'
 
       _.each app.game.state.cults, (cult, c) =>
         @registerClickableArea @x + @m, @y + @m + 100*cult.no, @w - 2*@m, 80, @chooseCultToPlay.bind(@, cult.label)
 
       buttonY = @y + @h - 60
-      @registerButton 'play', {x: @x + @m, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'play!'), @play.bind(@), bs
-      @registerButton 'info', {x: @x + @m + 200, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'game info'), @getGameInfo.bind(@), bs
-      @registerButton 'gehir', {x: @x + @m + 400, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'gehir webpage'), @visitGehir.bind(@), bs
+      @registerButton 'play', {x: @x + @m, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'PLAY!'), @play.bind(@), ButtonStyle.NORMALINACTIVE
+      @registerButton 'info', {x: @x + @m + 200, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'GAME INFO'), @getGameInfo.bind(@), ButtonStyle.NORMALINACTIVE
+      @registerButton 'gehir', {x: @x + @m + 400, y: buttonY, w: 120, h: 40}, @makeStaticText.bind(@, 'GEHIR WEBPAGE'), @visitGehir.bind(@), ButtonStyle.NORMALINACTIVE
 
     play: ->
       @open = false
@@ -44,17 +42,19 @@ define 'WelcomeWindow', ['InfoWindow', 'Button','Base'], (InfoWindow, Button, Ba
       text2 = 'This is "Gods on the Barge" game inspired by the project of GEHIR (gehir.phil.muni.cz)'
       text3 = 'Your goal is to convert as many people in region as possible'
       text4 = 'Please choose a cult to play:'
-      app.drawTextArea text1, @x + @m, @y + @m, @lineHeight, @lineWidth, 'bold 12pt Calibri'
-      app.drawTextArea text2, @x + @m, @y + @m + 20, @lineHeight, @lineWidth, '8pt Calibri'
-      app.drawTextArea text3, @x + @m, @y + @m + 40, @lineHeight, @lineWidth, '8pt Calibri'
-      app.drawTextArea text4, @x + @m, @y + @m + 60, @lineHeight, @lineWidth, '8pt Calibri'
+
+      app.drawTextArea text1, @x + @m, @y + @m, @lineHeight, @lineWidth, FontStyle.HEADER
+      app.drawTextArea text2, @x + @m, @y + @m + 20, @lineHeight, @lineWidth, FontStyle.BOLDNORMAL
+      app.drawTextArea text3, @x + @m, @y + @m + 40, @lineHeight, @lineWidth, FontStyle.NORMAL
+      app.drawTextArea text4, @x + @m, @y + @m + 60, @lineHeight, @lineWidth, FontStyle.NORMAL
 
       _.each app.game.state.cults, (cult, c) =>
+        if @chosenCult == cult.label
+          app.ctx.fillStyle = Colors.ACTIVEAREA
+          app.ctx.fillRect @x + @m, @y + @m + 100*cult.no - 20, @w - 2*@m, 80
         app.drawTextArea cult.label, @x + @m + 80, @y + @m + 100*cult.no, @lineHeight, @lineWidth, 'bold 10pt Calibri'
         app.drawTextArea cult.text, @x + @m + 80, @y + @m + 20 + 100*cult.no, @lineHeight, @lineWidth, '8pt Calibri'
 
-        if @chosenCult == cult.label
-          app.ctx.strokeRect @x + @m, @y + @m + 100*cult.no - 20, @w - 2*@m, 80
 
         logo = cult.logo
         app.ctx.drawImage logo, @x + @m, @y + @m + 100*cult.no - 20, 70, 70

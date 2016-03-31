@@ -1,6 +1,8 @@
 define 'Game', ['Base', 'Colors'], (Base, Colors) ->
   class Game
     state:
+      politics:
+        endingPoints: {}
       player:
         cult: ''
       islands:
@@ -56,6 +58,9 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
     defaultCultStats:
       gold:
         quantity: 1000
+      politics:
+        freePoints: 2
+        maxFreePoints: 3
       ships:
         no: 7
         out: 0
@@ -70,6 +75,9 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
     constructor: ->
       @loadIcons()
       @loadStats()
+      @loadPolitics()
+      app.registerNewWeekAction @randomPolitics.bind @
+
 
     loadStats: ->
       _.each @state.cults, (cult, cultLabel) =>
@@ -77,7 +85,57 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         cultStats = _.clone(cult.stats)
         @state.cults[cultLabel].stats = _.merge({}, defaultCultStats, cultStats)
         return
+      return
 
+    # politics
+    randomPolitics: ->
+      nodes = app.getCollection('nodes')
+      randomEndingPointToRaise = nodes.getIdOfNode _.sample(nodes.getShipEndingNodes())
+      console.log randomEndingPointToRaise
+      @raiseEndingPoint randomEndingPointToRaise
+
+      randomEndingPointToLower = nodes.getIdOfNode _.sample(nodes.getShipEndingNodes())
+      @lowerEndingPoint randomEndingPointToLower
+      return
+
+
+    loadPolitics: ->
+      @endingPoints = app.getCollection('nodes').getShipEndingNodes()
+
+      for endNode in @endingPoints
+        nodeId = app.getCollection('nodes').getIdOfNode endNode
+        @state.politics.endingPoints[nodeId] = 5
+
+      return
+
+    raiseEndingPoint: (endingPointId) ->
+      if @state.politics.endingPoints[endingPointId] < 10
+        @state.politics.endingPoints[endingPointId] += 1
+        true
+      else
+        false
+
+    lowerEndingPoint: (endingPointId) ->
+      if @state.politics.endingPoints[endingPointId] != 0
+        @state.politics.endingPoints[endingPointId] -= 1
+        true
+      else
+        false
+
+    voteForEndingPoint: (cult, endingPointId) ->
+      if @getCultPoliticsPoints(cult) > 0
+        if @raiseEndingPoint(endingPointId)
+          @spendPoliticsPoint cult
+        true
+      else
+        false
+
+    playerVoteForEndingPoint: (endingPointId) ->
+      @voteForEndingPoint @getPlayerCultLabel(), endingPointId
+
+    spendPoliticsPoint: (cult) ->
+      if @getCultPoliticsPoints(cult) > 0
+        @getCultStats(cult).politics.freePoints -= 1
       return
 
     # gold
@@ -101,9 +159,20 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
     hasPlayerGold: (quantity) ->
       @getPlayerCultStats().gold.quantity > quantity
 
+    getCultPoliticsPoints: (cult) ->
+      @getStat cult, 'politics', 'freePoints'
+
+    getPlayerPoliticsPoints: ->
+      @getPlayerStat 'politics', 'freePoints'
+
+    getCultPoliticsMaxPoints: (cult) ->
+      @getStat cult, 'politics', 'maxFreePoints'
+
+    getPlayerPoliticsMaxPoints: ->
+      @getPlayerStat 'politics', 'maxFreePoints'
+
     getPlayerMoney: ->
       app.game.getPlayerCultStats().gold.quantity
-
 
     getPlayerStat: (category, value) ->
       if @getPlayerCultLabel()

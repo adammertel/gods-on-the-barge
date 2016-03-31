@@ -1,5 +1,5 @@
 define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
-  class Nodes extends Collection
+  class Ships extends Collection
     constructor: (data) ->
       @name = 'ships'
       super()

@@ -5,3 +5,4 @@ define 'TextStyle', ['Colors', 'FontStyle'], (Colors, FontStyle) ->
     NORMAL: {'font': FontStyle.NORMAL, 'textAlign': 'left'}
     DT: {'font': FontStyle.BOLDNORMAL, 'textAlign': 'right'}
     DD: {'font': FontStyle.NORMAL, 'textAlign': 'left'}
+    RIGHTBOLD: {'font': FontStyle.BOLDNORMAL, 'textAlign': 'right'}

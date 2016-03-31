@@ -20,6 +20,12 @@ define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
       @open = true
       return
 
+    drawBackground: ->
+      app.ctx.fillStyle = 'white'
+      app.ctx.strokeStyle = 'black'
+      app.ctx.fill @bckPath
+      app.ctx.stroke @bckPath
+
     draw: ->
       super()
       return

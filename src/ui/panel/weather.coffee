@@ -1,4 +1,4 @@
-define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, Button) ->
+define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextStyle'], (Base, Panel, Text, Button, ButtonStyle, TextStyle) ->
   class WeatherPanel extends Panel
     constructor: (@menu) ->
       @label = 'Weather'
@@ -42,8 +42,8 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button'], (Base, Panel, Text, 
       return
 
     init: ->
-      @registerText 'windsLabel', {x: @x + 20, y: @y + 50}, @mst.bind(@, 'Winds'), @headerStyle
-      @registerText 'temperatureLabel', {x: @x + 250, y: @y + 50}, @mst.bind(@, 'Temperature'), @headerStyle
+      @registerText 'windsLabel', {x: @x + 20, y: @y + 50}, @mst.bind(@, 'Winds'), TextStyle.HEADER
+      @registerText 'temperatureLabel', {x: @x + 250, y: @y + 50}, @mst.bind(@, 'Temperature'), TextStyle.HEADER
       @buildWindIndicator()
       @buildTemperatureIndicator()
       super()

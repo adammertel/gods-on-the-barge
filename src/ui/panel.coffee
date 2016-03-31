@@ -7,11 +7,6 @@ define 'Panel', ['Ui', 'TextStyle'], (Ui, TextStyle) ->
       h = @menu.h
       super @label, x, y, w, h
 
-      @headerStyle = {font: 'bold 12pt Calibri', textAlign: 'left'}
-      @boldTextStyle = {font: 'bold 9pt Calibri', textAlign: 'left'}
-      @normalTextStyle = {font: '9pt Calibri', textAlign: 'left'}
-      @dtTextStyle = {font: 'bold 9pt Calibri', textAlign: 'right'}
-      @ddTextStyle = {font: '9pt Calibri', textAlign: 'left'}
       @init()
       return
 

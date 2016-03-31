@@ -1,4 +1,4 @@
-define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
+define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
   class Ship extends Geometry
     constructor: (@cult)->
       @collection = app.getCollection('ships')
@@ -124,26 +124,27 @@ define 'Ship', ['Geometry', 'Base'], (Geometry, Base) ->
       @baseSpeed * app.time.state.timeSpeed * rainPenalty
 
     drawCargoBar: ->
+      app.ctx.fillStyle = 'orange'
       fullCargopx = 40 * app.state.zoom
       cargopx = (fullCargopx / @fullCargo) * @cargo
-      app.ctx.strokeStyle = 'black'
-      app.ctx.fillStyle = 'orange'
       app.ctx.strokeRect @shipCoord.x - fullCargopx/2, @shipCoord.y - fullCargopx/2, fullCargopx, 3
       app.ctx.fillRect @shipCoord.x - fullCargopx/2, @shipCoord.y - fullCargopx/2, cargopx, 3
       return
 
     drawEnergyBar: ->
+      app.ctx.fillStyle = 'blue'
       fullEnergypx = 40 * app.state.zoom
       energypx = (fullEnergypx / @fullEnergy) * @energy
-      app.ctx.strokeStyle = 'black'
-      app.ctx.fillStyle = 'blue'
       app.ctx.strokeRect @shipCoord.x - fullEnergypx/2, @shipCoord.y - fullEnergypx/2 - 6, fullEnergypx, 3
       app.ctx.fillRect @shipCoord.x - fullEnergypx/2, @shipCoord.y - fullEnergypx/2 - 6, energypx, 3
       return
 
     draw: ->
+
       @shipCoord = app.coordinateToView @coords
       @move()
+      app.ctx.strokeStyle = 'black'
+      app.ctx.lineWidth = 2
       @drawEnergyBar()
       @drawCargoBar()
       app.drawShip @shipCoord, app.state.zoom, @rotation, @color

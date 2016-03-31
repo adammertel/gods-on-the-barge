@@ -33,6 +33,8 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
           console.log 'people starting to starve', island.state.name, proportionOfStarving
           island.state.starving = _.max([island.state.starving, proportionOfStarving * island.state.population])
           island.state.grain = 0
+        else
+          island.state.starving = 0
 
       return
 
@@ -144,6 +146,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
 
         app.ctx.strokeStyle = 'black'
         app.ctx.fillStyle = 'green'
+        app.ctx.lineWidth = 1
         for island in @geometries
           if island.isVisible
             island.drawFoodIndicator labelW, labelH
