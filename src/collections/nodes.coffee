@@ -9,12 +9,15 @@ define 'Nodes', ['Base', 'Collection', 'Port', 'Colors'], (Base, Collection, Por
 
     registerGeometries: ->
       @ports = []
+
       _.each _.keys(@data), (nodeId, n) =>
         islandValue = @data[nodeId]
         if islandValue.island
           @ports.push nodeId
-        @addGeometry new Port(app.coordinateToMap({lon: islandValue.x, lat: islandValue.y}), nodeId, islandValue.island)
+
+          @addGeometry new Port(app.coordinateToMap({lon: islandValue.x, lat: islandValue.y}), nodeId, @getIslandOfPort(nodeId), islandValue.port_name)
         return
+
       return
 
 

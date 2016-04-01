@@ -15,11 +15,12 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         criticalRainfallMin: 100
         criticalRainfallMax: 1200
       trade:
-        maxBaseDistanceForTrade: 200000
+        maxBaseDistanceForTrade: 50000
         criticalCargo: 500
-        baseGrainPrice: 0.01
+        baseGrainPrice: 0.0001
       ships:
-        buildCost: 100
+        buildCost0: 100
+        buildCost1: 100
         baseBuildCost: 100
         buildCostVariability: 0.3
         buildCostTemperatureSignificance: 0.1
@@ -41,7 +42,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           text: 'Isis was a goddess of something else and blablabla...'
           stats:
             ships:
-              maxCargo: 40000
+              maxCargo: 500000
         'Anubis':
           no: 3
           iconLabel: 'anubis'
@@ -70,7 +71,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         no: 7
         out: 0
         baseSpeed: 1
-        maxCargo: 30000
+        maxCargo: 500000
         maxEnergy: 400
         energyConsumption: 40
         restingSpeed: 120
@@ -196,25 +197,26 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
 
     # SHIPS
-    createShip: (cult, startingPoint) ->
-      if @freeShips(cult) > 0 and @hasCultGoldToBuildShip(cult)
-        @shipBuilt(cult)
-        app.getCollection('ships').createShip cult, startingPoint
+    createShip: (cult, portId) ->
+      if @freeShips(cult) > 0 and @hasCultGoldToBuildShip cult, portId
+        @shipBuilt(cult, portId)
+        app.getCollection('ships').createShip cult, portId
+      return
 
     shipRemoved: (cult) ->
       @getCultStats(cult).ships.out -= 1
       return
 
-    shipBuilt: (cult) ->
+    shipBuilt: (cult, portId) ->
       @getCultStats(cult).ships.out += 1
-      @payShip(cult)
+      @payShip(cult, portId)
       return
 
     freeShips: (cult) ->
       @getCultStats(cult).ships.no - @getCultStats(cult).ships.out
 
-    payShip: (cult) ->
-      @spendGold cult, @state.ships.buildCost
+    payShip: (cult, portId) ->
+      @spendGold cult, @state.ships['buildCost' + portId]
       return
 
     payOperationalCosts: (ship) ->
@@ -225,25 +227,29 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       else
         app.getCollection('ships').destroyShip(ship)
 
-    hasCultGoldToBuildShip: (cult) ->
-      @hasCultGold cult, @state.ships.buildCost
+    hasCultGoldToBuildShip: (cult, portId) ->
+      @hasCultGold cult, @state.ships['buildCost' + portId]
 
     calculateBuildCost: ->
-      gameState = @state.ships
-      variability = gameState.buildCostVariability
-      temperatureSignificance = gameState.buildCostTemperatureSignificance
+      shipState = @state.ships
+      variability = shipState.buildCostVariability
+      temperatureSignificance = shipState.buildCostTemperatureSignificance
       temperature = app.weather.state.temperature
 
       temperatureCoefficient = 1 - temperatureSignificance * (temperature - 5)
-      randomness =  _.random(1 - variability, 1 + variability)
-      newBuildCost = _.mean([gameState.buildCost * randomness, temperatureCoefficient * gameState.baseBuildCost])
-      gameState.buildCost = Base.round newBuildCost
+      randomness0 =  _.random(1 - variability, 1 + variability)
+      randomness1 =  _.random(1 - variability, 1 + variability)
+      newBuildCost0 = _.mean([shipState.buildCost0 * randomness0, temperatureCoefficient * shipState.baseBuildCost])
+      newBuildCost1 = _.mean([shipState.buildCost1 * randomness1, temperatureCoefficient * shipState.baseBuildCost])
+      shipState.buildCost0 = Base.round newBuildCost0
+      shipState.buildCost1 = Base.round newBuildCost1
       return
 
 
     # GOLD
     earnGold: (cult, quantity) ->
       @getCultStats(cult).gold.quantity += quantity
+      return
 
     spendGold: (cult, quantity) ->
       if @hasCultGold(cult, quantity)

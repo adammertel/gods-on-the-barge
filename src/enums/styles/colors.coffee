@@ -31,4 +31,4 @@ define 'Colors', [], () ->
     SAND: '#F58706'
     SHIPENERGYINDICATOR: '#578885'
     SHIPCARGOINDICATOR: '#F58706'
-    STORMMAP: '#578885'
+    STORMMAP: '#6fa3a0'

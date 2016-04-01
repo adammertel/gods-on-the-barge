@@ -20,16 +20,19 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
       console.log island
       1 - island.state.grain / island.state.maxGrain
 
-    attractionCoefficient: (island) ->
-      if island.state.buildings.amphiteater
-        1
-      else
-        0.7
+    attractivityCoefficient: (island) ->
+      attractivity = if island.state.buildings.amphiteater then 0.2 else 0
+      density = island.state.population/island.state.area
+      console.log density
+
+      # 2000~ is a density of Delos
+      densityCoefficient = (density / 2000) * 0.5
+      0.3 + attractivity + densityCoefficient
 
     tradeAttractivity: (distance, maxDistance, islandName) ->
       island = @getIslandByName(islandName)
-
-      @distanceCoefficient(distance, maxDistance) * @hungryCoefficient(island) * @attractionCoefficient(island)
+      console.log islandName, @distanceCoefficient(distance, maxDistance) * @hungryCoefficient(island) * @attractivityCoefficient(island)
+      @distanceCoefficient(distance, maxDistance) * @hungryCoefficient(island) * @attractivityCoefficient(island)
 
     starvingPeople: ->
       for island in @geometries
