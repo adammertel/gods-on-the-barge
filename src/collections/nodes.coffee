@@ -24,6 +24,9 @@ define 'Nodes', ['Base', 'Collection', 'Port', 'Colors'], (Base, Collection, Por
     isNodePort: (id) ->
       @data[id].island?
 
+    getIslandOfPort: (id) ->
+      @data[id].island
+
     nodeMapCoordinates: (id) ->
       node = @getNode(id)
       try

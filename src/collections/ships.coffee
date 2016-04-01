@@ -10,7 +10,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       allPorts = app.getCollection('nodes').ports
       ports = []
       for port in allPorts
-        ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes ship.stops[0], port}
+        ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
       _.orderBy ports, 'distance'
 
     findClosestPort: (ship) ->
@@ -21,6 +21,31 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
         @findClosePorts(ship)
       else
         return
+
+    getPlaceForTrade: (ship) ->
+      ports = @findClosePorts(ship)
+      maxDistanceForTrading = app.game.maxTradingDistanceForCult(ship.cult)
+
+      tradePlaces = []
+
+      for port in ports
+        islandName = app.getCollection('nodes').getIslandOfPort(port.id)
+        if islandName != 'Turkey' and islandName != 'Greece' and islandName != 'Egypt'
+          if port.distance < maxDistanceForTrading
+            tradeCoefficient = app.getCollection('islands').tradeAttractivity(port.distance, maxDistanceForTrading, islandName, ship.cult)
+            tradePlaces.push {'port': port, 'coefficient': tradeCoefficient}
+
+      tradeOrdered = _.orderBy(_.clone(tradePlaces), 'coefficient', 'desc').splice(0, 5)
+
+      tradeNode = false
+      for tradePlace in tradeOrdered
+        if !tradeNode
+          if _.random(1, true) < tradePlace.coefficient
+            tradeNode = tradePlace.port.id
+
+      console.log tradeNode
+      tradeNode
+
 
     updateEnergyForShips: ->
       for ship in @geometries

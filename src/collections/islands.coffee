@@ -12,6 +12,25 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
       app.registerNewSeasonAction @harvest.bind @
       return
 
+
+    distanceCoefficient: (distance, maxDistance) ->
+      1 - (distance / maxDistance)
+
+    hungryCoefficient: (island) ->
+      1 - island.state.grain / island.state.maxGrain
+
+    attractionCoefficient: (island) ->
+      if island.state.buildings.amphiteater
+        1
+      else
+        0.7
+
+    tradeAttractivity: (distance, maxDistance, islandName) ->
+      island = @getIslandByName(islandName)
+
+      @distanceCoefficient(distance, maxDistance) * @hungryCoefficient(island) * @attractionCoefficient(island)
+
+
     starvingPeople: ->
       for island in @geometries
         if island.state.starving > 0

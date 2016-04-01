@@ -6,13 +6,13 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button', 'TextStyle', 'ButtonStyle', 
       return
 
     init: ->
-      @registerText 'freePoints', {x: @x + 20, y: @y + 35, w: 100, h: 10}, @freePoints.bind(@), TextStyle.BOLD
+      @registerText 'freePoints', {x: @x + 80, y: @y + 20, w: 100, h: 10}, @freePoints.bind(@), TextStyle.BOLD
 
       @endPoints = app.game.state.politics.endingPoints
 
-      dy = @h/10
-      y1 = @y + dy/2
-      y2 = @y + dy/2 + 50
+      dy = 14
+      y1 = @y + dy/2 + 14
+      y2 = @y + dy/2 + 28
 
       for endPointId of @endPoints
         endNode = app.getCollection('nodes').getNode endPointId
@@ -24,10 +24,10 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button', 'TextStyle', 'ButtonStyle', 
         else
           y = y2
           y2 += dy
-          x = @x + 120
+          x = @x + 100
 
-        @registerText 'pText' + endPointId, {x: x, y: y, w: 150, h: 10}, @mst.bind(@, endNode.port_name), TextStyle.RIGHTBOLD
-        @registerButton 'pButton' + endPointId, {x: x + 10, y: y, w: 30, h: 13}, @mst.bind(@, 'vote'), @voteForPort.bind(@, endPointId), ButtonStyle.NORMALINACTIVE
+        @registerText 'pText' + endPointId, {x: x, y: y, w: 150, h: 8}, @mst.bind(@, endNode.port_name), TextStyle.RIGHTBOLDSMALL
+        @registerButton 'pButton' + endPointId, {x: x + 10, y: y, w: 30, h: 11}, @mst.bind(@, 'vote'), @voteForPort.bind(@, endPointId), ButtonStyle.NORMALINACTIVE
 
       super()
 
@@ -43,9 +43,9 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button', 'TextStyle', 'ButtonStyle', 
       app.ctx.lineWidth = 1
       app.ctx.strokeStyle = 'black'
 
-      dy = @h/10
-      y1 = @y + dy/2
-      y2 = @y + dy/2 + 50
+      dy = 14
+      y1 = @y + dy/2 + 14
+      y2 = @y + dy/2 + 28
 
       for endPointId of @endPoints
         endNode = app.getCollection('nodes').getNode endPointId
@@ -57,7 +57,7 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button', 'TextStyle', 'ButtonStyle', 
         else
           y = y2
           y2 += dy
-          x = @x + 170
+          x = @x + 150
 
         politicsPower = app.game.state.politics.endingPoints[endPointId]
 

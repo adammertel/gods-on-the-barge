@@ -14,6 +14,8 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         idealRainfallMin: 800
         criticalRainfallMin: 100
         criticalRainfallMax: 1200
+      trade:
+        maxBaseDistanceForTrade: 200000
       ships:
         buildCost: 100
         baseBuildCost: 100
@@ -72,6 +74,8 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         restingSpeed: 120
         operationCost: 0.1
         rainPenalty: 0.3
+      trade:
+        tradingDistanceCoefficient: 1
 
     constructor: ->
       @loadIcons()
@@ -94,6 +98,12 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         cult.logo = Base.loadIcon cult.iconLabel, cult.color
         return
       return
+
+    # TRADING
+    maxTradingDistanceForCult: (cult) ->
+      console.log cult
+      @getStat(cult, 'trade', 'tradingDistanceCoefficient') * @state.trade.maxBaseDistanceForTrade
+
 
     # POLITICS
     # initial action for loading all ending points for ships

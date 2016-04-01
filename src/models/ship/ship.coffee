@@ -84,15 +84,21 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
         if @stops.length > 1
           _.pull @checkPointIds, @stops[0] # removes checkpoint
 
-
           if app.getCollection('nodes').isNodePort @stops[0]
             @resting = true
             @willRest = false
           else
           # sending ship to fill energy to the nearest port
-            if @needRestCondition() and !@willRest
-              @willRest = true
-              @addCheckPoint @collection.findClosestPort(@)
+            if !@willRest
+              if @needRestCondition()
+                @willRest = true
+                @addCheckPoint @collection.findClosestPort(@)
+              else
+                tradeNode = @collection.getPlaceForTrade(@)
+                if tradeNode
+                  @willRest = true
+                  @addCheckPoint tradeNode
+
 
           @prepareNextStop()
 
