@@ -1,9 +1,8 @@
 define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
   class Ship extends Geometry
-    constructor: (@cult)->
+    constructor: (@cult, @startId = 1)->
       @collection = app.getCollection('ships')
       @cultStats = app.game.getCultStats(@cult).ships
-      @startId = app.getCollection('nodes').chooseShipStartingNodeId()
       @endId = app.getCollection('nodes').chooseShipEndingNodeId()
       @checkPointIds = []
       @props = {

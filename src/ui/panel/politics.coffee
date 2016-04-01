@@ -6,6 +6,8 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button', 'TextStyle', 'ButtonStyle', 
       return
 
     init: ->
+      @registerText 'freePoints', {x: @x + 20, y: @y + 35, w: 100, h: 10}, @freePoints.bind(@), TextStyle.BOLD
+
       @endPoints = app.game.state.politics.endingPoints
 
       dy = @h/10
@@ -27,7 +29,6 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button', 'TextStyle', 'ButtonStyle', 
         @registerText 'pText' + endPointId, {x: x, y: y, w: 150, h: 10}, @mst.bind(@, endNode.port_name), TextStyle.RIGHTBOLD
         @registerButton 'pButton' + endPointId, {x: x + 10, y: y, w: 30, h: 13}, @mst.bind(@, 'vote'), @voteForPort.bind(@, endPointId), ButtonStyle.NORMALINACTIVE
 
-      @registerText 'freePoints', {x: @x + 20, y: @y + 35, w: 100, h: 10}, @freePoints.bind(@), TextStyle.BOLD
       super()
 
 

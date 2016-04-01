@@ -33,7 +33,7 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
   app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
   app.registerCollection(new Ships [], 10)
 
-  app.getCollection('ships').createShip(Cults.SERAPIS)
+  app.game.createShip(Cults.SERAPIS, 0)
 
   app.loop()
 

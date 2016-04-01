@@ -59,6 +59,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       gold:
         quantity: 1000
       politics:
+        pointRegeneration: 1
         freePoints: 2
         maxFreePoints: 3
       ships:
@@ -76,8 +77,9 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       @loadIcons()
       @loadStats()
       @loadPolitics()
+      app.registerNewDayAction @calculateBuildCost.bind @
       app.registerNewWeekAction @randomPolitics.bind @
-
+      app.registerNewSeasonAction @addNewPoliticsPoints.bind @
 
     loadStats: ->
       _.each @state.cults, (cult, cultLabel) =>
@@ -87,24 +89,45 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         return
       return
 
-    # politics
-    randomPolitics: ->
-      nodes = app.getCollection('nodes')
-      randomEndingPointToRaise = nodes.getIdOfNode _.sample(nodes.getShipEndingNodes())
-      console.log randomEndingPointToRaise
-      @raiseEndingPoint randomEndingPointToRaise
-
-      randomEndingPointToLower = nodes.getIdOfNode _.sample(nodes.getShipEndingNodes())
-      @lowerEndingPoint randomEndingPointToLower
+    loadIcons: ->
+      _.each @state.cults, (cult, cultLabel) =>
+        cult.logo = Base.loadIcon cult.iconLabel, cult.color
+        return
       return
 
-
+    # POLITICS
+    # initial action for loading all ending points for ships
     loadPolitics: ->
       @endingPoints = app.getCollection('nodes').getShipEndingNodes()
-
       for endNode in @endingPoints
         nodeId = app.getCollection('nodes').getIdOfNode endNode
         @state.politics.endingPoints[nodeId] = 5
+
+      return
+
+    # adding new points to make politics each year
+    addNewPoliticsPoints: ->
+      for c, cult of @state.cults
+        politicsStats = cult.stats.politics
+        politicsStats.freePoints = _.clamp politicsStats.freePoints + politicsStats.pointRegeneration, 0, politicsStats.maxFreePoints
+
+    # moving some random points every week
+    randomPolitics: ->
+      nodes = app.getCollection('nodes')
+      game = @
+
+      lowerRandomPoint = ->
+        randomEndingPointToLower = nodes.getIdOfNode _.sample(nodes.getShipEndingNodes())
+        game.lowerEndingPoint randomEndingPointToLower
+
+      raiseRandomPoint = ->
+        randomEndingPointToRaise = nodes.getIdOfNode _.sample(nodes.getShipEndingNodes())
+        game.raiseEndingPoint randomEndingPointToRaise
+
+      lowerRandomPoint()
+      lowerRandomPoint()
+      lowerRandomPoint()
+      raiseRandomPoint()
 
       return
 
@@ -138,13 +161,25 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         @getCultStats(cult).politics.freePoints -= 1
       return
 
-    # gold
-    spendGold: (cult, quantity) ->
-      if @hasCultGold(cult, quantity)
-        @getCultStats(cult).gold.quantity -= quantity
-        true
-      else
-        false
+
+
+    # SHIPS
+    createShip: (cult, startingPoint) ->
+      if @freeShips(cult) > 0 and @hasCultGoldToBuildShip(cult)
+        @shipBuilt(cult)
+        app.getCollection('ships').createShip cult, startingPoint
+
+    shipRemoved: (cult) ->
+      @getCultStats(cult).ships.out -= 1
+      return
+
+    shipBuilt: (cult) ->
+      @getCultStats(cult).ships.out += 1
+      @payShip(cult)
+      return
+
+    freeShips: (cult) ->
+      @getCultStats(cult).ships.no - @getCultStats(cult).ships.out
 
     payShip: (cult) ->
       @spendGold cult, @state.ships.buildCost
@@ -152,6 +187,27 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
     hasCultGoldToBuildShip: (cult) ->
       @hasCultGold cult, @state.ships.buildCost
+
+    calculateBuildCost: ->
+      gameState = @state.ships
+      variability = gameState.buildCostVariability
+      temperatureSignificance = gameState.buildCostTemperatureSignificance
+      temperature = app.weather.state.temperature
+
+      temperatureCoefficient = 1 - temperatureSignificance * (temperature - 5)
+      randomness =  _.random(1 - variability, 1 + variability)
+      newBuildCost = _.mean([gameState.buildCost * randomness, temperatureCoefficient * gameState.baseBuildCost])
+      gameState.buildCost = Base.round newBuildCost
+      return
+
+
+    # GOLD
+    spendGold: (cult, quantity) ->
+      if @hasCultGold(cult, quantity)
+        @getCultStats(cult).gold.quantity -= quantity
+        true
+      else
+        false
 
     hasCultGold: (cult, quantity) ->
       @getCultStats(cult).gold.quantity > quantity
@@ -210,22 +266,4 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
     chooseCult: (cult) ->
       console.log 'choosing cult', cult
       @state.player.cult = cult
-      return
-
-    shipRemoved: (cult) ->
-      @getCultStats(cult).ships.out -= 1
-      return
-
-    shipBuilt: (cult) ->
-      @getCultStats(cult).ships.out += 1
-      @payShip(cult)
-      return
-
-    freeShips: (cult) ->
-      @getCultStats(cult).ships.no - @getCultStats(cult).ships.out
-
-    loadIcons: ->
-      _.each @state.cults, (cult, cultLabel) =>
-        cult.logo = Base.loadIcon cult.iconLabel, cult.color
-        return
       return

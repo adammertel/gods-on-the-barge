@@ -51,11 +51,14 @@ define 'Nodes', ['Base', 'Collection', 'Port', 'Colors'], (Base, Collection, Por
       _.filter @data, (node, n) ->
         node.island != ''
 
-    chooseShipStartingNodeId: ->
-      @getIdOfNode _.sample @getShipStartingNodes()
-
+    # using points from politics
     chooseShipEndingNodeId: ->
-      @getIdOfNode _.sample @getShipEndingNodes()
+      endPointsSamples = []
+      for endPoint, endPointValue  of app.game.state.politics.endingPoints
+        endPointsSamples = _.concat endPointsSamples, _.times endPointValue, _.constant parseInt endPoint
+
+      console.log _.sample endPointsSamples
+      _.sample endPointsSamples
 
     getShipStartingNodes: ->
       @getNodesOnIsland 'Egypt'

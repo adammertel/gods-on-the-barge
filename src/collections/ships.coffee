@@ -4,19 +4,6 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       @name = 'ships'
       super()
       app.registerNewDayAction @updateEnergyForShips.bind @
-      app.registerNewDayAction @calculateBuildCost.bind @
-      return
-
-    calculateBuildCost: ->
-      gameState = app.game.state.ships
-      variability = gameState.buildCostVariability
-      temperatureSignificance = gameState.buildCostTemperatureSignificance
-      temperature = app.weather.state.temperature
-
-      temperatureCoefficient = 1 - temperatureSignificance * (temperature - 5)
-      randomness =  _.random(1 - variability, 1 + variability)
-      newBuildCost = _.mean([gameState.buildCost * randomness, temperatureCoefficient * gameState.baseBuildCost])
-      gameState.buildCost = Base.round newBuildCost
       return
 
     findClosePorts: (ship) ->
@@ -47,11 +34,8 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
           inRain = true
       inRain
 
-    createShip: (cult) ->
-      if app.game.freeShips(cult) > 0 and app.game.hasCultGoldToBuildShip(cult)
-        app.game.shipBuilt(cult)
-        @addGeometry new Ship(cult)
-      return
+    createShip: (cult, startingPoint) ->
+      @addGeometry new Ship(cult, startingPoint)
 
     destroyShip: (ship) ->
       app.game.shipRemoved(ship.cult)

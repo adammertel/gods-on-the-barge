@@ -21,7 +21,8 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
       # port
       x = @x + 200
       @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), TextStyle.HEADER
-      @registerButton 'sendShip', {x: @x + 200, y: @y + 100, w: 150, h: 40}, @buildShipButtonText.bind(@), @sendShip.bind(@), @buildShipButtonStyle.bind(@)
+      @registerButton 'sendShip1', {x: @x + 200, y: @y + 90, w: 180, h: 20}, @buildShipButtonText.bind(@, 0), @sendShip.bind(@, 0), @buildShipButtonStyle.bind(@)
+      @registerButton 'sendShip2', {x: @x + 200, y: @y + 115, w: 180, h: 20}, @buildShipButtonText.bind(@, 1), @sendShip.bind(@, 1), @buildShipButtonStyle.bind(@)
       return
 
     buildShipButtonStyle: ->
@@ -31,8 +32,11 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
       else
         ButtonStyle.NORMALDISABLED
 
-    buildShipButtonText: ->
-      'build ship (' + app.game.state.ships.buildCost + ' gold)'
+    buildShipButtonText: (pointId)->
+      if pointId == 0
+        'build ship in Alexandria(' + app.game.state.ships.buildCost + ' gold)'
+      else
+        'build ship in Leuke Akte(' + app.game.state.ships.buildCost + ' gold)'
 
     drawFreeShips: ->
       playerCult = app.game.getPlayerCultLabel()
@@ -40,8 +44,8 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
         app.drawShip {x: @x + 210 + f*30, y: @y + 40}, 2, 0, app.game.getPlayerColor()
       return
 
-    sendShip: ->
-      app.getCollection('ships').createShip(app.game.getPlayerCultLabel())
+    sendShip: (startingPoint) ->
+      app.game.createShip app.game.getPlayerCultLabel(), startingPoint
       return
 
     draw: ->

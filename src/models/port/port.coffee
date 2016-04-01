@@ -9,7 +9,8 @@ define 'Port', ['Geography', 'Base'], (Geography, Base) ->
       portCoord = app.coordinateToView @coord
       radius = 5
       app.ctx.beginPath()
-      app.ctx.arc(portCoord.x, portCoord.y, radius*app.state.zoom, 0, 2 * Math.PI, false)
+      app.ctx.arc portCoord.x, portCoord.y, radius*app.state.zoom, 0, 2 * Math.PI, false
+      app.ctx.fillText @nodeId, portCoord.x, portCoord.y
       app.ctx.closePath()
       app.ctx.fill()
       return
