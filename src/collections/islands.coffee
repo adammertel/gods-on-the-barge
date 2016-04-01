@@ -17,6 +17,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
       1 - (distance / maxDistance)
 
     hungryCoefficient: (island) ->
+      console.log island
       1 - island.state.grain / island.state.maxGrain
 
     attractionCoefficient: (island) ->
@@ -29,7 +30,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
       island = @getIslandByName(islandName)
 
       @distanceCoefficient(distance, maxDistance) * @hungryCoefficient(island) * @attractionCoefficient(island)
-
 
     starvingPeople: ->
       for island in @geometries
@@ -57,6 +57,9 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
 
       return
 
+    missingGrain: (island) ->
+      island.state.maxGrain - island.state.grain
+
     populationGrow: ->
       for island in @geometries
         if island.state.starving == 0
@@ -82,8 +85,12 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
 
           harvested = Base.round(island.state.area * config.productionPerArea * 26 * rainfallCoefficient)
           island.state.harvestHistory.push harvested
-          island.state.grain = _.clamp(island.state.grain + +harvested, 0, island.state.maxGrain)
+          @addGrainToIsland island, harvested
           island.state.rainfall = 0
+      return
+
+    addGrainToIsland: (island, quantity) ->
+      island.state.grain = _.clamp(island.state.grain + +quantity, 0, island.state.maxGrain)
       return
 
     registerGeometries: ->

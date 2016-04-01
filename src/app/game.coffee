@@ -16,6 +16,8 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         criticalRainfallMax: 1200
       trade:
         maxBaseDistanceForTrade: 200000
+        criticalCargo: 500
+        baseGrainPrice: 0.01
       ships:
         buildCost: 100
         baseBuildCost: 100
@@ -39,7 +41,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           text: 'Isis was a goddess of something else and blablabla...'
           stats:
             ships:
-              maxCargo: 1500
+              maxCargo: 40000
         'Anubis':
           no: 3
           iconLabel: 'anubis'
@@ -48,7 +50,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           text: 'And also Anubis was here. He was a blablabla...'
           stats:
             ships:
-              operationCost: 0.15
+              operationCost: 0.8
         'Bastet':
           no: 4
           iconLabel: 'bastet'
@@ -68,14 +70,15 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         no: 7
         out: 0
         baseSpeed: 1
-        maxCargo: 1000
+        maxCargo: 30000
         maxEnergy: 400
         energyConsumption: 40
         restingSpeed: 120
-        operationCost: 0.1
+        operationCost: 1
         rainPenalty: 0.3
       trade:
         tradingDistanceCoefficient: 1
+        tradeEffectivity: 1
 
     constructor: ->
       @loadIcons()
@@ -99,10 +102,29 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         return
       return
 
+
     # TRADING
     maxTradingDistanceForCult: (cult) ->
       console.log cult
       @getStat(cult, 'trade', 'tradingDistanceCoefficient') * @state.trade.maxBaseDistanceForTrade
+
+    makeTrade: (ship, islandName) ->
+      cult = ship.cult
+      grain = ship.cargo
+
+      islandsCollection = app.getCollection('islands')
+      island = islandsCollection.getIslandByName islandName
+
+      quantityCoefficient = islandsCollection.hungryCoefficient(island) * Math.random()
+      quantity = ship.validateCargoQuantity(quantityCoefficient * islandsCollection.missingGrain(island))
+
+      console.log 'will trade, ' , quantity
+      islandsCollection.addGrainToIsland island, quantity
+      ship.unshipCargo quantity
+
+      totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity')
+      @earnGold cult, totalPrice
+      return
 
 
     # POLITICS
@@ -195,6 +217,14 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       @spendGold cult, @state.ships.buildCost
       return
 
+    payOperationalCosts: (ship) ->
+      cult = ship.cult
+      cost = @getStat(cult, 'ships', 'operationCost')
+      if @spendGold cult, cost
+        return
+      else
+        app.getCollection('ships').destroyShip(ship)
+
     hasCultGoldToBuildShip: (cult) ->
       @hasCultGold cult, @state.ships.buildCost
 
@@ -212,6 +242,9 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
 
     # GOLD
+    earnGold: (cult, quantity) ->
+      @getCultStats(cult).gold.quantity += quantity
+
     spendGold: (cult, quantity) ->
       if @hasCultGold(cult, quantity)
         @getCultStats(cult).gold.quantity -= quantity
@@ -237,8 +270,11 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
     getPlayerPoliticsMaxPoints: ->
       @getPlayerStat 'politics', 'maxFreePoints'
 
-    getPlayerMoney: ->
-      app.game.getPlayerCultStats().gold.quantity
+    getPlayerGoldLabel: ->
+      if app.game.getPlayerCultStats()
+        parseInt app.game.getPlayerCultStats().gold.quantity
+      else
+        '0'
 
     getPlayerStat: (category, value) ->
       if @getPlayerCultLabel()

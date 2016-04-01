@@ -27,6 +27,7 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
 
       @resting = false
       @willRest = false
+      @willTrade = false
       return
 
     addCheckPoint: (id) ->
@@ -73,6 +74,16 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
         @energy -= @energyConsumption
       return
 
+    validateCargoQuantity: (quantity) ->
+      if @cargo > quantity
+        quantity
+      else
+        @cargo
+
+    unshipCargo: (quantity) ->
+      @cargo -= quantity
+      return
+
     prepareNextStop: ->
       @stops = _.slice @stops, 1
       @nextStop = app.getCollection('nodes').nodeMapCoordinates @stops[0]
@@ -87,18 +98,23 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
           if app.getCollection('nodes').isNodePort @stops[0]
             @resting = true
             @willRest = false
+            if @willTrade
+              @willTrade = false
+              @collection.trade @, @stops[0]
+
           else
           # sending ship to fill energy to the nearest port
-            if !@willRest
+            if !@willRest and !@willTrade
               if @needRestCondition()
                 @willRest = true
+                @willTrade = true
                 @addCheckPoint @collection.findClosestPort(@)
               else
                 tradeNode = @collection.getPlaceForTrade(@)
                 if tradeNode
                   @willRest = true
+                  @willTrade = true
                   @addCheckPoint tradeNode
-
 
           @prepareNextStop()
 
@@ -145,7 +161,6 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
       return
 
     draw: ->
-
       @shipCoord = app.coordinateToView @coords
       @move()
       app.ctx.strokeStyle = 'black'

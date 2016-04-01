@@ -17,7 +17,7 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button
       @registerText 'weekLabel', {x: @x + 100, y: @y + 30}, app.time.getSeasonYearLabel, @textStyle
       @buildGlassHour()
 
-      @registerText 'moneyLabel', {x: @x + 100, y: @y + 65}, app.game.getPlayerMoney, @textStyle
+      @registerText 'moneyLabel', {x: @x + 100, y: @y + 65}, app.game.getPlayerGoldLabel, @textStyle
 
       return
 

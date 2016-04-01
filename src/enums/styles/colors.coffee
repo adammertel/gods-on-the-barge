@@ -25,7 +25,7 @@ define 'Colors', [], () ->
     POLITICSINDICATORBAD: '#c2e699'
 
 
-    GOLD: '#F58706'
+    GOLD: 'gold'
     PORTMAP: '#8C1C1C'
     ROUTEMAP: '#261501'
     SAND: '#F58706'

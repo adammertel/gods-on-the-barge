@@ -4,6 +4,12 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       @name = 'ships'
       super()
       app.registerNewDayAction @updateEnergyForShips.bind @
+      app.registerNewDayAction @payForFleet.bind @
+      return
+
+    payForFleet: ->
+      for ship in @geometries
+        app.game.payOperationalCosts(ship)
       return
 
     findClosePorts: (ship) ->
@@ -22,25 +28,37 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       else
         return
 
+    trade: (ship, portId) ->
+      islandName = app.getCollection('nodes').getIslandOfPort(portId)
+      if islandName != 'Turkey' and islandName != 'Greece' and islandName != 'Egypt'
+        console.log 'trading with', islandName
+        app.game.makeTrade ship, islandName
+      return
+
     getPlaceForTrade: (ship) ->
       ports = @findClosePorts(ship)
       maxDistanceForTrading = app.game.maxTradingDistanceForCult(ship.cult)
+      criticalCargo = app.game.state.trade.criticalCargo
+      cargoCoefficient = if ship.cargo > criticalCargo then 1 else ship.cargo / criticalCargo
+      console.log cargoCoefficient
 
       tradePlaces = []
 
       for port in ports
         islandName = app.getCollection('nodes').getIslandOfPort(port.id)
+
         if islandName != 'Turkey' and islandName != 'Greece' and islandName != 'Egypt'
           if port.distance < maxDistanceForTrading
             tradeCoefficient = app.getCollection('islands').tradeAttractivity(port.distance, maxDistanceForTrading, islandName, ship.cult)
-            tradePlaces.push {'port': port, 'coefficient': tradeCoefficient}
+            tradePlaces.push {'port': port, 'coefficient': tradeCoefficient * cargoCoefficient}
 
       tradeOrdered = _.orderBy(_.clone(tradePlaces), 'coefficient', 'desc').splice(0, 5)
+      console.log tradeOrdered
 
       tradeNode = false
       for tradePlace in tradeOrdered
         if !tradeNode
-          if _.random(1, true) < tradePlace.coefficient
+          if Math.random() < tradePlace.coefficient
             tradeNode = tradePlace.port.id
 
       console.log tradeNode
