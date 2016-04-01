@@ -45,7 +45,6 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
       return
 
     sendShip: (startingPoint) ->
-      console.log startingPoint
       app.game.createShip app.game.getPlayerCultLabel(), startingPoint
       return
 

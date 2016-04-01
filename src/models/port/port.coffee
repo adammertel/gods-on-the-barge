@@ -13,8 +13,9 @@ define 'Port', ['Geography', 'Base', 'FontStyle'], (Geography, Base, FontStyle) 
 
       app.ctx.font = FontStyle.BOLDNORMAL
 
+      if app.state.zoom > 0.7
       if @island == 'Turkey' or @island == 'Greece' or @island == 'Egypt'
-        app.ctx.fillText @name, portCoord.x + 15, portCoord.y - 15
+        app.ctx.fillText @name, portCoord.x + 10, portCoord.y - 10
 
       app.ctx.fill()
 

@@ -63,7 +63,6 @@ define 'Nodes', ['Base', 'Collection', 'Port', 'Colors'], (Base, Collection, Por
       for endPoint, endPointValue  of app.game.state.politics.endingPoints
         endPointsSamples = _.concat endPointsSamples, _.times endPointValue, _.constant parseInt endPoint
 
-      console.log _.sample endPointsSamples
       _.sample endPointsSamples
 
     getShipStartingNodes: ->

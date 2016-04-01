@@ -17,13 +17,11 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
       1 - (distance / maxDistance)
 
     hungryCoefficient: (island) ->
-      console.log island
       1 - island.state.grain / island.state.maxGrain
 
     attractivityCoefficient: (island) ->
       attractivity = if island.state.buildings.amphiteater then 0.2 else 0
       density = island.state.population/island.state.area
-      console.log density
 
       # 2000~ is a density of Delos
       densityCoefficient = (density / 2000) * 0.5
@@ -31,14 +29,12 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
 
     tradeAttractivity: (distance, maxDistance, islandName) ->
       island = @getIslandByName(islandName)
-      console.log islandName, @distanceCoefficient(distance, maxDistance) * @hungryCoefficient(island) * @attractivityCoefficient(island)
       @distanceCoefficient(distance, maxDistance) * @hungryCoefficient(island) * @attractivityCoefficient(island)
 
     starvingPeople: ->
       for island in @geometries
         if island.state.starving > 0
           diedFromStarving = Math.ceil app.game.state.islands.starvingDeathRate * island.state.starving
-          console.log island.state.name, 'diedFromStarving', diedFromStarving
           island.state.starving = _.clamp(island.state.starving - diedFromStarving, 0, island.state.starving)
           island.state.population = _.clamp(island.state.population - diedFromStarving, 0, island.state.population)
       return

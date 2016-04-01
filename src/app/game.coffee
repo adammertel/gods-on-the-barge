@@ -15,9 +15,9 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         criticalRainfallMin: 100
         criticalRainfallMax: 1200
       trade:
-        maxBaseDistanceForTrade: 50000
+        maxBaseDistanceForTrade: 100000
         criticalCargo: 500
-        baseGrainPrice: 0.0001
+        baseGrainPrice: 0.00001
       ships:
         buildCost0: 100
         buildCost1: 100
@@ -68,7 +68,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         freePoints: 2
         maxFreePoints: 3
       ships:
-        no: 7
+        no: 3
         out: 0
         baseSpeed: 1
         maxCargo: 500000
@@ -106,7 +106,6 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
     # TRADING
     maxTradingDistanceForCult: (cult) ->
-      console.log cult
       @getStat(cult, 'trade', 'tradingDistanceCoefficient') * @state.trade.maxBaseDistanceForTrade
 
     makeTrade: (ship, islandName) ->
@@ -119,7 +118,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       quantityCoefficient = islandsCollection.hungryCoefficient(island) * Math.random()
       quantity = ship.validateCargoQuantity(quantityCoefficient * islandsCollection.missingGrain(island))
 
-      console.log 'will trade, ' , quantity
+      #console.log 'will trade, ' , quantity
       islandsCollection.addGrainToIsland island, quantity
       ship.unshipCargo quantity
 
@@ -179,6 +178,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         false
 
     voteForEndingPoint: (cult, endingPointId) ->
+      console.log 'cult', cult, 'is voting for', endingPointId
       if @getCultPoliticsPoints(cult) > 0
         if @raiseEndingPoint(endingPointId)
           @spendPoliticsPoint cult
@@ -193,7 +193,6 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       if @getCultPoliticsPoints(cult) > 0
         @getCultStats(cult).politics.freePoints -= 1
       return
-
 
 
     # SHIPS

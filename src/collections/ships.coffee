@@ -31,7 +31,6 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
     trade: (ship, portId) ->
       islandName = app.getCollection('nodes').getIslandOfPort(portId)
       if islandName != 'Turkey' and islandName != 'Greece' and islandName != 'Egypt'
-        console.log 'trading with', islandName
         app.game.makeTrade ship, islandName
       return
 
@@ -40,7 +39,6 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       maxDistanceForTrading = app.game.maxTradingDistanceForCult(ship.cult)
       criticalCargo = app.game.state.trade.criticalCargo
       cargoCoefficient = if ship.cargo > criticalCargo then 1 else ship.cargo / criticalCargo
-      console.log cargoCoefficient
 
       tradePlaces = []
 
@@ -53,7 +51,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
             tradePlaces.push {'port': port, 'coefficient': tradeCoefficient * cargoCoefficient}
 
       tradeOrdered = _.orderBy(_.clone(tradePlaces), 'coefficient', 'desc').splice(0, 5)
-      console.log tradeOrdered
+      #console.log tradeOrdered
 
       tradeNode = false
       for tradePlace in tradeOrdered
@@ -61,7 +59,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
           if Math.random() < tradePlace.coefficient
             tradeNode = tradePlace.port.id
 
-      console.log tradeNode
+      #console.log tradeNode
       tradeNode
 
 

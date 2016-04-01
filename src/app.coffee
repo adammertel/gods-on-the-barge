@@ -1,4 +1,4 @@
-define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
+define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
   window.app =
     state:
       started: false
@@ -41,6 +41,7 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
     infoWindows: []
     startGameFunctions: []
     shipPath: new Path2D Base.shipPath()
+    ais: []
 
     mouseX: ->
       @state.controls.mousePosition.x
@@ -96,7 +97,13 @@ define 'App', ['Base', 'Ship', 'Season'], (Base, Ship, Season) ->
         startGameFunction()
 
       @time.resume()
+      @createAis()
       return
+
+    createAis: ->
+      for cult of app.game.state.cults
+        if cult != app.game.getPlayerCultLabel()
+          @ais.push new Ai cult
 
     registerInfoWindow: (infoWindow) ->
       @infoWindows.push infoWindow
