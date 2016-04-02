@@ -1,4 +1,4 @@
-define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'ButtonStyle', 'Base'], (Panel, Text, Button, Buildings, TextStyle, ButtonStyle, Base) ->
+define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'ButtonStyle', 'Base', 'Colors'], (Panel, Text, Button, Buildings, TextStyle, ButtonStyle, Base, Colors) ->
   class IslandsPanel extends Panel
     constructor: (@menu) ->
       @label = 'Islands'
@@ -40,6 +40,9 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
         buildY += 20
         label = building.name
         @registerButton false, label, {x: @w - 30, y: buildY, w: 100, h: 18}, @mst.bind(@, label + ' - ' + building.price), @makeBuilding.bind(@, label), @isBuiltButtonStyle.bind(@, label)
+
+      # Religion distribution
+      @registerText false, 'island_label', {x: @x + 170, y: @y + 15}, @mst.bind(@, 'religion'), TextStyle.HEADER
 
       return
 
@@ -98,6 +101,22 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
       @texts = _.clone @overviewTexts
       return
 
+    drawReligionDistributionPie: ->
+      if @activeIsland
+        island = @islandCollection.getIslandByName(@activeIsland)
+        religions = island.state.religion
+        pieValues = []
+
+        for cultLabel, religion of religions
+          if cultLabel == 'Pagan'
+            pieValues.push {'label': cultLabel, 'value': religion.distribution, 'color': Colors['CULTPAGAN']}
+          else
+            pieValues.push {'label': cultLabel, 'value': religion.distribution, 'color': app.game.state.cults[cultLabel].color}
+
+        @drawPieChart pieValues, 50, @x + 230, @y + 80
+      return
+
     draw: ->
+      @drawReligionDistributionPie()
       super()
       return

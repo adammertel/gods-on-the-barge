@@ -1,4 +1,4 @@
-define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle'], (Base, Button, Text, Colors, TextStyle) ->
+define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle', 'FontStyle'], (Base, Button, Text, Colors, TextStyle, FontStyle) ->
   class Ui
     constructor: (@id, @x, @y, @w, @h) ->
       y = @y - 1
@@ -63,6 +63,28 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle'], (Base, Button, T
       #app.ctx.strokeStyle = 'black'
       app.ctx.fill @bckPath
       #app.ctx.stroke @bckPath
+
+    drawPieChart: (segments, size, x, y) ->
+      cumulativeBefore = 0
+      cumulativeAfter = 0
+      app.ctx.font = FontStyle.BOLDSMALL
+      app.ctx.textAlign = 'left'
+
+      for segment, s in segments
+        cumulativeAfter += segment.value
+        app.ctx.fillStyle = segment.color
+        app.ctx.beginPath()
+        app.ctx.moveTo x, y
+        app.ctx.arc x, y, size, cumulativeBefore * 2 * Math.PI, cumulativeAfter * 2 * Math.PI, false
+        app.ctx.lineTo x, y
+        app.ctx.closePath()
+        app.ctx.fill()
+        cumulativeBefore += segment.value
+
+        app.ctx.fillRect x + size + 10, y - s * 13, 15, 10
+
+        app.ctx.fillStyle = 'black'
+        app.ctx.fillText segment.label, x + size + 30, y - s * 13 + 8
 
     draw: ->
       app.ctx.lineWidth = 2

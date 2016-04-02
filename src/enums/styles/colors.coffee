@@ -14,6 +14,7 @@ define 'Colors', [], () ->
     CULTISIS: '#4daf4a'
     CULTANUBIS: '#a65628'
     CULTBASTET: '#e41a1c'
+    CULTPAGAN: 'grey'
 
     FOODINDICATORSUPER: '#1a9641'
     FOODINDICATORGOOD: '#a6d96a'

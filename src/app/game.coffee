@@ -49,7 +49,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           text: 'Isis was a goddess of something else and blablabla...'
           stats:
             ships:
-              maxCargo: 60000
+              rainPenalty: 0
         'Anubis':
           no: 3
           iconLabel: 'anubis'
@@ -58,7 +58,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           text: 'And also Anubis was here. He was a blablabla...'
           stats:
             ships:
-              operationCost: 0.8
+              operationCost: 0
         'Bastet':
           no: 4
           iconLabel: 'bastet'
@@ -86,7 +86,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         energyConsumption: 40
         restingSpeed: 120
         operationCost: 1
-        rainPenalty: 0.3
+        rainPenalty: 0.5
       trade:
         tradingDistanceCoefficient: 1
         tradeEffectivity: 1
