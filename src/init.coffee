@@ -55,12 +55,14 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
     return
 
   canvas.addEventListener 'dblclick', (e) ->
-    if app.state.controls.mouseClicked and app.mouseOverMap()
+    app.state.controls.mouseDblClicked = false
+    if app.mouseOverMap()
       app.zoomIn()
     return
 
   canvas.addEventListener 'mouseup', (e) ->
     app.state.controls.mouseClicked = false
+    app.state.controls.mouseDblClicked = false
     return
 
   canvas.addEventListener 'mousemove', (e) ->

@@ -17,7 +17,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       trade:
         maxBaseDistanceForTrade: 100000
         criticalCargo: 500
-        baseGrainPrice: 0.00001
+        baseGrainPrice: 0.001
       ships:
         buildCost0: 100
         buildCost1: 100
@@ -31,6 +31,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         minDistributionToStable: 0.1
         minDistributionToGrow: 0.4
         flow: 0.05
+
       gameStatistics:
         cults:
           'Serapis':
@@ -48,6 +49,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           'Pagan':
             islands: 0
             total: 0
+
       cults:
         'Serapis':
           no: 1
@@ -161,9 +163,6 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
       for cultName, noIslands of islands
         @state.gameStatistics.cults[cultName].islands = noIslands
-
-
-      console.log @state.gameStatistics
 
       return
 

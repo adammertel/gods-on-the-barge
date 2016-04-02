@@ -12,6 +12,9 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm', 'Colors'], (Base, Weather
         stormRadiusCoefficient: 100
         stormSpeedCoefficient: 2
 
+        minWindSpeed: 1
+        maxWindSpeed: 10
+
     constructor: ->
       app.registerNewWeekAction @checkIfNewStorm.bind @
       app.registerNewDayAction @reduceStormsPower.bind @
@@ -41,16 +44,18 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm', 'Colors'], (Base, Weather
     changeWindSpeed: ->
       anomaly = _.random(0, 1) < @state.config.windSpeedAnomalyChance
       predicatedWindSpeed = @getWindSpeedForThisWeek()
+      minSpeed = @state.config.minWindSpeed
+      maxSpeed = @state.config.maxWindSpeed
 
       if anomaly
         anomalyPower = Math.ceil _.random(0, 1.5)
         positiveAnomaly = _.random(0, 1) < 0.5
         if positiveAnomaly
-          @state.windSpeed = _.clamp predicatedWindSpeed + anomalyPower, 0, 10
+          @state.windSpeed = _.clamp predicatedWindSpeed + anomalyPower, minSpeed, maxSpeed
         else
-          @state.windSpeed = _.clamp predicatedWindSpeed - anomalyPower, 0, 10
+          @state.windSpeed = _.clamp predicatedWindSpeed - anomalyPower, minSpeed, maxSpeed
       else
-        @state.windSpeed = _.clamp predicatedWindSpeed, 0, 10
+        @state.windSpeed = _.clamp predicatedWindSpeed, minSpeed, maxSpeed
 
       return
 

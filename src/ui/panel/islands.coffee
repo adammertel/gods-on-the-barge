@@ -108,7 +108,6 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
     drawReligionDistributionPie: ->
       if @activeIsland
         island = @islandCollection.getIslandByName(@activeIsland)
-        console.log island
         religions = island.state.religion
         pieValues = []
 

@@ -81,10 +81,12 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle', 'FontStyle'], (Ba
         app.ctx.fill()
         cumulativeBefore += segment.value
 
-        app.ctx.fillRect x + size + 10, y - s * 13, 15, 10
+        segnemntX = x + size + 10
+        segnemntY = y + 20 - s * 13
+        app.ctx.fillRect segnemntX, segnemntY - 10, 15, 10
 
         app.ctx.fillStyle = 'black'
-        app.ctx.fillText segment.label + ': ' + Base.round(segment.value * 100) + '%', x + size + 30, y - s * 13 + 8
+        app.ctx.fillText segment.label + ': ' + Base.round(segment.value * 100) + '%', segnemntX + 20, segnemntY
 
     draw: ->
       app.ctx.lineWidth = 2

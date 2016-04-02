@@ -23,6 +23,7 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
         right: false
         left: false
         mouseClicked: false
+        mouseDblClicked: false
         mouseClickedPosition: {}
         mousePosition: {}
       pxDensity: 400
@@ -232,10 +233,6 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
 
     draw: ->
       @time.nextTick()
-
-      orderedCollections =
-
-
       for collection in @orderedCollection
         collection.collection.draw()
 
