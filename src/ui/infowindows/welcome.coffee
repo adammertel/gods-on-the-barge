@@ -43,17 +43,18 @@ define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 
       text3 = 'Your goal is to convert as many people in region as possible'
       text4 = 'Please choose a cult to play:'
 
-      app.drawTextArea text1, @x + @m, @y + @m, @lineHeight, @lineWidth, FontStyle.HEADER
-      app.drawTextArea text2, @x + @m, @y + @m + 20, @lineHeight, @lineWidth, FontStyle.BOLDNORMAL
-      app.drawTextArea text3, @x + @m, @y + @m + 40, @lineHeight, @lineWidth, FontStyle.NORMAL
-      app.drawTextArea text4, @x + @m, @y + @m + 60, @lineHeight, @lineWidth, FontStyle.NORMAL
+      lineWidth = @lineWidth
+      app.drawTextArea text1, @x + @m, @y + @m, @lineHeight, lineWidth, FontStyle.HEADER
+      app.drawTextArea text2, @x + @m, @y + @m + 20, @lineHeight, lineWidth, FontStyle.BOLDNORMAL
+      app.drawTextArea text3, @x + @m, @y + @m + 40, @lineHeight, lineWidth, FontStyle.NORMAL
+      app.drawTextArea text4, @x + @m, @y + @m + 60, @lineHeight, lineWidth, FontStyle.NORMAL
 
       _.each app.game.state.cults, (cult, c) =>
         if @chosenCult == cult.label
           app.ctx.fillStyle = Colors.ACTIVEAREA
-          app.ctx.fillRect @x + @m, @y + @m + 100*cult.no - 20, @w - 2*@m, 80
-        app.drawTextArea cult.label, @x + @m + 80, @y + @m + 100*cult.no, @lineHeight, @lineWidth, 'bold 10pt Calibri'
-        app.drawTextArea cult.text, @x + @m + 80, @y + @m + 20 + 100*cult.no, @lineHeight, @lineWidth, '8pt Calibri'
+          app.ctx.fillRect @x + @m - 20, @y + @m + 100*cult.no - 20, @w - 2*@m + 40, 80
+        app.drawTextArea cult.label, @x + @m + 80, @y + @m + 100*cult.no, @lineHeight, @lineWidth - 70, 'bold 10pt Calibri'
+        app.drawTextArea cult.text, @x + @m + 80, @y + @m + 20 + 100*cult.no, @lineHeight, @lineWidth - 70, '8pt Calibri'
 
 
         logo = cult.logo

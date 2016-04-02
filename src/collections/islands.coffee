@@ -20,7 +20,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
       flow = app.game.state.religion.flow
 
       for island in @geometries
-        onePersonDistribution = 100 / island.state.population
+        onePersonDistribution = 1 / island.state.population
         onePercentPeople = 1 / onePersonDistribution
         console.log 'islandName', island.state.name
 

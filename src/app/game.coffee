@@ -37,7 +37,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           label: 'Serapis'
           iconLabel: 'serapis'
           color: Colors.CULTSERAPIS
-          text: 'Serapis was a god of blablabla'
+          text: 'Has roots in the ancient royal cult of the god Osiris-Apis. Together with Isis he became the patron god of the Ptolemaic dynasty ruling during the Hellenistic period. He is an universal deity.'
           stats:
             ships:
               maxEnergy: 500
@@ -46,7 +46,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           iconLabel: 'isis'
           label: 'Isis'
           color: Colors.CULTISIS
-          text: 'Isis was a goddess of something else and blablabla...'
+          text: 'She was the mother of the god Horus and her husband was Osiris. During the Hellenistic period she also became wife of the god Serapis. Isis was a universal goddess and a patron deity of sailors.'
           stats:
             ships:
               rainPenalty: 0
@@ -55,7 +55,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           iconLabel: 'anubis'
           label: 'Anubis'
           color: Colors.CULTANUBIS
-          text: 'And also Anubis was here. He was a blablabla...'
+          text: 'He is known as the god with a jackall head. He weighed the hearts of dead people in the final judgement. He was a patron deity of funeral rites and protected people in their afterlife.'
           stats:
             ships:
               operationCost: 0
@@ -64,7 +64,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           iconLabel: 'bastet'
           label: 'Bastet'
           color: Colors.CULTBASTET
-          text: 'Bastet is the last one here but not blablabla...'
+          text: 'She was the famous lion goddess of Egypt. She is known for her temper and protective behaviour. She was also the patron deity of hunters and mothers.'
           stats: {}
 
     defaultCultStats:
@@ -123,9 +123,9 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       Base.round baseConverted * conversionEffectivity
 
     makeConversion: (cult, island, numberOfConverting) ->
-      console.log 'making religious conversion driven by ship. Island name: ', island.state.name
-      console.log 'numberOfConverting ', numberOfConverting
-      onePersonDistribution = 100 / island.state.population
+      #console.log 'making religious conversion driven by ship. Island name: ', island.state.name
+      #console.log 'numberOfConverting ', numberOfConverting
+      onePersonDistribution = 1 / island.state.population
       conversionEffectivity = @getStat(cult, 'religion', 'conversionEffectivity')
 
       for n in _.range numberOfConverting
@@ -137,14 +137,11 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           if Math.random() < conversionChance
             @convertPerson island, randomPersonReligion, cult, onePersonDistribution
 
-      console.log island
+      #console.log island
 
       return
 
     convertPerson: (island, cultFrom, cultTo, onePersonDistribution) ->
-      console.log island.state.religion
-      console.log 'cultFrom', cultFrom
-      console.log 'cultTo', cultTo
       island.state.religion[cultFrom].distribution -= onePersonDistribution
       island.state.religion[cultTo].distribution += onePersonDistribution
       return
