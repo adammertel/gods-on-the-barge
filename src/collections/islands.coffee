@@ -1,8 +1,7 @@
-define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base, Collection, Island, Buildings, Season) ->
+define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Colors'], (Base, Collection, Island, Buildings, Season, Colors) ->
   class Islands extends Collection
     constructor: (data) ->
       @name = 'islands'
-      @color = '#777'
 
       super data
 
@@ -43,7 +42,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
               oldReligion = app.game.getRandomPersonReligionFromIsland(island)
               if oldReligion != cultName
                 app.game.convertPerson island, oldReligion, cultName, onePersonDistribution
-
       return
 
 
@@ -211,7 +209,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
             island.drawFoodIndicator labelW, labelH
 
     draw: ->
-      app.ctx.fillStyle = @color
 
       for island in @geometries
         if island
@@ -219,6 +216,8 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
             if island.mouseConflict()
               @activeteIslandByClick island
 
+          dominantCult = island.getDominantCult()
+          app.ctx.fillStyle = Colors['CULT' + _.upperCase dominantCult ]
           app.ctx.beginPath()
           island.draw()
           app.ctx.closePath()

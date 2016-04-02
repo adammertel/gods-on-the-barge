@@ -42,6 +42,17 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
       super()
       return
 
+    getDominantCult: ->
+      dominantDistribution = 0
+      dominantCult = ''
+
+      for cultName, cult of @state.religion
+        if cult.distribution > dominantDistribution
+          dominantDistribution = cult.distribution
+          dominantCult = cultName
+
+      dominantCult
+
     calculateCentroid: ->
       xs = []
       ys = []

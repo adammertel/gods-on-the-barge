@@ -1,4 +1,4 @@
-define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'ButtonStyle', 'Base', 'Colors'], (Panel, Text, Button, Buildings, TextStyle, ButtonStyle, Base, Colors) ->
+define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'ButtonStyle', 'FontStyle', 'Base', 'Colors'], (Panel, Text, Button, Buildings, TextStyle, ButtonStyle, FontStyle, Base, Colors) ->
   class IslandsPanel extends Panel
     constructor: (@menu) ->
       @label = 'Islands'
@@ -21,7 +21,7 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
       x = @x + 15
       for island, i in @islands
         name = island.data.name
-        @registerButton true, 'island' + name, {x: x + Math.floor(i/7) * dx, y: y + (i % 7) * dy, w: dx - 10, h: dy - 5}, @mst.bind(@, name), @changeActiveIsland.bind(@, name), ButtonStyle.NORMALINACTIVE
+        @registerButton true, 'island' + name, {x: x + Math.floor(i/7) * dx, y: y + (i % 7) * dy, w: dx - 10, h: dy - 5}, @mst.bind(@, name), @changeActiveIsland.bind(@, name), @islandButtonColor.bind(@, island)
 
       @registerText false, 'island_label', {x: x, y: y + 10}, @getActiveIslandLabel.bind(@), TextStyle.HEADER
       @registerButton false, 'returnToOverview', {x: x, y: y + 120, w: 60, h: 20}, @mst.bind(@, '< list'), @changeToOverviewMode.bind(@), ButtonStyle.NORMALINACTIVE
@@ -45,6 +45,10 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
       @registerText false, 'island_label', {x: @x + 170, y: @y + 15}, @mst.bind(@, 'religion'), TextStyle.HEADER
 
       return
+
+    islandButtonColor: (island) ->
+      dominantCult = island.getDominantCult()
+      {'text': Colors.BUTTONNORMALTEXTCOLOR, 'fill': Colors['CULT' + _.upperCase dominantCult ], 'font': FontStyle.BOLDNORMAL}
 
     dtdd: (props, dtdd) ->
       @registerText false, props.id + 'dt', {x: props.x , y: props.y}, dtdd.dt, TextStyle.DT
