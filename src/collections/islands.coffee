@@ -10,6 +10,40 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season'], (Base
       app.registerNewWeekAction @feedPeople.bind @
       app.registerNewSeasonAction @populationGrow.bind @
       app.registerNewSeasonAction @harvest.bind @
+      app.registerNewSeasonAction @religiousConversion.bind @
+      return
+
+    # self-driven religious conversion
+    religiousConversion: () ->
+      console.log 'making self-driven religious conversion'
+      minStable = app.game.state.religion.minDistributionToStable
+      minGrow = app.game.state.religion.minDistributionToGrow
+      flow = app.game.state.religion.flow
+
+      for island in @geometries
+        onePersonDistribution = 100 / island.state.population
+        onePercentPeople = 1 / onePersonDistribution
+        console.log 'islandName', island.state.name
+
+        for cult, cultName of island.state.religion
+          if cult.distribution < minStable and cult.distribution != 0
+            numberOfConverting = Base.round(Math.random() * flow * (minStable - cult.distribution) * onePercentPeople)
+            console.log cultName, ' is falling', numberOfConverting
+
+            for n in _.range numberOfConverting
+              newReligion = app.game.getRandomPersonReligionFromIsland(island)
+              if newReligion != cultName
+                app.game.convertPerson island, cultName, newReligion, onePersonDistribution
+
+          else if cult.distribution > minGrow
+            numberOfConverting = Base.round(Math.random() * flow * (cult.distribution - minGrow) * onePersonDistribution)
+            console.log cultName, ' is growing', numberOfConverting
+
+            for n in _.range numberOfConverting
+              oldReligion = app.game.getRandomPersonReligionFromIsland(island)
+              if oldReligion != cultName
+                app.game.convertPerson island, oldReligion, cultName, onePersonDistribution
+
       return
 
 

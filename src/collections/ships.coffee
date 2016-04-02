@@ -31,7 +31,9 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
     trade: (ship, portId) ->
       islandName = app.getCollection('nodes').getIslandOfPort(portId)
       if islandName != 'Turkey' and islandName != 'Greece' and islandName != 'Egypt'
-        app.game.makeTrade ship, islandName
+        island =  app.getCollection('islands').getIslandByName islandName
+        app.game.makeTrade ship, island
+        app.game.makeConversion ship.cult, island, app.game.numberOfConverting ship.cult
       return
 
     getPlaceForTrade: (ship) ->

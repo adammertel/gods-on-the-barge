@@ -1,4 +1,4 @@
-define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'ButtonStyle'], (Panel, Text, Button, Buildings, TextStyle, ButtonStyle) ->
+define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'ButtonStyle', 'Base'], (Panel, Text, Button, Buildings, TextStyle, ButtonStyle, Base) ->
   class IslandsPanel extends Panel
     constructor: (@menu) ->
       @label = 'Islands'
@@ -55,7 +55,7 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
         ButtonStyle.NORMALINACTIVE
 
     activeIslandGrainStat: ->
-      @activeIslandStat('grain') + '/' + @activeIslandStat('maxGrain')
+      Base.round(@activeIslandStat('grain')) + '/' + @activeIslandStat('maxGrain')
 
     activeIslandStat: (param) ->
       activeIsland = @getActiveIsland().state[param]

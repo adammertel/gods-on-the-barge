@@ -24,6 +24,13 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         baseBuildCost: 100
         buildCostVariability: 0.3
         buildCostTemperatureSignificance: 0.1
+      religion:
+        baseConversionMax: 50
+        baseConversionMin: 10
+        conversionResistancePagans: 0.2
+        minDistributionToStable: 0.1
+        minDistributionToGrow: 0.4
+        flow: 0.05
       cults:
         'Serapis':
           no: 1
@@ -42,7 +49,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           text: 'Isis was a goddess of something else and blablabla...'
           stats:
             ships:
-              maxCargo: 500000
+              maxCargo: 60000
         'Anubis':
           no: 3
           iconLabel: 'anubis'
@@ -61,6 +68,9 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           stats: {}
 
     defaultCultStats:
+      religion:
+        conversionEffectivity: 1
+        conversionResistance: 0.3
       gold:
         quantity: 1000
       politics:
@@ -71,7 +81,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         no: 3
         out: 0
         baseSpeed: 1
-        maxCargo: 500000
+        maxCargo: 50000
         maxEnergy: 400
         energyConsumption: 40
         restingSpeed: 120
@@ -104,16 +114,76 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       return
 
 
+    # RELIGION
+    numberOfConverting: (cult) ->
+      baseMax = @state.religion.baseConversionMax
+      baseMin = @state.religion.baseConversionMin
+      baseConverted = _.random(baseMin, baseMax)
+      conversionEffectivity = @getStat(cult, 'religion', 'conversionEffectivity')
+      Base.round baseConverted * conversionEffectivity
+
+    makeConversion: (cult, island, numberOfConverting) ->
+      console.log 'making religious conversion driven by ship. Island name: ', island.state.name
+      console.log 'numberOfConverting ', numberOfConverting
+      onePersonDistribution = 100 / island.state.population
+      conversionEffectivity = @getStat(cult, 'religion', 'conversionEffectivity')
+
+      for n in _.range numberOfConverting
+        randomPersonReligion = @getRandomPersonReligionFromIsland(island)
+
+        if randomPersonReligion != cult
+          resistance = @getResistanceOfCult randomPersonReligion
+          conversionChance = conversionEffectivity - resistance
+          if Math.random() < conversionChance
+            @convertPerson island, randomPersonReligion, cult, onePersonDistribution
+
+      console.log island
+
+      return
+
+    convertPerson: (island, cultFrom, cultTo, onePersonDistribution) ->
+      console.log island.state.religion
+      console.log 'cultFrom', cultFrom
+      console.log 'cultTo', cultTo
+      island.state.religion[cultFrom].distribution -= onePersonDistribution
+      island.state.religion[cultTo].distribution += onePersonDistribution
+      return
+
+    getResistanceOfCult: (cult) ->
+      if cult == 'Pagan'
+        @state.religion.conversionResistancePagans
+      else
+         @getStat(cult, 'religion', 'conversionResistance')
+
+
+    getRandomPersonReligionFromIsland: (island) ->
+      SerapisCumulation = island.state.religion.Serapis.distribution
+      IsisCumulation = island.state.religion.Isis.distribution
+      BastetCumulation = island.state.religion.Bastet.distribution
+      AnubisCumulation = island.state.religion.Anubis.distribution
+
+      randomNumber = Math.random()
+
+      if (randomNumber < SerapisCumulation)
+        'Serapis'
+      else if (randomNumber < IsisCumulation)
+        'Isis'
+      else if (randomNumber < BastetCumulation)
+        'Bastet'
+      else if (randomNumber < AnubisCumulation)
+        'Anubis'
+      else
+        'Pagan'
+
     # TRADING
     maxTradingDistanceForCult: (cult) ->
       @getStat(cult, 'trade', 'tradingDistanceCoefficient') * @state.trade.maxBaseDistanceForTrade
 
-    makeTrade: (ship, islandName) ->
+    makeTrade: (ship, island) ->
       cult = ship.cult
       grain = ship.cargo
 
       islandsCollection = app.getCollection('islands')
-      island = islandsCollection.getIslandByName islandName
 
       quantityCoefficient = islandsCollection.hungryCoefficient(island) * Math.random()
       quantity = ship.validateCargoQuantity(quantityCoefficient * islandsCollection.missingGrain(island))
@@ -178,7 +248,6 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         false
 
     voteForEndingPoint: (cult, endingPointId) ->
-      console.log 'cult', cult, 'is voting for', endingPointId
       if @getCultPoliticsPoints(cult) > 0
         if @raiseEndingPoint(endingPointId)
           @spendPoliticsPoint cult

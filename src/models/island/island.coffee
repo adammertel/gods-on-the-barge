@@ -17,6 +17,17 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
         rainfall: 0
         starving: 0
         active: false
+        religion:
+          'Serapis':
+            distribution: 0
+          'Isis':
+            distribution: 0
+          'Bastet':
+            distribution: 0
+          'Anubis':
+            distribution: 0
+          'Pagan':
+            distribution: 1
       }
       @collection = app.getCollection 'islands'
 

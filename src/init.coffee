@@ -33,7 +33,7 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
   app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
   app.registerCollection(new Ships [], 10)
 
-  app.game.createShip(Cults.SERAPIS, 0)
+  # app.game.createShip(Cults.SERAPIS, 0)
 
   app.loop()
 
@@ -45,6 +45,8 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
 
     return
 
+
+  # CANVAS EVENTS
   canvas.addEventListener 'mousedown', (e) ->
     app.state.controls.mouseClicked = true
     app.state.controls.mouseClickedPosition =

@@ -292,7 +292,7 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
       @ctx.textAlign = 'left'
       @ctx.fillStyle = 'black'
       @ctx.font = '10pt Calibri'
-      @ctx.fillText 'x: ' + @state.position.x + ' y: ' + @state.position.y + ' zoom: ' + @state.zoom, 10, 10
+      @ctx.fillText 'x: ' + Base.round(@state.position.x) + ' y: ' + Base.round(@state.position.y) + ' zoom: ' + Base.round(@state.zoom * 10)/10, 10, 10
       @ctx.fillText 'fps : ' + parseInt(_.mean(@state.fps)), 10, 40
       return
 

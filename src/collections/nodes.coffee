@@ -1,4 +1,4 @@
-define 'Nodes', ['Base', 'Collection', 'Port', 'Colors'], (Base, Collection, Port, Colors) ->
+define 'Nodes', ['Base', 'Collection', 'Port', 'Colors', 'FontStyle'], (Base, Collection, Port, Colors, FontStyle) ->
   class Nodes extends Collection
     constructor: (data) ->
       @name = 'nodes'
@@ -73,6 +73,9 @@ define 'Nodes', ['Base', 'Collection', 'Port', 'Colors'], (Base, Collection, Por
 
     draw: ->
       app.ctx.fillStyle = Colors.PORTMAP
+      app.ctx.font = FontStyle.BOLDNORMAL
+      app.ctx.textAlign = 'center'
+
       for node in @geometries
         if node.name
           node.draw()
