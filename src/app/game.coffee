@@ -31,6 +31,23 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         minDistributionToStable: 0.1
         minDistributionToGrow: 0.4
         flow: 0.05
+      gameStatistics:
+        cults:
+          'Serapis':
+            islands: 0
+            total: 0
+          'Isis':
+            islands: 0
+            total: 0
+          'Anubis':
+            islands: 0
+            total: 0
+          'Bastet':
+            islands: 0
+            total: 0
+          'Pagan':
+            islands: 0
+            total: 0
       cults:
         'Serapis':
           no: 1
@@ -39,8 +56,8 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
           color: Colors.CULTSERAPIS
           text: 'Has roots in the ancient royal cult of the god Osiris-Apis. Together with Isis he became the patron god of the Ptolemaic dynasty ruling during the Hellenistic period. He is an universal deity.'
           stats:
-            ships:
-              maxEnergy: 500
+            politics:
+              votingEffectivity: 2
         'Isis':
           no: 2
           iconLabel: 'isis'
@@ -77,6 +94,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         pointRegeneration: 1
         freePoints: 2
         maxFreePoints: 3
+        votingEffectivity: 1
       ships:
         no: 3
         out: 0
@@ -96,6 +114,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       @loadStats()
       @loadPolitics()
       app.registerNewDayAction @calculateBuildCost.bind @
+      app.registerNewDayAction @recalculateTotalBelievers.bind @
       app.registerNewWeekAction @randomPolitics.bind @
       app.registerNewSeasonAction @addNewPoliticsPoints.bind @
 
@@ -115,6 +134,40 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
 
     # RELIGION
+    recalculateTotalBelievers: ->
+
+      totals=
+        Serapis: 0
+        Isis: 0
+        Anubis: 0
+        Bastet: 0
+        Pagan: 0
+      islands=
+        Serapis: 0
+        Isis: 0
+        Anubis: 0
+        Bastet: 0
+        Pagan: 0
+
+      for island in app.getCollection('islands').geometries
+        islands[island.getDominantCult()] += 1
+
+        for cultName, cult of island.state.religion
+          onePerson = 1 / island.state.population
+          totals[cultName] += Base.round (cult.distribution / onePerson)
+
+      for cultName, total of totals
+        @state.gameStatistics.cults[cultName].total = total
+
+      for cultName, noIslands of islands
+        @state.gameStatistics.cults[cultName].islands = noIslands
+
+
+      console.log @state.gameStatistics
+
+      return
+
+
     numberOfConverting: (cult) ->
       baseMax = @state.religion.baseConversionMax
       baseMin = @state.religion.baseConversionMin
@@ -189,7 +242,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       islandsCollection.addGrainToIsland island, quantity
       ship.unshipCargo quantity
 
-      totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity')
+      totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity') * @state.trade.baseGrainPrice
       @earnGold cult, totalPrice
       return
 
@@ -221,7 +274,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
       raiseRandomPoint = ->
         randomEndingPointToRaise = nodes.getIdOfNode _.sample(nodes.getShipEndingNodes())
-        game.raiseEndingPoint randomEndingPointToRaise
+        game.raiseEndingPoint randomEndingPointToRaise, 1
 
       lowerRandomPoint()
       lowerRandomPoint()
@@ -230,9 +283,9 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
       return
 
-    raiseEndingPoint: (endingPointId) ->
+    raiseEndingPoint: (endingPointId, points) ->
       if @state.politics.endingPoints[endingPointId] < 10
-        @state.politics.endingPoints[endingPointId] += 1
+        @state.politics.endingPoints[endingPointId] += points
         true
       else
         false
@@ -246,7 +299,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
 
     voteForEndingPoint: (cult, endingPointId) ->
       if @getCultPoliticsPoints(cult) > 0
-        if @raiseEndingPoint(endingPointId)
+        if @raiseEndingPoint(endingPointId, @getStat cult, 'politics', 'votingEffectivity')
           @spendPoliticsPoint cult
         true
       else
@@ -259,6 +312,19 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       if @getCultPoliticsPoints(cult) > 0
         @getCultStats(cult).politics.freePoints -= 1
       return
+
+    getCultPoliticsPoints: (cult) ->
+      @getStat cult, 'politics', 'freePoints'
+
+    getPlayerPoliticsPoints: ->
+      @getPlayerStat 'politics', 'freePoints'
+
+    getCultPoliticsMaxPoints: (cult) ->
+      @getStat cult, 'politics', 'maxFreePoints'
+
+    getPlayerPoliticsMaxPoints: ->
+      @getPlayerStat 'politics', 'maxFreePoints'
+
 
 
     # SHIPS
@@ -329,24 +395,14 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
     hasPlayerGold: (quantity) ->
       @getPlayerCultStats().gold.quantity > quantity
 
-    getCultPoliticsPoints: (cult) ->
-      @getStat cult, 'politics', 'freePoints'
-
-    getPlayerPoliticsPoints: ->
-      @getPlayerStat 'politics', 'freePoints'
-
-    getCultPoliticsMaxPoints: (cult) ->
-      @getStat cult, 'politics', 'maxFreePoints'
-
-    getPlayerPoliticsMaxPoints: ->
-      @getPlayerStat 'politics', 'maxFreePoints'
-
     getPlayerGoldLabel: ->
       if app.game.getPlayerCultStats()
         parseInt app.game.getPlayerCultStats().gold.quantity
       else
         '0'
 
+
+    # GENERAL METHODS
     getPlayerStat: (category, value) ->
       if @getPlayerCultLabel()
         @getStat @getPlayerCultLabel(), category, value

@@ -52,7 +52,7 @@ define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 
       _.each app.game.state.cults, (cult, c) =>
         if @chosenCult == cult.label
           app.ctx.fillStyle = Colors.ACTIVEAREA
-          app.ctx.fillRect @x + @m - 20, @y + @m + 100*cult.no - 20, @w - 2*@m + 40, 80
+          app.ctx.fillRect @x + @m - 10, @y + @m + 100*cult.no - 20, @w - 2*@m + 30, 80
         app.drawTextArea cult.label, @x + @m + 80, @y + @m + 100*cult.no, @lineHeight, @lineWidth - 70, 'bold 10pt Calibri'
         app.drawTextArea cult.text, @x + @m + 80, @y + @m + 20 + 100*cult.no, @lineHeight, @lineWidth - 70, '8pt Calibri'
 

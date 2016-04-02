@@ -22,7 +22,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
       for island in @geometries
         onePersonDistribution = 1 / island.state.population
         onePercentPeople = 1 / onePersonDistribution
-        console.log 'islandName', island.state.name
 
         for cult, cultName of island.state.religion
           if cult.distribution < minStable and cult.distribution != 0
