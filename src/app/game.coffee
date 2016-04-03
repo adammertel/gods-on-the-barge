@@ -1,4 +1,4 @@
-define 'Game', ['Base', 'Colors'], (Base, Colors) ->
+define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
   class Game
     state:
       politics:
@@ -31,6 +31,8 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
         minDistributionToStable: 0.1
         minDistributionToGrow: 0.4
         flow: 0.05
+      perks:
+        noNew: 2
 
       gameStatistics:
         cults:
@@ -119,6 +121,7 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
       app.registerNewDayAction @recalculateTotalBelievers.bind @
       app.registerNewWeekAction @randomPolitics.bind @
       app.registerNewSeasonAction @addNewPoliticsPoints.bind @
+      app.registerNewSeasonAction @chooseNewPerks.bind @
 
     loadStats: ->
       _.each @state.cults, (cult, cultLabel) =>
@@ -438,4 +441,20 @@ define 'Game', ['Base', 'Colors'], (Base, Colors) ->
     chooseCult: (cult) ->
       console.log 'choosing cult', cult
       @state.player.cult = cult
+      return
+
+
+    # PERKS
+    chooseNewPerks: ->
+      for c, cult of @state.cults
+        if c == @getPlayerCultLabel()
+          chosenPerks = _.sampleSize Perks, @state.perks.noNew
+          app.openPerkWindow(chosenPerks)
+        else
+          chosenPerk = _.sample(Perks)
+          chosenPerk.effect(c)
+      return
+
+    applyPerkToPlayer: (perk) ->
+      perk.effect(@getPlayerCultLabel())
       return

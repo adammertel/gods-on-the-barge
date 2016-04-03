@@ -1,4 +1,4 @@
-require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'CultsEnum', 'GameInfo'], (Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, Cults, GameInfo) ->
+require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'PerkWindow', 'CultsEnum', 'GameInfo'], (Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, PerkWindow, Cults, GameInfo) ->
   console.log 'init'
 
   canvas = document.getElementById('game')
@@ -31,6 +31,7 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
   app.gameInfo = new GameInfo()
 
   app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
+  app.registerInfoWindow(new PerkWindow('perks', 320, 300))
   app.registerCollection(new Ships [], 10)
 
   # app.game.createShip(Cults.SERAPIS, 0)

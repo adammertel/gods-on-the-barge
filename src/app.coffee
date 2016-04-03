@@ -380,3 +380,9 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
         @setNewYPosition @state.position.y + (w / z - (w / (z - s))) / 2
         @state.zoom = @state.zoom - s
       return
+
+    # PERKS
+    openPerkWindow: (perks) ->
+      console.log @getInfoWindow('perks')
+      @getInfoWindow('perks').newPerks(perks)
+      return
