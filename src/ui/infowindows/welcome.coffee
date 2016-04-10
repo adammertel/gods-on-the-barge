@@ -2,6 +2,7 @@ define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 
   class WelcomeWindow extends InfoWindow
 
     constructor: (@id, @w, @h) ->
+      app.time.pause()
       super @id, @w, @h
       @chosenCult = 'Serapis'
 

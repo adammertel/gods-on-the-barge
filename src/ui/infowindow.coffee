@@ -1,7 +1,6 @@
 define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
   class InfoWindow extends Ui
     constructor: (@id, @w, @h) ->
-      app.time.pause()
 
       super @id, (app.state.view.w - @w)/2, (app.state.view.h - @h)/2, @w, @h
 

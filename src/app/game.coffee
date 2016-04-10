@@ -17,7 +17,7 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
       trade:
         maxBaseDistanceForTrade: 100000
         criticalCargo: 500
-        baseGrainPrice: 0.001
+        baseGrainPrice: 0.03
       ships:
         buildCost0: 100
         buildCost1: 100
@@ -25,11 +25,12 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
         buildCostVariability: 0.3
         buildCostTemperatureSignificance: 0.1
       religion:
-        baseConversionMax: 50
-        baseConversionMin: 10
+        baseConversionMax: 70
+        baseConversionMin: 30
         conversionResistancePagans: 0.2
         minDistributionToStable: 0.1
         minDistributionToGrow: 0.4
+        goldForBeliever: 0.1
         flow: 0.05
       perks:
         noNew: 2
@@ -103,11 +104,11 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
         no: 3
         out: 0
         baseSpeed: 1
-        maxCargo: 50000
+        maxCargo: 100000
         maxEnergy: 400
         energyConsumption: 40
         restingSpeed: 120
-        operationCost: 1
+        operationCost: 0.5
         rainPenalty: 0.5
       trade:
         tradingDistanceCoefficient: 1
@@ -122,6 +123,8 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
       app.registerNewWeekAction @randomPolitics.bind @
       app.registerNewSeasonAction @addNewPoliticsPoints.bind @
       app.registerNewSeasonAction @chooseNewPerks.bind @
+      app.registerNewSeasonAction @getMoneyForBelievers.bind @
+
 
     loadStats: ->
       _.each @state.cults, (cult, cultLabel) =>
@@ -137,6 +140,13 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
         return
       return
 
+
+    getMoneyForBelievers: ->
+      for cultName, cult of @state.cults
+        goldFromBelievers = @state.gameStatistics.cults[cultName].total * @state.religion.goldForBeliever
+        console.log 'cult', cultName, 'gains ', goldFromBelievers
+        @earnGold cultName, goldFromBelievers
+      return
 
     # RELIGION
     recalculateTotalBelievers: ->
@@ -346,19 +356,21 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
       return
 
     freeShips: (cult) ->
-      @getCultStats(cult).ships.no - @getCultStats(cult).ships.out
+      @getCultStats(cult).ships.no - app.getCollection('ships').getShipsOfCult(cult).length
 
     payShip: (cult, portId) ->
       @spendGold cult, @state.ships['buildCost' + portId]
       return
 
     payOperationalCosts: (ship) ->
-      cult = ship.cult
-      cost = @getStat(cult, 'ships', 'operationCost')
-      if @spendGold cult, cost
-        return
-      else
-        app.getCollection('ships').destroyShip(ship)
+      if ship
+        cult = ship.cult
+        cost = @getStat(cult, 'ships', 'operationCost')
+        if @spendGold cult, cost
+          return
+        else
+          app.getCollection('ships').destroyShip(ship)
+      return
 
     hasCultGoldToBuildShip: (cult, portId) ->
       @hasCultGold cult, @state.ships['buildCost' + portId]

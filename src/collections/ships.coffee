@@ -7,6 +7,13 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       app.registerNewDayAction @payForFleet.bind @
       return
 
+    getShipsOfCult: (cult) ->
+      cultShips = []
+      for ship in @geometries
+        if ship.cult == cult
+          cultShips.push ship
+      cultShips
+
     payForFleet: ->
       for ship in @geometries
         app.game.payOperationalCosts(ship)

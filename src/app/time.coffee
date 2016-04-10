@@ -20,6 +20,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       return
 
     resume: ->
+      console.log 'resuming'
       @state.timeSpeed = @state.timeSpeedBeforePause
       return
 
