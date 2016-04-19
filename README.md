@@ -1,8 +1,8 @@
 # GODS ON THE BARGE game
 
 ### CURRENT VERSION
-Version 0.1
-We are working on our bugs and lot of ideas are still waiting for implementation.
+## Version 0.1
+We are working on bugs and lot of ideas are still waiting for implementation.
 Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
 
 ### INFO
