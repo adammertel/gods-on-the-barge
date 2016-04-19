@@ -109,7 +109,7 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
       return
 
     foodIndicatorColor: ->
-      foodRelative = @state.grain/@state.maxGrain
+      foodRelative = @state.grain / @state.maxGrain
 
       if foodRelative > 0.8
         Colors.FOODINDICATORSUPER

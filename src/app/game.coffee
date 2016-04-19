@@ -220,9 +220,9 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
 
     getRandomPersonReligionFromIsland: (island) ->
       SerapisCumulation = island.state.religion.Serapis.distribution
-      IsisCumulation = island.state.religion.Isis.distribution
-      BastetCumulation = island.state.religion.Bastet.distribution
-      AnubisCumulation = island.state.religion.Anubis.distribution
+      IsisCumulation = SerapisCumulation + island.state.religion.Isis.distribution
+      BastetCumulation = IsisCumulation + island.state.religion.Bastet.distribution
+      AnubisCumulation = BastetCumulation + island.state.religion.Anubis.distribution
 
       randomNumber = Math.random()
 

@@ -54,10 +54,17 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       for port in ports
         islandName = app.getCollection('nodes').getIslandOfPort(port.id)
 
-        if islandName != 'Turkey' and islandName != 'Greece' and islandName != 'Egypt'
-          if port.distance < maxDistanceForTrading
-            tradeCoefficient = app.getCollection('islands').tradeAttractivity(port.distance, maxDistanceForTrading, islandName, ship.cult)
-            tradePlaces.push {'port': port, 'coefficient': tradeCoefficient * cargoCoefficient}
+        # intersection of possible path to a new trade spot with visited places of that ship - ship is not supposed to visit one node more than once
+        pathIntersection = _.intersection app.getPath(port.id, ship.stops[0]),ship.visitedNodes
+
+        # the intersection is always at least with length of 1
+        if pathIntersection.length == 1
+
+          # filtering continental ports out
+          if islandName != 'Turkey' and islandName != 'Greece' and islandName != 'Egypt'
+            if port.distance < maxDistanceForTrading
+              tradeCoefficient = app.getCollection('islands').tradeAttractivity(port.distance, maxDistanceForTrading, islandName, ship.cult)
+              tradePlaces.push {'port': port, 'coefficient': tradeCoefficient * cargoCoefficient}
 
       tradeOrdered = _.orderBy(_.clone(tradePlaces), 'coefficient', 'desc').splice(0, 5)
       #console.log tradeOrdered

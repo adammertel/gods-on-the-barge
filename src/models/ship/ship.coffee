@@ -10,6 +10,7 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
       }
       @rotation = 0
 
+      @visitedNodes = []
       @color = app.game.state.cults[@cult].color
       @calculateStops()
       @coords = app.getCollection('nodes').nodeMapCoordinates @startId
@@ -91,6 +92,7 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
 
     checkNodeConflict: ->
       if app.getCollection('nodes').checkConflict @stops[0], @coords
+        @visitedNodes.push(@stops[0])
 
         if @stops.length > 1
           _.pull @checkPointIds, @stops[0] # removes checkpoint
