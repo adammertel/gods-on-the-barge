@@ -30,9 +30,8 @@ define 'PerkWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 'Bu
 
     choosePerk: (perkId) ->
       console.log 'perk chosen', perkId
-      @open = false
       app.game.applyPerkToPlayer(@perks[parseInt(perkId)])
-      app.time.resume()
+      @cloes()
       return
 
     perkText: (perkId) ->
@@ -42,5 +41,6 @@ define 'PerkWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 'Bu
       _.upperCase @perks[perkId].label
 
     draw: ->
-      super()
+      if @open
+        super()
       return

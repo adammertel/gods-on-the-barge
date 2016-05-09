@@ -160,8 +160,10 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
         if cult != app.game.getPlayerCultLabel()
           @ais.push new Ai cult
 
-    registerInfoWindow: (infoWindow) ->
+    registerInfoWindow: (infoWindow, open) ->
       @infoWindows.push infoWindow
+      if open
+        infoWindow.open()
       return
 
     getInfoWindow: (id) ->
@@ -246,6 +248,8 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
         ctx.fillText text, x, y + t * lineHeight
       return
 
+
+    # TIME
     registerNewDayAction: (action)->
       @dayActions.push action
       return

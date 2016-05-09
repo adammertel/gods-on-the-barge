@@ -43,8 +43,10 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   app.cursor = new Cursor()
   app.gameInfo = new GameInfo()
 
-  app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
-  app.registerInfoWindow(new PerkWindow('perks', 320, 300))
+  infoCanvas = new Canvas 'info', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 15, 20
+
+  app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600), true)
+  app.registerInfoWindow(new PerkWindow('perks', 320, 300), false)
 
   app.loop()
 

@@ -1,7 +1,10 @@
 define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
   class InfoWindow extends Ui
     constructor: (@id, @w, @h) ->
+      @canvas = app.getCanvasById('info')
       @ctx = app.getCanvasById('info').ctx
+      app.getCanvasById('info').registerDrawFunction @draw.bind(@)
+
       super @id, (app.state.view.w - @w)/2, (app.state.view.h - @h)/2, @w, @h
 
       @m = 50
@@ -13,6 +16,7 @@ define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
     close: ->
       @open = false
       app.time.resume()
+      @canvas.clear()
       return
 
     open: ->
