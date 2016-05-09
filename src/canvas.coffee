@@ -18,7 +18,6 @@ define 'Canvas', ['Base'], (Base) ->
       @ctx.lineJoin = 'round'
 
       @drawFunctions = []
-      @postDrawFunctions = []
       app.registerCanvas @
 
     # creating canvas element
@@ -33,10 +32,6 @@ define 'Canvas', ['Base'], (Base) ->
 
     registerDrawFunction: (drawFunction) ->
       @drawFunctions.push drawFunction
-      return
-
-    registerPostDrawFunction: (postDrawFunction) ->
-      @postDrawFunctions.push postDrawFunction
       return
 
     render: ->

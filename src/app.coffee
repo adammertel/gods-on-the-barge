@@ -1,4 +1,4 @@
-define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'Nodes', 'Routes', 'Ships', 'Storms', 'BackgroundIslands'], (Base, Canvas, Ship, Season, Ai, Islands, Nodes, Routes, Ships, Storms, BackgroundIslands) ->
+define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabels', 'Nodes', 'Routes', 'Ships', 'Storms', 'BackgroundIslands'], (Base, Canvas, Ship, Season, Ai, Islands, IslandLabels, Nodes, Routes, Ships, Storms, BackgroundIslands) ->
   window.app =
     state:
       loopNo: 0
@@ -53,10 +53,6 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'Nodes', 'Ro
       for canvas in @orderedCanvases
         if !(@state.loopNo % canvas.fps)
           canvas.render()
-
-      for canvas in @orderedCanvases
-        if !(@state.loopNo % canvas.fps)
-          canvas.postRender()
 
       @drawBorders()
       #@gameInfo.draw()

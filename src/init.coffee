@@ -13,6 +13,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   #prepareCanvas 'game', 'game', app.state.view.w, app.state.view.h, 60
   #prepareCanvas 'menu', 'menu', app.state.menu.w, app.state.menu.h, 10
 
+  gameFpsRatio = 3
   defaultCanvas =
     h: app.state.menu.h - 200
     w: app.state.menu.w
@@ -23,12 +24,13 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
 
   app.linksData = JSON.parse Base.doXhr('data/links.json').responseText
 
-  app.registerCollection 'Nodes', 'data/nodes.json', 'nodes', defaultCanvas, 4, 2
-  app.registerCollection 'Islands', 'data/islands.json', 'islands', defaultCanvas, 1, 2
-  app.registerCollection 'Routes', 'data/edges.json', 'routes', defaultCanvas, 3, 2
-  app.registerCollection 'BackgroundIslands', 'data/backgroundislands.json', 'backgroundislands', defaultCanvas, 0, 2
-  app.registerCollection 'Storms', '', 'storms', defaultCanvas, 5, 1
-  app.registerCollection 'Ships', '', 'ships', defaultCanvas, 5, 1
+  app.registerCollection 'Nodes', 'data/nodes.json', 'nodes', defaultCanvas, 4, gameFpsRatio
+  app.registerCollection 'Islands', 'data/islands.json', 'islands', defaultCanvas, 1, gameFpsRatio
+  app.registerCollection 'Routes', 'data/edges.json', 'routes', defaultCanvas, 3, gameFpsRatio
+  app.registerCollection 'BackgroundIslands', 'data/backgroundislands.json', 'backgroundislands', defaultCanvas, 0, gameFpsRatio
+  app.registerCollection 'Storms', '', 'storms', defaultCanvas, 10, 1
+  app.registerCollection 'Ships', '', 'ships', defaultCanvas, 8, 1
+  app.registerCollection 'IslandLabels', '', 'islandLabels', defaultCanvas, 5, gameFpsRatio
 
   overCanvas = new Canvas 'over', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 20, 1
   overCanvas.registerDrawFunction app.writeDevelInfo.bind(app, overCanvas.ctx)

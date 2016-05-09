@@ -176,38 +176,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
       app.menu.getActivePanel().changeActiveIsland(island.state.name)
       return
 
-    drawLabels: ->
-      if app.state.zoom > 0.6
-        labelW = 80
-        labelH = 25
-
-        @ctx.font = 'bold 9pt Calibri'
-        @ctx.globalAlpha = 0.7
-        @ctx.fillStyle = 'white'
-        @ctx.textAlign = 'center'
-
-        for island in @geometries
-          if island.isVisible
-            @ctx.beginPath()
-            island.drawLabelBackground labelW, labelH
-            @ctx.closePath()
-            @ctx.fill()
-
-        @ctx.globalAlpha = 1
-        @ctx.fillStyle = 'black'
-        for island in @geometries
-          if island.isVisible
-            island.drawLabel labelW, labelH
-
-        @ctx.strokeStyle = 'black'
-        @ctx.fillStyle = 'green'
-        @ctx.lineWidth = 1
-        for island in @geometries
-          if island.isVisible
-            island.drawFoodIndicator labelW, labelH
-
     draw: ->
-
       for island in @geometries
         if island
           if app.isClickedMap()

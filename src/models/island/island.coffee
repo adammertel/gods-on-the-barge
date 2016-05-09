@@ -83,31 +83,6 @@ define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
       @viewCoords = @calculateCoords()
       return
 
-    mouseConflict: ->
-      @pointConflict app.state.controls.mousePosition
-
-    pointConflict: (point)->
-      Base.pointInsidePolygon @, point
-
-    # should be simplified to some representative coordinates
-    distanceFromIsland: (point) ->
-      Base.distanceFromPolygon @coords, point
-
-    drawLabelBackground: (w, h)->
-      @centroidCoord = app.coordinateToView @centroid
-      @ctx.rect @centroidCoord.x - w/2, @centroidCoord.y - h - 10, w, h
-
-    drawLabel: (w, h) ->
-      @ctx.fillText @data.name, @centroidCoord.x, @centroidCoord.y - h
-
-    drawFoodIndicator: (w, h) ->
-      fullFoodPx = w - 10
-      foodPx = (fullFoodPx / @state.maxGrain) * @state.grain
-      @ctx.fillStyle = @foodIndicatorColor()
-      @ctx.strokeRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2 - 8, fullFoodPx, 5
-      @ctx.fillRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2 - 7, foodPx, 3
-      return
-
     foodIndicatorColor: ->
       foodRelative = @state.grain / @state.maxGrain
 
@@ -119,6 +94,16 @@ define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
         Colors.FOODINDICATORBAD
       else
         Colors.FOODINDICATORCRITICAL
+
+    mouseConflict: ->
+      @pointConflict app.state.controls.mousePosition
+
+    pointConflict: (point)->
+      Base.pointInsidePolygon @, point
+
+    # should be simplified to some representative coordinates
+    distanceFromIsland: (point) ->
+      Base.distanceFromPolygon @coords, point
 
     drawIsland: ->
       for viewCoord, c in @viewCoords

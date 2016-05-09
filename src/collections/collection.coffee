@@ -6,7 +6,6 @@ define 'Collection', ['Base'], (Base) ->
     setCanvas: (@canvas) ->
       @ctx = @canvas.ctx
       @canvas.registerDrawFunction @draw.bind(@)
-      @canvas.registerPostDrawFunction @drawLabels.bind(@)
       @setStyle()
       return
 
