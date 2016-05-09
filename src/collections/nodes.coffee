@@ -15,11 +15,15 @@ define 'Nodes', ['Base', 'Collection', 'Port', 'Colors', 'FontStyle'], (Base, Co
         if islandValue.island
           @ports.push nodeId
 
-          @addGeometry new Port(app.coordinateToMap({lon: islandValue.x, lat: islandValue.y}), nodeId, @getIslandOfPort(nodeId), islandValue.port_name)
+          @addGeometry new Port(app.coordinateToMap({lon: islandValue.x, lat: islandValue.y}), @ctx, nodeId, @getIslandOfPort(nodeId), islandValue.port_name)
         return
 
       return
 
+    setStyle: ->
+      @ctx.fillStyle = Colors.PORTMAP
+      @ctx.font = FontStyle.BOLDNORMAL
+      @ctx.textAlign = 'center'
 
     getNode: (id) ->
       @data[id]
@@ -72,10 +76,6 @@ define 'Nodes', ['Base', 'Collection', 'Port', 'Colors', 'FontStyle'], (Base, Co
       _.union @getNodesOnIsland('Greece'), @getNodesOnIsland('Turkey')
 
     draw: ->
-      app.ctx.fillStyle = Colors.PORTMAP
-      app.ctx.font = FontStyle.BOLDNORMAL
-      app.ctx.textAlign = 'center'
-
       for node in @geometries
         if node.name
           node.draw()

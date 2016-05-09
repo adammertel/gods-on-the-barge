@@ -92,7 +92,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       inRain
 
     createShip: (cult, startingPoint) ->
-      @addGeometry new Ship(cult, startingPoint)
+      @addGeometry new Ship(cult, @ctx, startingPoint)
 
     destroyShip: (ship) ->
       app.game.shipRemoved(ship.cult)

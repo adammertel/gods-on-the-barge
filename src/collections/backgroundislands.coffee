@@ -1,8 +1,8 @@
 define 'BackgroundIslands', ['Base', 'Collection', 'BackgroundIsland', 'Colors'], (Base, Collection, BackgroundIsland, Colors) ->
   class BackgroundIslands extends Collection
-    constructor: (@data) ->
+    constructor: (data) ->
       @name = 'backgroundIslands'
-      @geometries = []
+      super data
       return
 
     registerGeometries: ->
@@ -11,13 +11,16 @@ define 'BackgroundIslands', ['Base', 'Collection', 'BackgroundIsland', 'Colors']
         for islandGeom in island
           for coord, c in islandGeom
             coords.push app.coordinateToMap {lon: coord[0], lat: coord[1]}
-        @addGeometry new BackgroundIsland(coords)
+        @addGeometry new BackgroundIsland(coords, @ctx)
+      return
+
+    setStyle: ->
+      @ctx.fillStyle = Colors.BCKISLANDMAP
       return
 
     draw: ->
-      app.ctx.fillStyle = Colors.BCKISLANDMAP
       for island in @geometries
-        app.ctx.beginPath()
+        @ctx.beginPath()
         island.draw()
-        app.ctx.closePath()
-        app.ctx.fill()
+        @ctx.closePath()
+        @ctx.fill()

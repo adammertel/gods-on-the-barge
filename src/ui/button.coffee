@@ -1,6 +1,6 @@
 define 'Button', ['Base', 'App'], (Base, app) ->
   class Button
-    constructor: (@id, position, @text, @action, @style) ->
+    constructor: (@ctx, @id, position, @text, @action, @style) ->
       @h = position.h
       @w = position.w
       @x = position.x
@@ -17,19 +17,19 @@ define 'Button', ['Base', 'App'], (Base, app) ->
         style = @style
 
       if style.fill
-        app.ctx.fillStyle = style.fill
-        #app.ctx.fill @buttonPath
-        app.ctx.fillRect @x, @y, @w, @h
+        @ctx.fillStyle = style.fill
+        #@ctx.fill @buttonPath
+        @ctx.fillRect @x, @y, @w, @h
 
       if style.stroke
-        app.ctx.lineWidth = 2
-        #app.ctx.stroke @buttonPath
-        app.ctx.strokeRect @x, @y, @w, @h
+        @ctx.lineWidth = 2
+        #@ctx.stroke @buttonPath
+        @ctx.strokeRect @x, @y, @w, @h
 
-      app.ctx.textAlign = 'center'
-      app.ctx.font = style.font
-      app.ctx.fillStyle =  style.text
-      app.ctx.fillText @text(), @x + @w/2, @y + @h/2 + 2
+      @ctx.textAlign = 'center'
+      @ctx.font = style.font
+      @ctx.fillStyle =  style.text
+      @ctx.fillText @text(), @x + @w/2, @y + @h/2 + 2
 
       return
 

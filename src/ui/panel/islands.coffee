@@ -79,16 +79,16 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
 
     registerButton: (overview, id, position, text, action, style) ->
       if overview
-        @overviewButtons.push new Button(id, position, text, action, style)
+        @overviewButtons.push new Button(@ctx, id, position, text, action, style)
       else
-        @focusButtons.push new Button(id, position, text, action, style)
+        @focusButtons.push new Button(@ctx, id, position, text, action, style)
       return
 
     registerText: (overview, id, position, text, font) ->
       if overview
-        @overviewTexts.push new Text(id, position, text, font)
+        @overviewTexts.push new Text(@ctx, id, position, text, font)
       else
-        @focusTexts.push new Text(id, position, text, font)
+        @focusTexts.push new Text(@ctx, id, position, text, font)
       return
 
     changeActiveIsland: (island) ->

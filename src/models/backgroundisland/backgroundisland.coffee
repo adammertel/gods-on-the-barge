@@ -1,7 +1,7 @@
-define 'BackgroundIsland', ['App', 'Geography', 'Base'], (app, Geography, Base) ->
+define 'BackgroundIsland', ['Geography', 'Base'], (Geography, Base) ->
   class BackgroundIsland extends Geography
 
-    constructor: (@coords)->
+    constructor: (@coords, @ctx)->
       super()
       return
 
@@ -29,9 +29,9 @@ define 'BackgroundIsland', ['App', 'Geography', 'Base'], (app, Geography, Base) 
     drawIsland: ->
       for viewCoord, c in @viewCoords
         if c == 0
-          app.ctx.moveTo viewCoord.x, viewCoord.y
+          @ctx.moveTo viewCoord.x, viewCoord.y
         else
-          app.ctx.lineTo viewCoord.x, viewCoord.y
+          @ctx.lineTo viewCoord.x, viewCoord.y
       return
 
     draw: ->

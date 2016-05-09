@@ -2,6 +2,7 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button
 
   class GameInfo extends Ui
     constructor: ->
+      @ctx = app.getCanvasById('game').ctx
       h = 80
       w = 140
       x = app.state.view.w - w
@@ -45,8 +46,8 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button
       return
 
     drawBackground: ->
-      app.ctx.fillStyle = 'white'
-      app.ctx.fill @bckPath
+      @ctx.fillStyle = 'white'
+      @ctx.fill @bckPath
 
     drawGlassHours: ->
       h = 36
@@ -54,28 +55,28 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button
       x1 = @x + 110
       y1 = @y + 10
 
-      app.ctx.fillStyle = Colors.SAND
+      @ctx.fillStyle = Colors.SAND
       dh = h * (app.time.state.day-1)/7
-      app.ctx.fillRect x1, y1 + dh, w, h - dh
+      @ctx.fillRect x1, y1 + dh, w, h - dh
 
-      app.ctx.fillStyle = 'white'
-      app.ctx.fill @pathTriangle1
-      app.ctx.fill @pathTriangle2
-      app.ctx.stroke @pathGlass
+      @ctx.fillStyle = 'white'
+      @ctx.fill @pathTriangle1
+      @ctx.fill @pathTriangle2
+      @ctx.stroke @pathGlass
       return
 
     drawCoin: ->
-        app.ctx.beginPath()
-        app.ctx.arc @x + 120, @y + 65, 10, 0, 2 * Math.PI, false
-        app.ctx.fillStyle = Colors.GOLD
-        app.ctx.stroke()
-        app.ctx.fill()
-        app.ctx.closePath()
+        @ctx.beginPath()
+        @ctx.arc @x + 120, @y + 65, 10, 0, 2 * Math.PI, false
+        @ctx.fillStyle = Colors.GOLD
+        @ctx.stroke()
+        @ctx.fill()
+        @ctx.closePath()
         return
 
     draw: ->
       if app.state.started
-        app.ctx.lineWidth = 2
+        @ctx.lineWidth = 2
         super()
         @drawGlassHours()
         @drawCoin()

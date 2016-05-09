@@ -38,11 +38,11 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle', 'FontStyle'], (Ba
         button.id == buttonId
 
     registerText: (id, position, text, font) ->
-      @texts.push new Text(id, position, text, font)
+      @texts.push new Text(@ctx, id, position, text, font)
       return
 
     registerButton: (id, position, text, action, style, active) ->
-      @buttons.push new Button(id, position, text, action, style, active)
+      @buttons.push new Button(@ctx, id, position, text, action, style, active)
       return
 
     registerClickableArea: (x, y, w, h, action) ->
@@ -59,41 +59,41 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle', 'FontStyle'], (Ba
       return
 
     drawBackground: ->
-      app.ctx.fillStyle = 'white'
-      #app.ctx.strokeStyle = 'black'
-      app.ctx.fill @bckPath
-      #app.ctx.stroke @bckPath
+      @ctx.fillStyle = 'white'
+      #@ctx.strokeStyle = 'black'
+      @ctx.fill @bckPath
+      #@ctx.stroke @bckPath
 
     drawPieChart: (segments, size, x, y) ->
       cumulativeBefore = 0
       cumulativeAfter = 0
-      app.ctx.font = FontStyle.BOLDSMALL
-      app.ctx.textAlign = 'left'
+      @ctx.font = FontStyle.BOLDSMALL
+      @ctx.textAlign = 'left'
 
       for segment, s in segments
         cumulativeAfter += segment.value
-        app.ctx.fillStyle = segment.color
-        app.ctx.beginPath()
-        app.ctx.moveTo x, y
-        app.ctx.arc x, y, size, cumulativeBefore * 2 * Math.PI, cumulativeAfter * 2 * Math.PI, false
-        app.ctx.lineTo x, y
-        app.ctx.closePath()
-        app.ctx.fill()
+        @ctx.fillStyle = segment.color
+        @ctx.beginPath()
+        @ctx.moveTo x, y
+        @ctx.arc x, y, size, cumulativeBefore * 2 * Math.PI, cumulativeAfter * 2 * Math.PI, false
+        @ctx.lineTo x, y
+        @ctx.closePath()
+        @ctx.fill()
         cumulativeBefore += segment.value
 
         segnemntX = x + size + 10
         segnemntY = y + 20 - s * 13
-        app.ctx.fillRect segnemntX, segnemntY - 10, 15, 10
+        @ctx.fillRect segnemntX, segnemntY - 10, 15, 10
 
-        app.ctx.fillStyle = 'black'
-        app.ctx.fillText segment.label + ': ' + Base.round(segment.value * 100) + '%', segnemntX + 20, segnemntY
+        @ctx.fillStyle = 'black'
+        @ctx.fillText segment.label + ': ' + Base.round(segment.value * 100) + '%', segnemntX + 20, segnemntY
 
     draw: ->
-      app.ctx.lineWidth = 2
+      @ctx.lineWidth = 2
       @mouseConflict()
 
       @drawBackground()
-      app.ctx.fillStyle = 'black'
+      @ctx.fillStyle = 'black'
       @drawTexts()
       @drawButtons()
       return

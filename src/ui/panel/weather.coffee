@@ -49,21 +49,21 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextS
       super()
 
     drawWindGraphics: ->
-      app.ctx.stroke @windIndicator
+      @ctx.stroke @windIndicator
 
       windSpeed = @weatherState.windSpeed
       windDirection = Base.degsToRad(@weatherState.windDirection)
 
       if windSpeed and windDirection
-        app.drawPath @windDirection, {x: @windIndicatorCenterX, y: @windIndicatorCenterY}, windSpeed, windDirection, 'black', false, false
+        app.drawPath @ctx, @windDirection, {x: @windIndicatorCenterX, y: @windIndicatorCenterY}, windSpeed, windDirection, 'black', false, false
       return
 
     drawingTemperatureGraphic: ->
-      app.ctx.stroke @temperatureMeter
+      @ctx.stroke @temperatureMeter
       fullTemperature = -100
       thisTemperature = (fullTemperature / 10) * @weatherState.temperature
-      app.ctx.fillStyle = 'red'
-      app.ctx.fillRect @x + 355, @y + 130, 10, thisTemperature
+      @ctx.fillStyle = 'red'
+      @ctx.fillRect @x + 355, @y + 130, 10, thisTemperature
 
 
     draw: ->

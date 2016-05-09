@@ -40,8 +40,8 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button', 'TextStyle', 'ButtonStyle', 
       false
 
     drawPoliticsIndicators: ->
-      app.ctx.lineWidth = 1
-      app.ctx.strokeStyle = 'black'
+      @ctx.lineWidth = 1
+      @ctx.strokeStyle = 'black'
 
       dy = 14
       y1 = @y + dy/2 + 14
@@ -62,14 +62,14 @@ define 'PoliticsPanel', ['Panel', 'Text', 'Button', 'TextStyle', 'ButtonStyle', 
         politicsPower = app.game.state.politics.endingPoints[endPointId]
 
         if politicsPower > 7
-          app.ctx.fillStyle = Colors['POLITICSINDICATORSUPER']
+          @ctx.fillStyle = Colors['POLITICSINDICATORSUPER']
         else if politicsPower > 4
-          app.ctx.fillStyle = Colors['POLITICSINDICATORGOOD']
+          @ctx.fillStyle = Colors['POLITICSINDICATORGOOD']
         else
-          app.ctx.fillStyle = Colors['POLITICSINDICATORBAD']
+          @ctx.fillStyle = Colors['POLITICSINDICATORBAD']
 
-        app.ctx.fillRect x, y, 10 * politicsPower, 10
-        app.ctx.strokeRect x, y, 100, 10
+        @ctx.fillRect x, y, 10 * politicsPower, 10
+        @ctx.strokeRect x, y, 100, 10
 
     draw: ->
       @drawPoliticsIndicators()

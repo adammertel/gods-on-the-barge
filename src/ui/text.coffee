@@ -1,11 +1,11 @@
 define 'Text', ['App'], (app) ->
   class Text
-    constructor: (@id, position, @text, @style) ->
+    constructor: (@ctx, @id, position, @text, @style) ->
       @x = position.x
       @y = position.y
 
     draw: ->
-      app.ctx.font = @style.font
-      app.ctx.textAlign = @style.textAlign
-      app.ctx.fillText @text(), @x, @y + 8
+      @ctx.font = @style.font
+      @ctx.textAlign = @style.textAlign
+      @ctx.fillText @text(), @x, @y + 8
       return

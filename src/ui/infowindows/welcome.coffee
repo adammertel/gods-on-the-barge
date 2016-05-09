@@ -38,27 +38,27 @@ define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 
 
     draw: ->
       super()
-      app.ctx.textAlign = 'left'
+      @ctx.textAlign = 'left'
       text1 = 'WELCOME!'
-      text2 = 'This is "Gods on the Barge" game inspired by the project of GEHIR (gehir.phil.muni.cz)'
+      text2 = 'This is "Gods on the Barge" game (current state: v 0.1) inspired by the project of GEHIR (gehir.phil.muni.cz)'
       text3 = 'Your goal is to convert as many people in region as possible'
       text4 = 'Please choose a cult to play:'
 
       lineWidth = @lineWidth
-      app.drawTextArea text1, @x + @m, @y + @m, @lineHeight, lineWidth, FontStyle.HEADER
-      app.drawTextArea text2, @x + @m, @y + @m + 20, @lineHeight, lineWidth, FontStyle.BOLDNORMAL
-      app.drawTextArea text3, @x + @m, @y + @m + 40, @lineHeight, lineWidth, FontStyle.NORMAL
-      app.drawTextArea text4, @x + @m, @y + @m + 60, @lineHeight, lineWidth, FontStyle.NORMAL
+      app.drawTextArea @ctx, text1, @x + @m, @y + @m, @lineHeight, lineWidth, FontStyle.HEADER
+      app.drawTextArea @ctx, text2, @x + @m, @y + @m + 20, @lineHeight, lineWidth, FontStyle.BOLDNORMAL
+      app.drawTextArea @ctx, text3, @x + @m, @y + @m + 60, @lineHeight, lineWidth, FontStyle.NORMAL
+      app.drawTextArea @ctx, text4, @x + @m, @y + @m + 80, @lineHeight, lineWidth, FontStyle.NORMAL
 
       _.each app.game.state.cults, (cult, c) =>
         if @chosenCult == cult.label
-          app.ctx.fillStyle = Colors.ACTIVEAREA
-          app.ctx.fillRect @x + @m - 10, @y + @m + 100*cult.no - 20, @w - 2*@m + 30, 80
-        app.drawTextArea cult.label, @x + @m + 80, @y + @m + 100*cult.no, @lineHeight, @lineWidth - 70, 'bold 10pt Calibri'
-        app.drawTextArea cult.text, @x + @m + 80, @y + @m + 20 + 100*cult.no, @lineHeight, @lineWidth - 70, '8pt Calibri'
+          @ctx.fillStyle = Colors.ACTIVEAREA
+          @ctx.fillRect @x + @m - 10, @y + @m + 100*cult.no - 20, @w - 2*@m + 30, 80
+        app.drawTextArea @ctx, cult.label, @x + @m + 80, @y + @m + 100*cult.no, @lineHeight, @lineWidth - 70, 'bold 10pt Calibri'
+        app.drawTextArea @ctx, cult.text, @x + @m + 80, @y + @m + 20 + 100*cult.no, @lineHeight, @lineWidth - 70, '8pt Calibri'
 
 
         logo = cult.logo
-        app.ctx.drawImage logo, @x + @m, @y + @m + 100*cult.no - 20, 70, 70
+        @ctx.drawImage logo, @x + @m, @y + @m + 100*cult.no - 20, 70, 70
         return
       return

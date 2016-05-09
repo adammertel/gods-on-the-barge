@@ -2,7 +2,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
   class Islands extends Collection
     constructor: (data) ->
       @name = 'islands'
-
       super data
 
       app.registerNewWeekAction @starvingPeople.bind @
@@ -129,7 +128,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
         if island.coordinates
           for coord, c in island.coordinates[0]
             coords.push app.coordinateToMap {lon: coord[0], lat: coord[1]}
-          @addGeometry new Island(coords, island)
+          @addGeometry new Island(coords, @ctx, island)
       return
 
     deactivateIslands: ->
@@ -182,27 +181,27 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
         labelW = 80
         labelH = 25
 
-        app.ctx.font = 'bold 9pt Calibri'
-        app.ctx.globalAlpha = 0.7
-        app.ctx.fillStyle = 'white'
-        app.ctx.textAlign = 'center'
+        @ctx.font = 'bold 9pt Calibri'
+        @ctx.globalAlpha = 0.7
+        @ctx.fillStyle = 'white'
+        @ctx.textAlign = 'center'
 
         for island in @geometries
           if island.isVisible
-            app.ctx.beginPath()
+            @ctx.beginPath()
             island.drawLabelBackground labelW, labelH
-            app.ctx.closePath()
-            app.ctx.fill()
+            @ctx.closePath()
+            @ctx.fill()
 
-        app.ctx.globalAlpha = 1
-        app.ctx.fillStyle = 'black'
+        @ctx.globalAlpha = 1
+        @ctx.fillStyle = 'black'
         for island in @geometries
           if island.isVisible
             island.drawLabel labelW, labelH
 
-        app.ctx.strokeStyle = 'black'
-        app.ctx.fillStyle = 'green'
-        app.ctx.lineWidth = 1
+        @ctx.strokeStyle = 'black'
+        @ctx.fillStyle = 'green'
+        @ctx.lineWidth = 1
         for island in @geometries
           if island.isVisible
             island.drawFoodIndicator labelW, labelH
@@ -216,11 +215,11 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
               @activeteIslandByClick island
 
           dominantCult = island.getDominantCult()
-          app.ctx.fillStyle = Colors['CULT' + _.upperCase dominantCult ]
-          app.ctx.beginPath()
+          @ctx.fillStyle = Colors['CULT' + _.upperCase dominantCult ]
+          @ctx.beginPath()
           island.draw()
-          app.ctx.closePath()
-          app.ctx.fill()
+          @ctx.closePath()
+          @ctx.fill()
 
       activeIsland = @getActiveIsland()
       if activeIsland

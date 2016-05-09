@@ -1,7 +1,7 @@
-define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, Colors) ->
+define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
   class Island extends Geography
 
-    constructor: (@coords, data)->
+    constructor: (@coords, @ctx, data)->
       @state = {
         buildings:
           hospital: false
@@ -95,17 +95,17 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
 
     drawLabelBackground: (w, h)->
       @centroidCoord = app.coordinateToView @centroid
-      app.ctx.rect @centroidCoord.x - w/2, @centroidCoord.y - h - 10, w, h
+      @ctx.rect @centroidCoord.x - w/2, @centroidCoord.y - h - 10, w, h
 
     drawLabel: (w, h) ->
-      app.ctx.fillText @data.name, @centroidCoord.x, @centroidCoord.y - h
+      @ctx.fillText @data.name, @centroidCoord.x, @centroidCoord.y - h
 
     drawFoodIndicator: (w, h) ->
       fullFoodPx = w - 10
       foodPx = (fullFoodPx / @state.maxGrain) * @state.grain
-      app.ctx.fillStyle = @foodIndicatorColor()
-      app.ctx.strokeRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2 - 8, fullFoodPx, 5
-      app.ctx.fillRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2 - 7, foodPx, 3
+      @ctx.fillStyle = @foodIndicatorColor()
+      @ctx.strokeRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2 - 8, fullFoodPx, 5
+      @ctx.fillRect @centroidCoord.x - fullFoodPx/2, @centroidCoord.y - h/2 - 7, foodPx, 3
       return
 
     foodIndicatorColor: ->
@@ -123,17 +123,17 @@ define 'Island', ['App', 'Geography', 'Base', 'Colors'], (app, Geography, Base, 
     drawIsland: ->
       for viewCoord, c in @viewCoords
         if c == 0
-          app.ctx.moveTo viewCoord.x, viewCoord.y
+          @ctx.moveTo viewCoord.x, viewCoord.y
         else
-          app.ctx.lineTo viewCoord.x, viewCoord.y
+          @ctx.lineTo viewCoord.x, viewCoord.y
 
       return
 
     highlight: ->
-      app.ctx.beginPath()
+      @ctx.beginPath()
       @drawIsland()
-      app.ctx.closePath()
-      app.ctx.stroke()
+      @ctx.closePath()
+      @ctx.stroke()
 
     draw: ->
       @getCoords()

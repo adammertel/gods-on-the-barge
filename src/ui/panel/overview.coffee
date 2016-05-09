@@ -74,8 +74,8 @@ define 'OverviewPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'Text
       @drawTotalStatPie()
 
       if app.state.started
-        app.ctx.fillStyle = app.game.getPlayerColor()
-        app.ctx.fillRect @x + 220, @y + 5, 200, 28
+        @ctx.fillStyle = app.game.getPlayerColor()
+        @ctx.fillRect @x + 220, @y + 5, 200, 28
 
       super()
       return

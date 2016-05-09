@@ -17,6 +17,10 @@ define 'Routes', ['Base', 'Collection', 'Route', 'Colors'], (Base, Collection, R
         @addGeometry new Route from, to
       return
 
+    setStyle: ->
+      @ctx.strokeStyle = Colors.ROUTEMAP
+      @ctx.lineWidth = 1
+
     getDistanceOfEdge: (from, to) ->
       alt1 = from + '-' + to
       alt2 = to + '-' + from
@@ -30,9 +34,6 @@ define 'Routes', ['Base', 'Collection', 'Route', 'Colors'], (Base, Collection, R
       distance
 
     draw: ->
-      app.ctx.strokeStyle = Colors.ROUTEMAP
-      app.ctx.lineWidth = 1
-
       routes = []
       for route in @geometries
         fromView = app.coordinateToView route.from
@@ -40,6 +41,6 @@ define 'Routes', ['Base', 'Collection', 'Route', 'Colors'], (Base, Collection, R
         path = "M " + fromView.x + " " + fromView.y + " L " + toView.x + " " + toView.y
         routes.push path
 
-      app.ctx.stroke new Path2D routes.join ' '
+      @ctx.stroke new Path2D routes.join ' '
 
       return

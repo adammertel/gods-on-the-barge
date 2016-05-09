@@ -1,6 +1,6 @@
 define 'Storms', ['Base', 'Collection', 'Storm', 'Colors'], (Base, Collection, Storm, Colors) ->
   class Storms extends Collection
-    constructor: ->
+    constructor: (data) ->
       @name = 'storms'
       super []
       return
@@ -29,12 +29,15 @@ define 'Storms', ['Base', 'Collection', 'Storm', 'Colors'], (Base, Collection, S
       return
 
     draw: ->
-      app.ctx.fillStyle = Colors.STORMMAP
+      @ctx.fillStyle = Colors.STORMMAP
       for storm in @geometries
         storm.draw()
       app.weather.pourIslands()
       return
 
+    createStorm: (id) ->
+      @addGeometry new Storm id, @ctx
+      return
 
     newStormCoordinates: ->
       windDirection = app.weather.state.windDirection

@@ -1,72 +1,81 @@
-require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'PerkWindow', 'CultsEnum', 'GameInfo'], (Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, PerkWindow, Cults, GameInfo) ->
+require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'PerkWindow', 'CultsEnum', 'GameInfo'], (Canvas, Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, PerkWindow, Cults, GameInfo) ->
   console.log 'init'
 
-  canvas = document.getElementById('game')
-  canvas.width = app.state.view.w
-  canvas.height = app.state.view.h
-  app.ctx = canvas.getContext('2d')
-  app.ctx.lineCap = 'round'
-  app.ctx.lineJoin = 'round'
+  prepareCanvas = (canvasDivName, id, w, h, fps = 60) ->
+    canvas = document.getElementById canvasDivName
+    canvas.width = w
+    canvas.height = h
+
+    app.registerCanvas {id: id, ctx: ctx, w: w, h: h, fps: fps}
+    return
+
+  #prepareCanvas 'info', 'info', app.state.menu.w, app.state.menu.h, 10
+  #prepareCanvas 'game', 'game', app.state.view.w, app.state.view.h, 60
+  #prepareCanvas 'menu', 'menu', app.state.menu.w, app.state.menu.h, 10
+
+  defaultCanvas =
+    h: app.state.menu.h - 200
+    w: app.state.menu.w
+    x: 0
+    y: 0
 
   app.calculateMap()
 
   app.linksData = JSON.parse Base.doXhr('data/links.json').responseText
 
-  app.registerCollection(new Islands(JSON.parse Base.doXhr('data/islands.json').responseText), 1)
-  app.registerCollection(new Nodes(JSON.parse Base.doXhr('data/nodes.json').responseText), 3)
-  app.registerCollection(new Routes(JSON.parse Base.doXhr('data/edges.json').responseText), 2)
-  app.registerCollection(new BackgroundIslands(JSON.parse Base.doXhr('data/backgroundislands.json').responseText), 0)
-  app.registerCollection(new Storms(), 5)
+  app.registerCollection 'Nodes', 'data/nodes.json', 'nodes', defaultCanvas, 4, 2
+  app.registerCollection 'Islands', 'data/islands.json', 'islands', defaultCanvas, 1, 2
+  app.registerCollection 'Routes', 'data/edges.json', 'routes', defaultCanvas, 3, 2
+  app.registerCollection 'BackgroundIslands', 'data/backgroundislands.json', 'backgroundislands', defaultCanvas, 0, 2
+  app.registerCollection 'Storms', '', 'storms', defaultCanvas, 5, 1
+  app.registerCollection 'Ships', '', 'ships', defaultCanvas, 5, 1
 
-  app.getCollection('islands').registerGeometries()
-  app.getCollection('nodes').registerGeometries()
-  app.getCollection('routes').registerGeometries()
-  app.getCollection('backgroundIslands').registerGeometries()
+  overCanvas = new Canvas 'over', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 20, 1
+  overCanvas.registerDrawFunction app.writeDevelInfo.bind(app, overCanvas.ctx)
 
   app.game = new Game()
   app.time = new Time()
   app.weather = new Weather()
+
   app.menu = new Menu()
   app.cursor = new Cursor()
   app.gameInfo = new GameInfo()
 
   app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600))
   app.registerInfoWindow(new PerkWindow('perks', 320, 300))
-  app.registerCollection(new Ships [], 10)
-
-  # app.game.createShip(Cults.SERAPIS, 0)
 
   app.loop()
 
-  canvas.addEventListener 'mousewheel', (e) ->
+  # MOUSE AND KEYBOARD EVENTS
+  wrapper = document.getElementById 'canvases'
+
+  wrapper.addEventListener 'mousewheel', (e) ->
     if e.deltaY < 0
       app.zoomIn()
     else
       app.zoomOut()
 
-    return
+      return
 
-
-  # CANVAS EVENTS
-  canvas.addEventListener 'mousedown', (e) ->
+  wrapper.addEventListener 'mousedown', (e) ->
     app.state.controls.mouseClicked = true
     app.state.controls.mouseClickedPosition =
       x: e.clientX
       y: e.clientY
     return
 
-  canvas.addEventListener 'dblclick', (e) ->
+  wrapper.addEventListener 'dblclick', (e) ->
     app.state.controls.mouseDblClicked = false
     if app.mouseOverMap()
       app.zoomIn()
     return
 
-  canvas.addEventListener 'mouseup', (e) ->
+  wrapper.addEventListener 'mouseup', (e) ->
     app.state.controls.mouseClicked = false
     app.state.controls.mouseDblClicked = false
     return
 
-  canvas.addEventListener 'mousemove', (e) ->
+  wrapper.addEventListener 'mousemove', (e) ->
     app.state.controls.mousePosition =
       x: e.clientX
       y: e.clientY
@@ -82,7 +91,7 @@ require ['Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Rout
         y: e.clientY
     return
 
-  canvas.addEventListener 'mouseout', (e) ->
+  wrapper.addEventListener 'mouseout', (e) ->
     app.state.controls.mouseClicked = false
     app.state.controls.mouseClickedPosition =
       x: e.clientX

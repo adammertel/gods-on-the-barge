@@ -1,6 +1,8 @@
-define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPanel', 'CultPanel', 'ShipsPanel', 'PoliticsPanel', 'WeatherPanel', 'TextStyle', 'ButtonStyle'], (Ui, MiniMap, Text, Button, OverviewPanel, IslandsPanel, CultPanel, ShipsPanel, PoliticsPanel, WeatherPanel, TextStyle, ButtonStyle) ->
+define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPanel', 'CultPanel', 'ShipsPanel', 'PoliticsPanel', 'WeatherPanel', 'TextStyle', 'ButtonStyle', 'Canvas'], (Ui, MiniMap, Text, Button, OverviewPanel, IslandsPanel, CultPanel, ShipsPanel, PoliticsPanel, WeatherPanel, TextStyle, ButtonStyle, Canvas) ->
   class Menu extends Ui
     constructor: ->
+      @setCanvas()
+
       h = 150
       super 'menu', 0, app.state.view.h - h, app.state.view.w, h
       @mm = new MiniMap()
@@ -10,6 +12,12 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
 
       @init()
       return
+
+    setCanvas: ->
+      canvas = new Canvas 'menu',{h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 10, 10
+      @canvas = canvas
+      @ctx = canvas.ctx
+      @canvas.registerDrawFunction @draw.bind(@)
 
     init: ->
       @bs = _.clone @buttonStyle
@@ -92,13 +100,13 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       return
 
     drawBackground: ->
-      app.ctx.fillStyle = 'white'
-      app.ctx.fill @bckPath
+      @ctx.fillStyle = 'white'
+      @ctx.fill @bckPath
 
     strokeBackground: ->
-      app.ctx.strokeStyle = 'black'
-      app.ctx.strokeRect @x+1, @y-1, @w, @h
-      app.ctx.strokeRect @x+1, @y-1, @panelW, @h
+      @ctx.strokeStyle = 'black'
+      @ctx.strokeRect @x+1, @y-1, @w, @h
+      @ctx.strokeRect @x+1, @y-1, @panelW, @h
 
     draw: ->
       super()

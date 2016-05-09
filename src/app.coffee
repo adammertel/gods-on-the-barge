@@ -1,10 +1,14 @@
-define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
+define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'Nodes', 'Routes', 'Ships', 'Storms', 'BackgroundIslands'], (Base, Canvas, Ship, Season, Ai, Islands, Nodes, Routes, Ships, Storms, BackgroundIslands) ->
   window.app =
     state:
+      loopNo: 0
       started: false
       fps: []
       lastTimeLoop: null
       view:
+        h: 650
+        w: 800
+      menu:
         h: 700
         w: 800
       map:
@@ -43,6 +47,60 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
     startGameFunctions: []
     shipPath: new Path2D Base.shipPath()
     ais: []
+    canvases: []
+
+    draw: ->
+      for canvas in @orderedCanvases
+        if !(@state.loopNo % canvas.fps)
+          canvas.render()
+
+      for canvas in @orderedCanvases
+        if !(@state.loopNo % canvas.fps)
+          canvas.postRender()
+
+      @drawBorders()
+      #@gameInfo.draw()
+      return
+
+    loop: ->
+      app.state.loopNo += 1
+      app.time.nextTick()
+      app.countFps()
+      app.draw()
+      #app.checkPosition()
+      #app.setInteractions()
+
+      window.requestAnimationFrame app.loop
+      return
+
+
+    registerCanvas: (canvas) ->
+      @canvases.push(canvas)
+      @orderCanvases()
+      return
+
+    orderCanvases: ->
+      @orderedCanvases = _.orderBy(@canvases, 'z', 'desc')
+      return
+
+    getCanvasById: (id) ->
+      foundCanvas = false
+      for canvas in @canvases
+        if canvas.id == id
+          foundCanvas = canvas
+      foundCanvas
+
+    registerCollection: (collectionClassName, pathToData, canvasId, props, z, fps) ->
+      data = @getDataFromPath pathToData
+
+      collection = new (eval(collectionClassName))(data)
+      collectionCanvas = new Canvas canvasId, props, z, fps
+
+      collection.setCanvas collectionCanvas
+      @collections.push {'collection': collection}
+      collection.registerGeometries()
+
+      return
 
     mouseX: ->
       @state.controls.mousePosition.x
@@ -50,30 +108,30 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
     mouseY: ->
       @state.controls.mousePosition.y
 
-    drawPath: (path, coords, size, rotation, fillStyle, lineWidth, strokeStyle) ->
-      app.ctx.translate coords.x, coords.y
+    drawPath: (ctx, path, coords, size, rotation, fillStyle, lineWidth, strokeStyle) ->
+      ctx.translate coords.x, coords.y
       if rotation
-        app.ctx.rotate rotation
+        ctx.rotate rotation
       if size != 1
-        app.ctx.scale size, size
+        ctx.scale size, size
 
       if fillStyle
-        app.ctx.fillStyle = fillStyle
-        app.ctx.fill path
+        ctx.fillStyle = fillStyle
+        ctx.fill path
       if lineWidth or strokeStyle
-        app.ctx.lineWidth = lineWidth
-        app.ctx.strokeStyle = strokeStyle
-        app.ctx.stroke path
+        ctx.lineWidth = lineWidth
+        ctx.strokeStyle = strokeStyle
+        ctx.stroke path
 
       if rotation
-        app.ctx.rotate -rotation
+        ctx.rotate -rotation
       if size != 1
-        app.ctx.scale 1/size, 1/size
-      app.ctx.translate -coords.x, -coords.y
+        ctx.scale 1/size, 1/size
+      ctx.translate -coords.x, -coords.y
       return
 
-    drawShip: (coords, size, rotation, color) ->
-      @drawPath @shipPath, coords, size, rotation, color, 3, 'black'
+    drawShip: (ctx, coords, size, rotation, color) ->
+      @drawPath ctx, @shipPath, coords, size, rotation, color, 3, 'black'
       return
 
     deactivateClick: ->
@@ -170,9 +228,11 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
 
       distance
 
-    registerCollection: (collection, z) ->
-      @collections.push {'collection': collection, 'z': z}
-      return
+    getDataFromPath: (path) ->
+      data = []
+      if path
+        data = JSON.parse Base.doXhr(path).responseText
+      data
 
     getCollection: (collectionName) ->
       foundCollection = false
@@ -181,13 +241,13 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
           foundCollection = collection.collection
       foundCollection
 
-    drawTextArea: (text, x, y, lineHeight, lineWidth, font) ->
-      app.ctx.font = font
-      app.ctx.fillStyle = 'black'
-      texts = Base.wrapText(app.ctx, text, lineWidth)
+    drawTextArea: (ctx, text, x, y, lineHeight, lineWidth, font) ->
+      ctx.font = font
+      ctx.fillStyle = 'black'
+      texts = Base.wrapText(ctx, text, lineWidth)
 
       for text, t in texts
-        app.ctx.fillText text, x, y + t * lineHeight
+        ctx.fillText text, x, y + t * lineHeight
       return
 
     registerNewDayAction: (action)->
@@ -231,22 +291,7 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
         action()
       return
 
-    draw: ->
-      @time.nextTick()
-      for collection in @orderedCollection
-        collection.collection.draw()
 
-      for collection in @orderedCollection
-        collection.collection.drawLabels()
-
-      @drawBorders()
-      @writeDevelInfo()
-      @gameInfo.draw()
-      return
-
-    clear: ->
-      @ctx.clearRect 0, 0, @state.view.w, @state.view.h
-      return
 
     countFps: ->
       now = new Date()
@@ -254,23 +299,6 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
       app.state.fps.push parseInt(1/(nowValue - app.state.lastTimeLoop) * 1000)
       app.state.fps = _.takeRight app.state.fps, 30
       app.state.lastTimeLoop = nowValue
-      return
-
-    loop: ->
-      @orderedCollection = _.orderBy(@collections, 'z')
-      app.clear()
-      app.countFps()
-      app.draw()
-      app.menu.draw()
-
-      app.drawInfoWindows()
-
-      app.cursor.draw()
-
-      app.checkPosition()
-      app.setInteractions()
-
-      window.requestAnimationFrame app.loop
       return
 
     calculateMap: ->
@@ -285,12 +313,12 @@ define 'App', ['Base', 'Ship', 'Season', 'Ai'], (Base, Ship, Season, Ai) ->
       @state.position.y = coordinate.y
       return
 
-    writeDevelInfo: ->
-      @ctx.textAlign = 'left'
-      @ctx.fillStyle = 'black'
-      @ctx.font = '10pt Calibri'
-      @ctx.fillText 'x: ' + Base.round(@state.position.x) + ' y: ' + Base.round(@state.position.y) + ' zoom: ' + Base.round(@state.zoom * 10)/10, 10, 10
-      @ctx.fillText 'fps : ' + parseInt(_.mean(@state.fps)), 10, 40
+    writeDevelInfo: (ctx) ->
+      ctx.textAlign = 'left'
+      ctx.fillStyle = 'black'
+      ctx.font = '10pt Calibri'
+      ctx.fillText 'x: ' + Base.round(@state.position.x) + ' y: ' + Base.round(@state.position.y) + ' zoom: ' + Base.round(@state.zoom * 10)/10, 10, 10
+      ctx.fillText 'fps : ' + parseInt(_.mean(@state.fps)), 10, 40
       return
 
     getClicked: ()->

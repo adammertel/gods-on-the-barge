@@ -1,4 +1,4 @@
-define 'MiniMap', ['Base'], (Base) ->
+define 'MiniMap', ['Base', 'Canvas'], (Base, Canvas) ->
   class MiniMap
     constructor: ->
       @h = 150
@@ -8,6 +8,7 @@ define 'MiniMap', ['Base'], (Base) ->
       @lw = 2
       @dx = @w / app.state.map.w
       @dy = @h / (app.state.map.h - 2*@h)
+      @setCanvas()
 
       pathCoords = [[@x, @y], [@x, @y + @h], [@x + @w, @y + @h], [@x + @w, @y]]
       @path = new Path2D Base.buildPathString(pathCoords, true)
@@ -15,11 +16,24 @@ define 'MiniMap', ['Base'], (Base) ->
       @getIslandPaths()
       return
 
-    coordinateToMiniMap: (c) ->
-      x: Base.round((@x + @dx * (c.x)) * 10)/10
-      y: Base.round((@y + @dy * (c.y)) * 10)/10
+    setStyle: ->
+      @ctx.lineWidth = 2
+      @ctx.strokeStyle = 'black'
+      @ctx.fillStyle = 'grey'
+      return
 
-    getIslandPaths:() ->
+    setCanvas: ->
+      canvas = new Canvas 'minimap',{h: @h, w: @w + 3, x: @x, y: @y}, 10, 1
+      @canvas = canvas
+      @ctx = canvas.ctx
+      @setStyle()
+      @canvas.registerDrawFunction @draw.bind(@)
+
+    coordinateToMiniMap: (c) ->
+      x: Base.round((@dx * (c.x)) * 10)/10
+      y: Base.round((@dy * (c.y)) * 10)/10
+
+    getIslandPaths: ->
       islandPaths = []
       islands = app.getCollection 'islands'
       bckIslands = app.getCollection 'backgroundIslands'
@@ -43,41 +57,33 @@ define 'MiniMap', ['Base'], (Base) ->
       return
 
     drawIslands: ->
-      app.ctx.strokeStyle = 'black'
-      app.ctx.save()
-      app.ctx.rect @x + @lw/2, @y + @lw/2, @w - @lw, @h - @lw
-      #app.ctx.stroke()
-      app.ctx.clip()
-
-      app.ctx.fillStyle = 'grey'
 
       if !@islandPathsConcated
         @getIslandPaths()
 
-      app.ctx.fill @islandPathsConcated
-      app.ctx.restore()
+
+      @ctx.fill @islandPathsConcated
       return
 
     drawPosition: ->
-      app.ctx.lineWidth = 2
-      app.ctx.strokeStyle = 'black'
-      app.ctx.strokeRect @x - app.menu.mmButtonSize, @y, @w + app.menu.mmButtonSize, @h
+      @ctx.strokeRect @x - app.menu.mmButtonSize, @y, @w + app.menu.mmButtonSize, @h
       x1 = @dx * app.state.position.x
       y1 = @dy * app.state.position.y
 
       mmCoord = @coordinateToMiniMap(x: app.state.position.x, y: app.state.position.y)
       mw = @dx * app.state.view.w / app.state.zoom - 2 * @lw
       mh = @dy * (app.state.view.h - @h) / app.state.zoom - 2 * @lw
-      app.ctx.strokeRect mmCoord.x + @lw, mmCoord.y + @lw, mw, mh
+      @ctx.strokeRect mmCoord.x + @lw, mmCoord.y + @lw, mw, mh
+      return
+
+    drawBorders: ->
+      @ctx.strokeRect 1, 0, @w, @h
       return
 
     draw: ->
-      app.ctx.lineWidth = 1
-      app.ctx.fillStyle = 'white'
-      app.ctx.fill @path
-
       @drawIslands()
       @drawPosition()
+      @drawBorders()
       return
 
     mouseConflict: ->

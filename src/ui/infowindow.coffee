@@ -1,7 +1,7 @@
 define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
   class InfoWindow extends Ui
     constructor: (@id, @w, @h) ->
-
+      @ctx = app.getCanvasById('info').ctx
       super @id, (app.state.view.w - @w)/2, (app.state.view.h - @h)/2, @w, @h
 
       @m = 50
@@ -20,10 +20,10 @@ define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
       return
 
     drawBackground: ->
-      app.ctx.fillStyle = 'white'
-      app.ctx.strokeStyle = 'black'
-      app.ctx.fill @bckPath
-      app.ctx.stroke @bckPath
+      @ctx.fillStyle = 'white'
+      @ctx.strokeStyle = 'black'
+      @ctx.fill @bckPath
+      @ctx.stroke @bckPath
 
     draw: ->
       super()

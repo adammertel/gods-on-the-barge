@@ -1,6 +1,6 @@
 define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
   class Ship extends Geometry
-    constructor: (@cult, @startId = 1)->
+    constructor: (@cult, @ctx, @startId = 1)->
       @collection = app.getCollection('ships')
       @cultStats = app.game.getCultStats(@cult).ships
       @endId = app.getCollection('nodes').chooseShipEndingNodeId()
@@ -147,27 +147,27 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
       @baseSpeed * app.time.state.timeSpeed * rainPenalty
 
     drawCargoBar: ->
-      app.ctx.fillStyle = 'orange'
+      @ctx.fillStyle = 'orange'
       fullCargopx = 40 * app.state.zoom
       cargopx = (fullCargopx / @fullCargo) * @cargo
-      app.ctx.strokeRect @shipCoord.x - fullCargopx/2, @shipCoord.y - fullCargopx/2, fullCargopx, 3
-      app.ctx.fillRect @shipCoord.x - fullCargopx/2, @shipCoord.y - fullCargopx/2, cargopx, 3
+      @ctx.strokeRect @shipCoord.x - fullCargopx/2, @shipCoord.y - fullCargopx/2, fullCargopx, 3
+      @ctx.fillRect @shipCoord.x - fullCargopx/2, @shipCoord.y - fullCargopx/2, cargopx, 3
       return
 
     drawEnergyBar: ->
-      app.ctx.fillStyle = 'blue'
+      @ctx.fillStyle = 'blue'
       fullEnergypx = 40 * app.state.zoom
       energypx = (fullEnergypx / @fullEnergy) * @energy
-      app.ctx.strokeRect @shipCoord.x - fullEnergypx/2, @shipCoord.y - fullEnergypx/2 - 6, fullEnergypx, 3
-      app.ctx.fillRect @shipCoord.x - fullEnergypx/2, @shipCoord.y - fullEnergypx/2 - 6, energypx, 3
+      @ctx.strokeRect @shipCoord.x - fullEnergypx/2, @shipCoord.y - fullEnergypx/2 - 6, fullEnergypx, 3
+      @ctx.fillRect @shipCoord.x - fullEnergypx/2, @shipCoord.y - fullEnergypx/2 - 6, energypx, 3
       return
 
     draw: ->
       @shipCoord = app.coordinateToView @coords
       @move()
-      app.ctx.strokeStyle = 'black'
-      app.ctx.lineWidth = 2
+      @ctx.strokeStyle = 'black'
+      @ctx.lineWidth = 2
       @drawEnergyBar()
       @drawCargoBar()
-      app.drawShip @shipCoord, app.state.zoom, @rotation, @color
+      app.drawShip @ctx, @shipCoord, app.state.zoom, @rotation, @color
       return

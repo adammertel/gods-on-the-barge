@@ -1,7 +1,7 @@
 define 'Storm', ['Geography', 'Colors', 'Base'], (Geography, Colors, Base) ->
   class Storm extends Geography
 
-    constructor: (@id)->
+    constructor: (@id, @ctx)->
       @power = _.random(4, 8, false)
       @collection = app.getCollection 'storms'
       @coords = @collection.newStormCoordinates()
@@ -22,16 +22,16 @@ define 'Storm', ['Geography', 'Colors', 'Base'], (Geography, Colors, Base) ->
     draw: ->
       if @power > 1
         @moveStorm()
-        app.ctx.globalAlpha = 0.3
+        @ctx.globalAlpha = 0.3
         stormCoord = app.coordinateToView @coords
         @radius = @power * app.weather.state.config.stormRadiusCoefficient
 
-        app.ctx.beginPath()
-        app.ctx.arc(stormCoord.x, stormCoord.y, @radius*app.state.zoom, 0, 2 * Math.PI, false)
-        app.ctx.closePath()
-        app.ctx.fill()
+        @ctx.beginPath()
+        @ctx.arc(stormCoord.x, stormCoord.y, @radius*app.state.zoom, 0, 2 * Math.PI, false)
+        @ctx.closePath()
+        @ctx.fill()
 
-        app.ctx.globalAlpha = 1
+        @ctx.globalAlpha = 1
 
 
       return

@@ -15,5 +15,5 @@ define 'CultPanel', ['Panel', 'Text', 'Button', 'ButtonStyle', 'TextStyle'], (Pa
 
     draw: ->
       super()
-      app.ctx.drawImage app.game.getPlayerCultIcon(), @x + 20, @y + 60, 70, 70
+      @ctx.drawImage app.game.getPlayerCultIcon(), @x + 20, @y + 60, 70, 70
       return
