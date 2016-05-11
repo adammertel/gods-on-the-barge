@@ -1,9 +1,20 @@
 # GODS ON THE BARGE game
 
 ### CURRENT VERSION
-#### Version 0.1
+
+### ROADMAP
 We are working on bugs and lot of ideas are still waiting for implementation.
 Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
+
+#### Version 0.2
+- [ ] wiki Page
+- [ ] graphic design
+- [ ] simple buildings system
+- [ ] simple events system
+- [ ] active abilities of cults
+- [ ] economic model
+- [x] implementation of more canvases
+
 
 ### INFO
 This is game inspired by the ongoing research within the interdisciplinary GEHIR project at Masaryk University in Brno (http://gehir.phil.muni.cz/). The project systematically applies selected methods of formalized modelling and computational simulations to the study of the diffusion dynamics of specific religious ideas and forms of behavior. One of the case studies within the project analyzes the spread of the Egyptian cults during the Hellenistic period. This particular topic is also the theme of the game.

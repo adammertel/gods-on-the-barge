@@ -1,4 +1,4 @@
-define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
+define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, events) ->
   class Game
     state:
       politics:
@@ -34,7 +34,8 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
         flow: 0.05
       perks:
         noNew: 2
-
+      events:
+        activeEvents: []
       gameStatistics:
         cults:
           'Serapis':
@@ -103,7 +104,7 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
       ships:
         no: 3
         out: 0
-        baseSpeed: 1
+        baseSpeed: 0.5
         maxCargo: 100000
         maxEnergy: 400
         energyConsumption: 40
@@ -118,9 +119,12 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
       @loadIcons()
       @loadStats()
       @loadPolitics()
+
       app.registerNewDayAction @calculateBuildCost.bind @
       app.registerNewDayAction @recalculateTotalBelievers.bind @
       app.registerNewWeekAction @randomPolitics.bind @
+      app.registerNewWeekAction @eventsEmitter.bind @
+
       app.registerNewSeasonAction @addNewPoliticsPoints.bind @
       app.registerNewSeasonAction @chooseNewPerks.bind @
       app.registerNewSeasonAction @getMoneyForBelievers.bind @
@@ -147,6 +151,25 @@ define 'Game', ['Base', 'Colors', 'Perks'], (Base, Colors, Perks) ->
         console.log 'cult', cultName, 'gains ', goldFromBelievers
         @earnGold cultName, goldFromBelievers
       return
+
+
+    # EVENTS
+    eventsEmitter: ->
+      for island in app.getCollection('islands').geometries
+        for ev in island.state.events
+          ev.time -= 1
+          if ev.time < 0
+            island.state.events = []
+
+        # island could have only one event so far
+        if island.state.events.length == 0
+          for evName of events
+            event = events[evName]
+            if Math.random() > 1/event['frequency']
+              evLen = _.random(event['length'][0], event['length'][1])
+              island.eventHappens(event, evLen)
+      return
+
 
     # RELIGION
     recalculateTotalBelievers: ->

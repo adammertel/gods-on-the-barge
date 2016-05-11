@@ -101,11 +101,8 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       @getActivePanel().draw()
       return
 
-    drawBackground: ->
-      @ctx.fillStyle = 'white'
-      @ctx.fill @bckPath
-
     strokeBackground: ->
+      @ctx.lineWidth = 2
       @ctx.strokeStyle = 'black'
       @ctx.strokeRect @x+1, @y-1, @w, @h
       @ctx.strokeRect @x+1, @y-1, @panelW, @h

@@ -8,6 +8,7 @@ define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
           granary: false
           amphiteater: false
           dock: false
+        events: []
         name: data.name
         population: data.population
         area: data.area
@@ -40,6 +41,10 @@ define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
       if @state.name == 'Delos'
         @centroid.y += 30
       super()
+      return
+
+    eventHappens: (ev, len) ->
+      @state.events.push({event: ev, time: len})
       return
 
     getDominantCult: ->

@@ -13,7 +13,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   #prepareCanvas 'game', 'game', app.state.view.w, app.state.view.h, 60
   #prepareCanvas 'menu', 'menu', app.state.menu.w, app.state.menu.h, 10
 
-  gameFpsRatio = 3
+  gameFpsRatio = 2
   defaultCanvas =
     h: app.state.menu.h - 200
     w: app.state.menu.w
