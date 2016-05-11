@@ -18,6 +18,8 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       @canvas = canvas
       @ctx = canvas.ctx
       @canvas.registerDrawFunction @draw.bind(@)
+      @canvas.registerFrameFunction @mouseConflict.bind(@)
+      return
 
     init: ->
       @bs = _.clone @buttonStyle

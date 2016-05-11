@@ -4,6 +4,7 @@ define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
       @canvas = app.getCanvasById('info')
       @ctx = app.getCanvasById('info').ctx
       app.getCanvasById('info').registerDrawFunction @draw.bind(@)
+      app.getCanvasById('info').registerFrameFunction @mouseConflict.bind(@)
 
       super @id, (app.state.view.w - @w)/2, (app.state.view.h - @h)/2, @w, @h
 
@@ -17,6 +18,11 @@ define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
       @open = false
       app.time.resume()
       @canvas.clear()
+      return
+
+    mouseConflict: ->
+      if @open
+        super()
       return
 
     open: ->

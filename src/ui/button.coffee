@@ -33,7 +33,6 @@ define 'Button', ['Base', 'App'], (Base, app) ->
 
       return
 
-
     isClicked: ->
       if app.isClicked()
         mouseX = app.mouseX()

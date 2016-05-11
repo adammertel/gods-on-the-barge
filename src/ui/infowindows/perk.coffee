@@ -31,7 +31,7 @@ define 'PerkWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 'Bu
     choosePerk: (perkId) ->
       console.log 'perk chosen', perkId
       app.game.applyPerkToPlayer(@perks[parseInt(perkId)])
-      @cloes()
+      @close()
       return
 
     perkText: (perkId) ->

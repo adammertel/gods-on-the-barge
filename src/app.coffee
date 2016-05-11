@@ -53,6 +53,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       for canvas in @orderedCanvases
         if !(@state.loopNo % canvas.fps)
           canvas.render()
+        canvas.frame()
 
       @drawBorders()
       #@gameInfo.draw()
@@ -64,11 +65,9 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       app.countFps()
       app.draw()
       #app.checkPosition()
-      #app.setInteractions()
 
       window.requestAnimationFrame app.loop
       return
-
 
     registerCanvas: (canvas) ->
       @canvases.push(canvas)
@@ -348,12 +347,6 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       y: Base.round(@state.map.h - (c.lat - @state.boundingCoordinates.s) * @state.pxDensity)
 
     pointToUTM: (point) ->
-
-
-    setInteractions: ->
-      if @menu.mm.mouseConflict() and app.state.controls.mouseClicked
-        @menu.mm.mouseClick()
-        return
 
     coordinatesToView: (coords) ->
       for coord in coords

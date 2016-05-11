@@ -19,6 +19,7 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle', 'FontStyle'], (Ba
       if app.isClicked()
         mouseX = app.mouseX()
         mouseY = app.mouseY()
+        
         if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
           for button in @buttons
             button.isClicked()

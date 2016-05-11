@@ -28,6 +28,8 @@ define 'MiniMap', ['Base', 'Canvas'], (Base, Canvas) ->
       @ctx = canvas.ctx
       @setStyle()
       @canvas.registerDrawFunction @draw.bind(@)
+      @canvas.registerFrameFunction @mouseConflict.bind(@)
+      return
 
     coordinateToMiniMap: (c) ->
       x: Base.round((@dx * (c.x)) * 10)/10
@@ -87,13 +89,12 @@ define 'MiniMap', ['Base', 'Canvas'], (Base, Canvas) ->
       return
 
     mouseConflict: ->
-      mouseX = app.mouseX()
-      mouseY = app.mouseY()
-      mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
+      if app.isClicked()
+        mouseX = app.mouseX()
+        mouseY = app.mouseY()
 
-    mouseClick: ->
-      mouseX = app.mouseX()
-      mouseY = app.mouseY()
+        if mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
+          app.setNewXPosition ((mouseX - @x)/@w * app.state.map.w) - app.state.view.w/2 * 1/app.state.zoom
+          app.setNewYPosition ((mouseY - @y)/@h * app.state.map.h) - app.state.view.h/2 * 1/app.state.zoom
 
-      app.setNewXPosition ((mouseX - @x)/@w * app.state.map.w) - app.state.view.w/2 * 1/app.state.zoom
-      app.setNewYPosition ((mouseY - @y)/@h * app.state.map.h) - app.state.view.h/2 * 1/app.state.zoom
+      return

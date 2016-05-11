@@ -18,6 +18,7 @@ define 'Canvas', ['Base'], (Base) ->
       @ctx.lineJoin = 'round'
 
       @drawFunctions = []
+      @frameFunctions = []
       app.registerCanvas @
 
     # creating canvas element
@@ -30,6 +31,10 @@ define 'Canvas', ['Base'], (Base) ->
       document.getElementById('canvases').appendChild newCanvas
       return
 
+    registerFrameFunction: (frameFunction) ->
+      @frameFunctions.push frameFunction
+      return
+
     registerDrawFunction: (drawFunction) ->
       @drawFunctions.push drawFunction
       return
@@ -38,6 +43,11 @@ define 'Canvas', ['Base'], (Base) ->
       @clear()
       for drawFunction in @drawFunctions
         drawFunction()
+      return
+
+    frame: ->
+      for frameFunction in @frameFunctions
+        frameFunction()
       return
 
     postRender: ->
