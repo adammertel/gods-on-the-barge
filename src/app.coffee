@@ -294,8 +294,6 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
         action()
       return
 
-
-
     countFps: ->
       now = new Date()
       nowValue = now.valueOf()
