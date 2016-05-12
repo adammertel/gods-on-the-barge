@@ -11,8 +11,11 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
       app.registerNewSeasonAction @religiousConversion.bind @
       return
 
+    setFrameFunctions: ->
+      @canvas.registerFrameFunction @mouseConflict.bind(@)
+
     # self-driven religious conversion
-    religiousConversion: () ->
+    religiousConversion: ->
       console.log 'making self-driven religious conversion'
       minStable = app.game.state.religion.minDistributionToStable
       minGrow = app.game.state.religion.minDistributionToGrow
@@ -41,7 +44,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
               if oldReligion != cultName
                 app.game.convertPerson island, oldReligion, cultName, onePersonDistribution
       return
-
 
     distanceCoefficient: (distance, maxDistance) ->
       1 - (distance / maxDistance)
@@ -176,13 +178,17 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
       app.menu.getActivePanel().changeActiveIsland(island.state.name)
       return
 
+    mouseConflict: ->
+      if !app.isInfoWindowOpen()
+        for island in @geometries
+          if island
+            if app.isClickedMap() and !app.isMapDragging()
+              if island.mouseConflict()
+                @activeteIslandByClick island
+
     draw: ->
       for island in @geometries
         if island
-          if app.isClickedMap()
-            if island.mouseConflict()
-              @activeteIslandByClick island
-
           dominantCult = island.getDominantCult()
           @ctx.fillStyle = Colors['CULT' + _.upperCase dominantCult ]
           @ctx.beginPath()

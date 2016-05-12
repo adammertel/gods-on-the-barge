@@ -43,7 +43,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   app.cursor = new Cursor()
   app.gameInfo = new GameInfo()
 
-  infoCanvas = new Canvas 'info', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 15, 20
+  infoCanvas = new Canvas 'info', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 15, 10
 
   app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600), true)
   app.registerInfoWindow(new PerkWindow('perks', 320, 300), false)
@@ -77,6 +77,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   wrapper.addEventListener 'mouseup', (e) ->
     app.state.controls.mouseClicked = false
     app.state.controls.mouseDblClicked = false
+    app.state.controls.mapDragging = false
     return
 
   wrapper.addEventListener 'mousemove', (e) ->
@@ -84,11 +85,13 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
       x: e.clientX
       y: e.clientY
 
-    if app.state.controls.mouseClicked and app.mouseOverMap()
+    if app.state.controls.mouseClicked and app.mouseOverMap() and !app.isInfoWindowOpen()
       zoom = app.state.zoom
       mcp = app.state.controls.mouseClickedPosition
       app.setNewYPosition app.state.position.y + (mcp.y - (e.clientY)) * 1/zoom
       app.setNewXPosition app.state.position.x + (mcp.x - (e.clientX)) * 1/zoom
+
+      app.state.controls.mapDragging = true
 
       app.state.controls.mouseClickedPosition =
         x: e.clientX

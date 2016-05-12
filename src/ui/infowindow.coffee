@@ -8,7 +8,7 @@ define 'InfoWindow', ['Base', 'Ui'], (Base, Ui) ->
 
       super @id, (app.state.view.w - @w)/2, (app.state.view.h - @h)/2, @w, @h
 
-      @m = 50
+      @m = 40
       @lineHeight = 20
       @lineWidth = @w - 2 * @m
       @clickableAreas = []

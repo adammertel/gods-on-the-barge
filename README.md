@@ -7,7 +7,7 @@ We are working on bugs and lot of ideas are still waiting for implementation.
 Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
 
 #### Version 0.2
-- [ ] wiki Page
+- [ ] wiki page
 - [ ] graphic design
 - [ ] simple buildings system
 - [ ] simple events system

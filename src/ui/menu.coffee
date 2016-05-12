@@ -44,7 +44,6 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       @registerPanel new WeatherPanel(@)
       @registerPanel new CultPanel(@)
 
-
       lw = 2
       buttonH = @h/@panels.length# - lw/4 * @panels.length
       @activePanel = 'Overview'
@@ -55,6 +54,9 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
 
       return
 
+    mouseConflict: ->
+      if !app.isInfoWindowOpen()
+        super()
 
     speedButtonStyle: (speed) ->
       if app.time.state.timeSpeed == speed

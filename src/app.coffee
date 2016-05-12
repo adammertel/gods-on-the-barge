@@ -30,6 +30,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
         mouseDblClicked: false
         mouseClickedPosition: {}
         mousePosition: {}
+        mouseMoving: false
       pxDensity: 400
       boundingCoordinates:
         n: 39
@@ -138,6 +139,9 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
 
     isClicked: ->
       @state.controls.mouseClicked
+
+    isMapDragging: ->
+      @state.controls.mapDragging
 
     # functions that need to wait untill player chooses his cult
     registerStartGameFunction: (startGameFunction) ->
@@ -404,6 +408,5 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
 
     # PERKS
     openPerkWindow: (perks) ->
-      console.log @getInfoWindow('perks')
       @getInfoWindow('perks').newPerks(perks)
       return

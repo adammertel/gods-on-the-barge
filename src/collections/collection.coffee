@@ -7,6 +7,10 @@ define 'Collection', ['Base'], (Base) ->
       @ctx = @canvas.ctx
       @canvas.registerDrawFunction @draw.bind(@)
       @setStyle()
+      @setFrameFunctions()
+      return
+
+    setFrameFunctions: ->
       return
 
     addGeometry: (geometry) ->

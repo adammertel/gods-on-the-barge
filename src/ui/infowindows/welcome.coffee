@@ -5,13 +5,16 @@ define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 
       app.time.pause()
       super @id, @w, @h
       @chosenCult = 'Serapis'
+      @cultAreaHeight = 70
+      @cultAreaY = @y + @m + 150
 
       @init()
       return
 
     init: ->
       _.each app.game.state.cults, (cult, c) =>
-        @registerClickableArea @x + @m, @y + @m + 100*cult.no, @w - 2*@m, 80, @chooseCultToPlay.bind(@, cult.label)
+        w = @cultAreaHeight*cult.no + @cultAreaY
+        @registerClickableArea @x + @m, w - 20, @w - 2*@m, @cultAreaHeight, @chooseCultToPlay.bind(@, cult.label)
 
       buttonY = @y + @h - 60
 
@@ -40,26 +43,30 @@ define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 
       if @open
         super()
         @ctx.textAlign = 'left'
-        text1 = 'WELCOME!'
-        text2 = 'This is "Gods on the Barge" game (current state: v 0.1) inspired by the project of GEHIR (gehir.phil.muni.cz)'
-        text3 = 'Your goal is to convert as many people in region as possible'
+        text1 = 'WELCOME TO GODS ON THE BARGE GAME!'
+        text2 = 'This is "Gods on the Barge" game (current state: v 0.2) inspired by the project of GEHIR based on Masaryk University, Brno. At this version of the game, we are not able to provide full implementation of all features. Game itself is also not fully balanced and several bugs may appear (game is tested only in chrome).'
+        text3 = 'Your goal is to convert as many islands in region as possible. The crucial part of spreading religion are ships, that are sent to Greece/Turkey from Alexandria and will occasionally stop on various islands to sell food.'
         text4 = 'Please choose a cult to play:'
 
         lineWidth = @lineWidth
-        app.drawTextArea @ctx, text1, @x + @m, @y + @m, @lineHeight, lineWidth, FontStyle.HEADER
-        app.drawTextArea @ctx, text2, @x + @m, @y + @m + 20, @lineHeight, lineWidth, FontStyle.BOLDNORMAL
-        app.drawTextArea @ctx, text3, @x + @m, @y + @m + 60, @lineHeight, lineWidth, FontStyle.NORMAL
-        app.drawTextArea @ctx, text4, @x + @m, @y + @m + 80, @lineHeight, lineWidth, FontStyle.NORMAL
+        app.drawTextArea @ctx, text1, @x + @m, @y + @m, @lineHeight, @lineWidth, FontStyle.HEADER
+        app.drawTextArea @ctx, text2, @x + @m, @y + @m + 30, @lineHeight - 3, @lineWidth, FontStyle.NORMAL
+        app.drawTextArea @ctx, text3, @x + @m, @y + @m + 100, @lineHeight - 3, @lineWidth, FontStyle.NORMAL
+        app.drawTextArea @ctx, text4, @x + @m, @y + @m + 180, @lineHeight, @lineWidth, FontStyle.NORMAL
 
+        lh = @lineHeight - 5
+        lw = @lineWidth - 70
         _.each app.game.state.cults, (cult, c) =>
+          w = @cultAreaHeight*cult.no + @cultAreaY
+
           if @chosenCult == cult.label
             @ctx.fillStyle = Colors.ACTIVEAREA
-            @ctx.fillRect @x + @m - 10, @y + @m + 100*cult.no - 20, @w - 2*@m + 30, 80
-          app.drawTextArea @ctx, cult.label, @x + @m + 80, @y + @m + 100*cult.no, @lineHeight, @lineWidth - 70, 'bold 10pt Calibri'
-          app.drawTextArea @ctx, cult.text, @x + @m + 80, @y + @m + 20 + 100*cult.no, @lineHeight, @lineWidth - 70, '8pt Calibri'
+            @ctx.fillRect @x + @m - 10, w - 20, @w - 2*@m + 30, @cultAreaHeight
 
+          app.drawTextArea @ctx, cult.label, @x + @m + 80, w, lh, lw, 'bold 10pt Calibri'
+          app.drawTextArea @ctx, cult.text, @x + @m + 80, w + 20, lh, lw, '8pt Calibri'
 
           logo = cult.logo
-          @ctx.drawImage logo, @x + @m, @y + @m + 100*cult.no - 20, 70, 70
+          @ctx.drawImage logo, @x + @m, w - 10, @cultAreaHeight - 20, @cultAreaHeight - 20
           return
       return

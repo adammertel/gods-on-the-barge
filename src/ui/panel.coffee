@@ -1,7 +1,10 @@
 define 'Panel', ['Ui', 'TextStyle'], (Ui, TextStyle) ->
   class Panel extends Ui
     constructor: (@menu, @label) ->
-      @ctx = app.getCanvasById('menu').ctx
+      @canvas = app.getCanvasById('menu')
+      @ctx = @canvas.ctx
+      @canvas.registerFrameFunction @mouseConflict.bind(@)
+
       x = @menu.panelW + 2
       y = app.state.view.h - @menu.h
       w = app.state.view.w + 1 - @menu.panelW - @menu.mm.w - @menu.mmButtonSize
@@ -11,8 +14,15 @@ define 'Panel', ['Ui', 'TextStyle'], (Ui, TextStyle) ->
       @init()
       return
 
+    active: ->
+      @menu.getActivePanel() == @label
+
     drawBackground: ->
       return
+
+    mouseConflict: ->
+      if @active
+        super()
 
     init: ->
       @registerText 'label', {x: @x + 20, y: @y + 20}, @mst.bind(@, @label), TextStyle.HEADER
