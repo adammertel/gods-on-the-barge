@@ -51,7 +51,7 @@ define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 
         lineWidth = @lineWidth
         app.drawTextArea @ctx, text1, @x + @m, @y + @m, @lineHeight, @lineWidth, FontStyle.HEADER
         app.drawTextArea @ctx, text2, @x + @m, @y + @m + 30, @lineHeight - 3, @lineWidth, FontStyle.NORMAL
-        app.drawTextArea @ctx, text3, @x + @m, @y + @m + 100, @lineHeight - 3, @lineWidth, FontStyle.NORMAL
+        app.drawTextArea @ctx, text3, @x + @m, @y + @m + 115, @lineHeight - 3, @lineWidth, FontStyle.NORMAL
         app.drawTextArea @ctx, text4, @x + @m, @y + @m + 180, @lineHeight, @lineWidth, FontStyle.NORMAL
 
         lh = @lineHeight - 5

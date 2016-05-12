@@ -144,7 +144,6 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         return
       return
 
-
     getMoneyForBelievers: ->
       for cultName, cult of @state.cults
         goldFromBelievers = @state.gameStatistics.cults[cultName].total * @state.religion.goldForBeliever
@@ -152,24 +151,23 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         @earnGold cultName, goldFromBelievers
       return
 
-
     # EVENTS
     eventsEmitter: ->
       for island in app.getCollection('islands').geometries
-        for ev in island.state.events
-          ev.time -= 1
-          if ev.time < 0
-            island.state.events = []
+        if island.state.event
+          island.state.event.time -= 1
+          if island.state.event.time < 1
+            island.state.event = null
 
-        # island could have only one event so far
-        if island.state.events.length == 0
+        else
           for evName of events
             event = events[evName]
-            if Math.random() > 1/event['frequency']
+            if Math.random() < 1/event['frequency']
               evLen = _.random(event['length'][0], event['length'][1])
-              island.eventHappens(event, evLen)
+              newEv = _.clone(event)
+              newEv.time = evLen
+              island.eventHappens(newEv)
       return
-
 
     # RELIGION
     recalculateTotalBelievers: ->

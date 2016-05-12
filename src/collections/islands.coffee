@@ -12,7 +12,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
       return
 
     setFrameFunctions: ->
-      @canvas.registerFrameFunction @mouseConflict.bind(@)
+      @canvas.registerFrameFunction @mouseConflict.bind @
       return
 
     # self-driven religious conversion
@@ -113,7 +113,6 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
             rainfallCoefficient = rainfall/config.idealRainfallMin - 0.1
           else if rainfall > config.idealRainfallMax
             rainfallCoefficient = config.idealRainfallMax/rainfall - 0.1
-          console.log rainfallCoefficient, island.state.name
 
           harvested = Base.round(island.state.area * config.productionPerArea * 26 * rainfallCoefficient)
           island.state.harvestHistory.push harvested

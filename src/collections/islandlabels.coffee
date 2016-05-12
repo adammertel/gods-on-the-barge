@@ -34,7 +34,13 @@ define 'IslandLabels', ['Base', 'Collection', 'Islands', 'Buildings', 'Season', 
 
         for island in @islands.geometries
           if island.isVisible
+
             @ctx.fillStyle = 'white'
+            label = island.data.name
+            if island.state.event
+              label += ' (' + island.state.event.short + ')'
+              @ctx.fillStyle = island.state.event.color
+
             centroid = app.coordinateToView island.centroid # getting centroid - here will be the label placed
 
             @ctx.beginPath()
@@ -43,6 +49,8 @@ define 'IslandLabels', ['Base', 'Collection', 'Islands', 'Buildings', 'Season', 
             @ctx.fill()
 
             @ctx.fillStyle = 'black'
-            @ctx.fillText island.data.name, centroid.x, centroid.y - @labelH
+
+            @ctx.fillText label, centroid.x, centroid.y - @labelH
             @drawFoodIndicator island, centroid
+
         return

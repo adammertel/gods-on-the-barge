@@ -89,7 +89,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
     if app.state.controls.mouseClicked and app.mouseOverMap() and !app.isInfoWindowOpen()
       zoom = app.state.zoom
       mcp = app.state.controls.mouseClickedPosition
-      if mcp.y - (e.clientY) != 0 and mcp.x - (e.clientX) != 0
+      if mcp.y - (e.clientY) != 0 or mcp.x - (e.clientX) != 0
         app.setNewYPosition app.state.position.y + (mcp.y - (e.clientY)) * 1/zoom
         app.setNewXPosition app.state.position.x + (mcp.x - (e.clientX)) * 1/zoom
 

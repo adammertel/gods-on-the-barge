@@ -16,6 +16,10 @@ define 'Colors', [], () ->
     CULTBASTET: '#e41a1c'
     CULTPAGAN: '#777'
 
+    EVENTWAR: '#fb8072'
+    EVENTINFESTATION: '#fdb462'
+    EVENTFESTIVAL: '#80b1d3'
+
     FOODINDICATORSUPER: '#1a9641'
     FOODINDICATORGOOD: '#a6d96a'
     FOODINDICATORBAD: '#fdae61'
@@ -25,9 +29,8 @@ define 'Colors', [], () ->
     POLITICSINDICATORGOOD: '#78c679'
     POLITICSINDICATORBAD: '#c2e699'
 
-
     GOLD: 'gold'
-    PORTMAP: '#8C1C1C'
+    PORTMAP: 'black' #'#8C1C1C'
     ROUTEMAP: '#261501'
     SAND: '#F58706'
     SHIPENERGYINDICATOR: '#578885'

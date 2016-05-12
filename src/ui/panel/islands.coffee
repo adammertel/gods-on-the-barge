@@ -12,6 +12,7 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
       super @menu, @label
       @changeToOverviewMode()
 
+
     init: ->
       @islands = _.orderBy app.getCollection('islands').geometries, 'data.name'
 
@@ -42,9 +43,19 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
         @registerButton false, label, {x: @w - 30, y: buildY, w: 100, h: 18}, @mst.bind(@, label + ' - ' + building.price), @makeBuilding.bind(@, label), @isBuiltButtonStyle.bind(@, label)
 
       # Religion distribution
-      @registerText false, 'island_label', {x: @x + 170, y: @y + 15}, @mst.bind(@, 'religion'), TextStyle.HEADER
+      @registerText false, 'religion_distribution', {x: @x + 170, y: @y + 15}, @mst.bind(@, 'religion'), TextStyle.HEADER
+
+      # event label
+      @registerText false, 'island_label', {x: @x + 300, y: @y + 120}, @eventLabel.bind(@), TextStyle.HEADER
 
       return
+
+    eventLabel: ->
+      island = @getActiveIsland()
+      if island.state.event
+        island.state.event.name + ': ' + island.state.event.time + ' weeks left'
+      else
+        ''
 
     islandButtonColor: (island) ->
       dominantCult = island.getDominantCult()

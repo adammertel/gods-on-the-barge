@@ -8,7 +8,7 @@ define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
           granary: false
           amphiteater: false
           dock: false
-        events: []
+        event: null
         name: data.name
         population: data.population
         area: data.area
@@ -43,8 +43,8 @@ define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
       super()
       return
 
-    eventHappens: (ev, len) ->
-      @state.events.push({event: ev, time: len})
+    eventHappens: (event) ->
+      @state.event = event
       return
 
     getDominantCult: ->

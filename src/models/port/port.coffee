@@ -6,7 +6,7 @@ define 'Port', ['Geography', 'Base'], (Geography, Base) ->
 
     draw: ->
       portCoord = app.coordinateToView @coord
-      radius = 5
+      radius = 3
       @ctx.beginPath()
       @ctx.arc portCoord.x, portCoord.y, radius*app.state.zoom, 0, 2 * Math.PI, false
       @ctx.closePath()
