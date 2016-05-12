@@ -19,19 +19,29 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
         app.game.payOperationalCosts(ship)
       return
 
-    findClosePorts: (ship) ->
+    findClosePorts: (ship, warExcluded) ->
       allPorts = app.getCollection('nodes').ports
       ports = []
+      
       for port in allPorts
-        ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
+        if warExcluded
+          islandName = app.getCollection('nodes').getIslandOfPort port
+          island = app.getCollection('islands').getIslandByName islandName
+          if island
+            if island.state.event
+              if island.state.event.name != 'war'
+                ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
+        else
+          ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
+
       _.orderBy ports, 'distance'
 
     findClosestPort: (ship) ->
-      @findClosePorts(ship)[0].id
+      @findClosePorts(ship, true)[0].id
 
     stopToRest: (ship) ->
       if (ship.nextDistance/1000) / ship.energy < 2000
-        @findClosePorts(ship)
+        @findClosePorts ship, true
       else
         return
 
@@ -44,7 +54,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       return
 
     getPlaceForTrade: (ship) ->
-      ports = @findClosePorts(ship)
+      ports = @findClosePorts ship, true
       maxDistanceForTrading = app.game.maxTradingDistanceForCult(ship.cult)
       criticalCargo = app.game.state.trade.criticalCargo
       cargoCoefficient = if ship.cargo > criticalCargo then 1 else ship.cargo / criticalCargo
@@ -55,7 +65,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
         islandName = app.getCollection('nodes').getIslandOfPort(port.id)
 
         # intersection of possible path to a new trade spot with visited places of that ship - ship is not supposed to visit one node more than once
-        pathIntersection = _.intersection app.getPath(port.id, ship.stops[0]),ship.visitedNodes
+        pathIntersection = _.intersection app.getPath(port.id, ship.stops[0]), ship.visitedNodes
 
         # the intersection is always at least with length of 1
         if pathIntersection.length == 1
@@ -75,9 +85,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
           if Math.random() < tradePlace.coefficient
             tradeNode = tradePlace.port.id
 
-      #console.log tradeNode
       tradeNode
-
 
     updateEnergyForShips: ->
       for ship in @geometries

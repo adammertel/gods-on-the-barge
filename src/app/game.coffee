@@ -6,6 +6,9 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
       player:
         cult: ''
       islands:
+        buildingAmphitheaterAttractivityBonus: 0.2
+        eventFestivalAttractivityBonus: 0.3
+        eventInfestationHarvestMinus: 0.3
         citizenConsumption: 0.02
         productionPerArea: 0.7
         growth: 0.01
@@ -156,7 +159,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
       for island in app.getCollection('islands').geometries
         if island.state.event
           island.state.event.time -= 1
-          if island.state.event.time < 1
+          if island.state.event.time < 0
             island.state.event = null
 
         else

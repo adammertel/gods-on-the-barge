@@ -53,7 +53,14 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
       1 - island.state.grain / island.state.maxGrain
 
     attractivityCoefficient: (island) ->
-      attractivity = if island.state.buildings.amphiteater then 0.2 else 0
+      attractivity = 0
+
+      if island.state.buildings.amphiteater
+        attractivity += app.game.state.islands.buildingAmphitheaterAttractivityBonus
+      if island.state.event
+        if island.state.event.name == 'festival'
+          attractivity += app.game.state.islands.eventFestivalAttractivityBonus
+
       density = island.state.population/island.state.area
 
       # 2000~ is a density of Delos
@@ -101,6 +108,8 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
 
     harvest: ->
       config = app.game.state.islands
+
+      app.game.state.islands.eventFestivalAttractivityBonus
       if app.time.state.season == Season[1] or app.time.state.season == Season[3]
         for island in @geometries
           rainfall = island.state.rainfall
@@ -114,7 +123,12 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
           else if rainfall > config.idealRainfallMax
             rainfallCoefficient = config.idealRainfallMax/rainfall - 0.1
 
-          harvested = Base.round(island.state.area * config.productionPerArea * 26 * rainfallCoefficient)
+          production = config.productionPerArea
+          if island.state.event
+            if island.state.event.name == 'infestation'
+              production -= config.eventInfestationHarvestMinus
+
+          harvested = Base.round(island.state.area * production * 26 * rainfallCoefficient)
           island.state.harvestHistory.push harvested
           @addGrainToIsland island, harvested
           island.state.rainfall = 0
