@@ -33,6 +33,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   app.registerCollection 'IslandLabels', '', 'islandLabels', defaultCanvas, 5, gameFpsRatio
 
   overCanvas = new Canvas 'over', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 20, 1
+  overCanvas = new Canvas 'gameinfo', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 20, 10
   overCanvas.registerDrawFunction app.writeDevelInfo.bind(app, overCanvas.ctx)
 
   app.game = new Game()
@@ -59,7 +60,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
     else
       app.zoomOut()
 
-      return
+    return
 
   wrapper.addEventListener 'mousedown', (e) ->
     app.state.controls.mouseClicked = true
@@ -88,14 +89,15 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
     if app.state.controls.mouseClicked and app.mouseOverMap() and !app.isInfoWindowOpen()
       zoom = app.state.zoom
       mcp = app.state.controls.mouseClickedPosition
-      app.setNewYPosition app.state.position.y + (mcp.y - (e.clientY)) * 1/zoom
-      app.setNewXPosition app.state.position.x + (mcp.x - (e.clientX)) * 1/zoom
+      if mcp.y - (e.clientY) != 0 and mcp.x - (e.clientX) != 0
+        app.setNewYPosition app.state.position.y + (mcp.y - (e.clientY)) * 1/zoom
+        app.setNewXPosition app.state.position.x + (mcp.x - (e.clientX)) * 1/zoom
 
-      app.state.controls.mapDragging = true
+        app.state.controls.mapDragging = true
 
-      app.state.controls.mouseClickedPosition =
-        x: e.clientX
-        y: e.clientY
+        app.state.controls.mouseClickedPosition =
+          x: e.clientX
+          y: e.clientY
     return
 
   wrapper.addEventListener 'mouseout', (e) ->

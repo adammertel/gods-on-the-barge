@@ -1,4 +1,4 @@
-define 'IslandLabels', ['Base', 'Collection', 'Islands', 'Buildings', 'Season', 'Colors'], (Base, Collection, Islands, Buildings, Season, Colors) ->
+define 'IslandLabels', ['Base', 'Collection', 'Islands', 'Buildings', 'Season', 'Colors', 'FontStyle'], (Base, Collection, Islands, Buildings, Season, Colors, FontStyle) ->
   class Islands extends Collection
     constructor: (data) ->
       @name = 'islandLabels'
@@ -11,7 +11,7 @@ define 'IslandLabels', ['Base', 'Collection', 'Islands', 'Buildings', 'Season', 
       return
 
     setStyle: ->
-      @ctx.font = 'bold 9pt Calibri'
+      @ctx.font = FontStyle.BOLDNORMAL
       @ctx.globalAlpha = 0.7
       @ctx.textAlign = 'center'
       @ctx.strokeStyle = 'black'

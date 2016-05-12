@@ -1,8 +1,11 @@
-define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button, Base, Colors) ->
+define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle'], (Ui, Text, Button, Base, Colors, TextStyle) ->
 
   class GameInfo extends Ui
     constructor: ->
-      @ctx = app.getCanvasById('game').ctx
+      @canvas = app.getCanvasById('gameinfo')
+      @ctx = @canvas.ctx
+      @canvas.registerDrawFunction @draw.bind(@)
+      @setStyle()
       h = 80
       w = 140
       x = app.state.view.w - w
@@ -12,14 +15,15 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button
       @init()
       return
 
+    setStyle: ->
+      @ctx.lineWidth = 2
+      return
+
     init: ->
-      @textStyle = {font: 'bold 9pt Calibri', textAlign: 'right'}
-      @registerText 'weekLabel', {x: @x + 100, y: @y + 10}, app.time.getWeekLabel, @textStyle
-      @registerText 'weekLabel', {x: @x + 100, y: @y + 30}, app.time.getSeasonYearLabel, @textStyle
+      @registerText 'weekLabel', {x: @x + 100, y: @y + 10}, app.time.getWeekLabel, TextStyle.DT
+      @registerText 'weekLabel', {x: @x + 100, y: @y + 30}, app.time.getSeasonYearLabel, TextStyle.DT
+      @registerText 'moneyLabel', {x: @x + 100, y: @y + 65}, app.game.getPlayerGoldLabel, TextStyle.DT
       @buildGlassHour()
-
-      @registerText 'moneyLabel', {x: @x + 100, y: @y + 65}, app.game.getPlayerGoldLabel, @textStyle
-
       return
 
     buildGlassHour: ->
@@ -46,8 +50,10 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button
       return
 
     drawBackground: ->
+      @ctx.globalAlpha = 0.5
       @ctx.fillStyle = 'white'
       @ctx.fill @bckPath
+      @ctx.globalAlpha = 1
 
     drawGlassHours: ->
       h = 36
@@ -76,7 +82,6 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors'], (Ui, Text, Button
 
     draw: ->
       if app.state.started
-        @ctx.lineWidth = 2
         super()
         @drawGlassHours()
         @drawCoin()

@@ -13,6 +13,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
 
     setFrameFunctions: ->
       @canvas.registerFrameFunction @mouseConflict.bind(@)
+      return
 
     # self-driven religious conversion
     religiousConversion: ->
@@ -180,11 +181,11 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
 
     mouseConflict: ->
       if !app.isInfoWindowOpen()
-        for island in @geometries
-          if island
-            if app.isClickedMap() and !app.isMapDragging()
-              if island.mouseConflict()
-                @activeteIslandByClick island
+        if app.isClickedMap() and !app.isMapDragging()
+          for island in @geometries
+            if island
+                if island.mouseConflict()
+                  @activeteIslandByClick island
 
     draw: ->
       for island in @geometries

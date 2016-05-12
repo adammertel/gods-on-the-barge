@@ -65,7 +65,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
       foundIndex
 
     newDay: ->
-      console.log 'newDay'
+      #console.log 'newDay'
       @state.day += 1
       app.newDay()
       return

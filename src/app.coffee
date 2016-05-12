@@ -30,7 +30,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
         mouseDblClicked: false
         mouseClickedPosition: {}
         mousePosition: {}
-        mouseMoving: false
+        mapDragging: false
       pxDensity: 400
       boundingCoordinates:
         n: 39
@@ -278,15 +278,11 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
     newWeek: ->
       for action in @weekActions
         action()
-      #console.log 'newWeek'
-      #app.getCollection('ships').createShip()
       return
 
     newSeason: (newSeason)->
       for action in @seasonActions
         action()
-      #console.log 'newSeason'
-      #app.getCollection('ships').createShip()
       return
 
     newYear: ->
