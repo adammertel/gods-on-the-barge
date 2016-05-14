@@ -1,53 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="400"
-   height="400"
-   id="svg2"
-   inkscape:label="Pozadí"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="anubis.svg">
-  <g
-     inkscape:label="Vrstva 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-652.36218)">
-    <g
-       id="g3038"
-       transform="translate(14.285714,642.85714)">
-      <path
-         sodipodi:nodetypes="ccccccccccccccc"
-         inkscape:connector-curvature="0"
-         id="path3005"
-         d="M 165.43435,127.79864 68.29149,26.37007 l 51.42857,121.42857 -7.14285,1.42857 -90,-91.42858 61.42857,114.28573 -17.14286,48.57143 -35.71429,57.14285 25.71429,15.71429 77.14286,-51.42857 44.48876,59.6831 25.49382,-80.322 82.32488,6.65776 -90.8789,-90.30458 z"
-         style="fill:#666666;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="ccccc"
-         inkscape:connector-curvature="0"
-         id="path3018"
-         d="m 146.50577,161.37006 -21.42857,16.42857 -5.35715,28.21428 22.5,-24.28571 z"
-         style="fill:#ffffff;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="ccccccc"
-         inkscape:connector-curvature="0"
-         id="path3020"
-         d="m 212.13203,231.10815 -26.62111,80.603 57.5787,76.42496 90.26072,-0.45434 15.15229,-86.87312 -57.5787,-63.10915 z"
-         style="fill:#666666;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="cccc"
-         inkscape:connector-curvature="0"
-         id="path3024"
-         d="m 229.05952,389.11037 -135.36044,0 83.33759,-70.2056 z"
-         style="fill:#666666;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
-    </g>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="svg2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:label="PozadÄ‚Â­" inkscape:version="0.91 r13725" sodipodi:docname="anubis.svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-97 220.9 400 400"
+	 style="enable-background:new -97 220.9 400 400;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#666666;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:none;stroke:#FFFFFF;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<circle class="st0" cx="103" cy="420.9" r="200"/>
+<path class="st1" d="M224.6,475.4c0,0-3.6-22.3-37.4-60.6c-21-23.8-53.3-39.8-53.3-39.8c1.2-9.5,5.6-109.7-1.8-109.7
+	c-7.4,0-27.8,105.7-27.8,105.7s-36.9,6.5-52.1,16C24,404.8,36,414.2,17.8,423.6c-6.8,3.5-49.3,17.4-48.2,21.5
+	c2.5,9.1,13.6,15.9,34.6,9.8c19-5.5,31.6-6.2,43.4-5.3c22.2,1.7,26.5,17.9,32.5,37.8c8.4,27.5-8.4,33,10,85.6"/>
+<path class="st1" d="M71.8,371.8c0,0,9.9-104.4,15.7-104.4c5.8,0,6.2,97.2,6.2,97.2L71.8,371.8z"/>
+<path class="st2" d="M97.1,609"/>
+<path class="st2" d="M89.9,528.4"/>
+<path class="st0" d="M47.5,414.8c0,0-4.3-9.6,19.2-18.6c3.4-1.3,4.6,1,4.9,4.5c0.3,4.1,0.1,6.7,0.1,6.7L47.5,414.8z"/>
 </svg>

@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1"
-	 id="svg2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:label="PozadĂ­" inkscape:version="0.91 r13725" sodipodi:docname="isis.svg"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-97 220.9 400 400"
-	 style="enable-background:new -97 220.9 400 400;" xml:space="preserve">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-97 220.9 400 400" style="enable-background:new -97 220.9 400 400;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#666666;stroke:#000000;stroke-width:5;}
-	.st1{fill:#FFFFFF;stroke:#000000;stroke-width:5;}
+	.st0{fill:#666666;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:none;stroke:#666666;stroke-width:7;stroke-miterlimit:10;}
 </style>
-<g id="layer1" transform="translate(0,-652.36218)" inkscape:label="Vrstva 1" inkscape:groupmode="layer">
-	<g id="g5860" transform="matrix(2.1463266,0,0,2.0471235,-439.02958,539.81829)">
-		<path id="path5842" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccccccccccccc" class="st0" d="M216.9,171.7l7.5,38.9
-			l-4.6,26.3l29.6,23h14.3l29.1-22.7l-5-27l8-38.4l-13.2,38.2l3,24.8l-21.6,15.7l-15.4,0.4l-22.5-15.9l3.2-24.1L216.9,171.7z"/>
-		<path id="path5844" inkscape:connector-curvature="0" sodipodi:nodetypes="cccccccc" class="st0" d="M235,211.2l-1.9,21.5l15.9,12
-			l14.5-0.3l15.3-12.2l-2.1-21.6l-21-10.1L235,211.2z"/>
-		<path id="path5846" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccccccccccccccccccc" class="st0" d="M273.1,271.5
-			l3.6,8.4l3.9,8.9l11.2,12l-6.8,0.7l-0.2,6.3l-0.5,9.3l-19.4-7l-7.7,15.7l9.2,13.8l-45-7.9l14.3-9.3l4.3-14.3l-1.6-17.3l-0.5-7.7
-			l-34.5,17.6l12.7-56.9l32.3,24l3,0.2h13.3L273.1,271.5z"/>
-		<path id="path5848" inkscape:connector-curvature="0" class="st1" d="M266.1,279.7l5.7,2l2.3,5.5l-6.3-1.4L266.1,279.7z"/>
-	</g>
+<g id="svg2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:label="PozadÄ‚Â­" inkscape:version="0.91 r13725" sodipodi:docname="isis.svg">
+	<circle class="st0" cx="103" cy="420.9" r="200"/>
+</g>
+<g id="Vrstva_2">
+	<ellipse class="st1" cx="104" cy="338.2" rx="47.8" ry="46.6"/>
+	<path class="st1" d="M-0.4,279.1c-4.9,0.2,24.2,12.4,27.5,39.5c3.9,31.5,29.7,83.8,72.8,83.8c43.5,0,74.5-31.6,75.9-81.2
+		c1.2-41.8,23.8-42.9,19.5-44.7c0,0-16.2,1.3-23,15.5c-5,10.4,8.8,99.2-71.4,99.8c-66.4,0.5-64.7-85-71-96.5
+		C23.6,283.8,4.4,278.9-0.4,279.1z"/>
+	<path class="st1" d="M150.8,531.8c7.9,0,17.7,1.3,25.2-8.5c6.7-8.7-0.2-33.8,4.8-33.8c5,0,7.5,0.6,8.9-1.6
+		c1.3-2.2-3.4-19.2-14.5-36c0,0-15.6-41.5-44.2-40.8c-28.6,0.7-51.3-3.1-68.5,18.2c-12.9,15.9-23.4,46.5-28.4,93
+		c-3.4,31.9-16,51.3-16,51.3l32.7,2.2c0,0-3.3-45.4,32.2-44.7l3.2,56c3.9,0.1,32.6,0,32.6,0c5.4-21.4-1.9-56.3-1.9-56.3"/>
+	<path class="st2" d="M47.3,417.9c0,0,31,9.9,59.5,8.8s68-11.8,68-11.8"/>
+	<path class="st0" d="M146.8,440.9c9.8,0.9,20.2,12.5,20.2,12.5s-6.5,4.8-19.9,4.1s-23-12.1-23-12.1S137,439.9,146.8,440.9z"/>
 </g>
 </svg>

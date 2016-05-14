@@ -10,7 +10,7 @@ Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
 - [ ] wiki page
 - [ ] graphic design of icons
 - [ ] simple buildings system
-- [ ] simple events system
+- [x] simple events system
 - [ ] active abilities of cults
 - [ ] rebalancing the economic model
 - [x] implementation of more canvases system
