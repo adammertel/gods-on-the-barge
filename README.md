@@ -8,7 +8,7 @@ Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
 
 #### Version 0.2
 - [ ] wiki page
-- [ ] graphic design of icons
+- [x] graphic design of icons
 - [ ] simple buildings system
 - [x] simple events system
 - [ ] active abilities of cults
