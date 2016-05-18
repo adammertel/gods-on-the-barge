@@ -22,7 +22,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
     findClosePorts: (ship, warExcluded) ->
       allPorts = app.getCollection('nodes').ports
       ports = []
-      
+
       for port in allPorts
         if warExcluded
           islandName = app.getCollection('nodes').getIslandOfPort port
@@ -30,6 +30,8 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
           if island
             if island.state.event
               if island.state.event.name != 'war'
+                ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
+            else
                 ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
         else
           ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}

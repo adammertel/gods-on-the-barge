@@ -3,6 +3,7 @@ define 'OverviewPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'Text
     constructor: (@menu) ->
       @label = 'Overview'
       super @menu, @label
+      return
 
     init: ->
       @registerText '', {x: @x + 20, y: @y + 15}, @mst.bind(@, 'GODS ON THE BARGE GAME'), TextStyle.HEADER
@@ -20,6 +21,7 @@ define 'OverviewPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'Text
       # pie charts annotations
       @registerText '', {x: @x + 20, y: @y + 35}, @mst.bind(@, 'Number of islands'), TextStyle.BOLD
       @registerText '', {x: @x + 190, y: @y + 35}, @mst.bind(@, 'Total population'), TextStyle.BOLD
+      return
 
     playerCultText: ->
       if app.state.started
@@ -70,12 +72,12 @@ define 'OverviewPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'Text
       return
 
     draw: ->
-      @drawIslandsStatPie()
-      @drawTotalStatPie()
-
       if app.state.started
         @ctx.fillStyle = app.game.getPlayerColor()
         @ctx.fillRect @x + 220, @y + 5, 200, 28
-
       super()
+      @drawIslandsStatPie()
+      @drawTotalStatPie()
+
+
       return

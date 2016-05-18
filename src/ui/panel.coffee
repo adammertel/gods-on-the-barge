@@ -15,13 +15,13 @@ define 'Panel', ['Ui', 'TextStyle'], (Ui, TextStyle) ->
       return
 
     active: ->
-      @menu.getActivePanel() == @label
+      @menu.getActivePanel().label == @label
 
     drawBackground: ->
       return
 
     mouseConflict: ->
-      if @active
+      if @active()
         super()
 
     init: ->

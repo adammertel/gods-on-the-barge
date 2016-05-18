@@ -110,7 +110,7 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
               if @needRestCondition()
                 @willRest = true
                 @willTrade = true
-                @addCheckPoint @collection.findClosestPort(@)
+                @addCheckPoint @collection.findClosestPort @, true
               else
                 tradeNode = @collection.getPlaceForTrade(@)
                 if tradeNode

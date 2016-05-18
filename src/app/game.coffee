@@ -109,7 +109,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         out: 0
         baseSpeed: 0.5
         maxCargo: 100000
-        maxEnergy: 800
+        maxEnergy: 1000
         energyConsumption: 40
         restingSpeed: 120
         operationCost: 0.5

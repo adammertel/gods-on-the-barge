@@ -10,7 +10,7 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm', 'Colors'], (Base, Weather
         windSpeedAnomalyChance: 0.5
         maxWindDirectionChange: 30
         stormRadiusCoefficient: 100
-        stormSpeedCoefficient: 2
+        stormSpeedCoefficient: 0.5
 
         minWindSpeed: 1
         maxWindSpeed: 10

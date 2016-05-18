@@ -1,8 +1,8 @@
 define 'Ai', ['Base'], (Base) ->
   class Ai
     state:
-      shipBuildChange: 0.2 + Math.random()/2
-      voteforContinent: 0.5 + Math.random()/2
+      shipBuildChange: 0.1 + Math.random()/10
+      voteforContinent: 0.1 + Math.random()/10
 
     constructor: (@cult) ->
       @state.strategyContinent = if Math.random() > 0.5 then 'Turkey' else 'Greece'

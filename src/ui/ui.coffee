@@ -64,6 +64,7 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle', 'FontStyle'], (Ba
       #@ctx.strokeStyle = 'black'
       @ctx.fill @bckPath
       #@ctx.stroke @bckPath
+      return
 
     drawPieChart: (segments, size, x, y) ->
       cumulativeBefore = 0
@@ -88,6 +89,7 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle', 'FontStyle'], (Ba
 
         @ctx.fillStyle = 'black'
         @ctx.fillText segment.label + ': ' + Base.round(segment.value * 100) + '%', segnemntX + 20, segnemntY
+      return
 
     draw: ->
       @ctx.lineWidth = 2
