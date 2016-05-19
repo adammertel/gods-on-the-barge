@@ -7,3 +7,4 @@ define 'TextStyle', ['Colors', 'FontStyle'], (Colors, FontStyle) ->
     DD: {'font': FontStyle.NORMAL, 'textAlign': 'left'}
     RIGHTBOLD: {'font': FontStyle.BOLDNORMAL, 'textAlign': 'right'}
     RIGHTBOLDSMALL: {'font': FontStyle.BOLDSMALL, 'textAlign': 'right'}
+    CENTEREDSMALLHEADER: {'font': FontStyle.SMALLHEADER, 'textAlign': 'center'}

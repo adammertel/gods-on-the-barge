@@ -25,7 +25,7 @@ define 'OverviewPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'Text
 
     playerCultText: ->
       if app.state.started
-        'chosen cult ' + app.game.getPlayerCultLabel() + '. Believers: ' + app.game.state.gameStatistics.cults[app.game.getPlayerCultLabel()].total
+        'chosen cult ' + app.game.getPlayerCultLabel() + '. Believers: ' + app.game.getPlayerBelievers()
       else
         ''
 

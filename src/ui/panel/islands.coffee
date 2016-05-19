@@ -53,7 +53,7 @@ define 'IslandsPanel', ['Panel', 'Text', 'Button', 'Buildings', 'TextStyle', 'Bu
     eventLabel: ->
       island = @getActiveIsland()
       if island.state.event
-        island.state.event.name + ': ' + island.state.event.time + ' weeks left'
+        island.state.event.name + ': ' + parseInt(island.state.event.time + 1) + ' weeks left'
       else
         ''
 

@@ -9,7 +9,7 @@ define 'Storm', ['Geography', 'Colors', 'Base'], (Geography, Colors, Base) ->
       return
 
     reducePower: ->
-      @power -= _.random 0, 0.7
+      @power -= _.random 0, 0.2
       if @power < 1
         @collection.unregisterGeometry @id
       return

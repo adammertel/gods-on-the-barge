@@ -12,6 +12,9 @@ define 'Base', [], () ->
         angle = 360 - Math.abs angle
       angle
 
+    stringToPrec: (text, precisionVal) ->
+      ((+text).toPrecision(precisionVal)) + ''
+
     flipAngle: (angle) ->
       if angle < 180
         angle + 180

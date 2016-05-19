@@ -99,6 +99,10 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         conversionResistance: 0.3
       gold:
         quantity: 1000
+      mana:
+        quantity: 5
+        baseRegeneration: 1
+        maxQuantity: 10
       politics:
         pointRegeneration: 1
         freePoints: 2
@@ -132,6 +136,8 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
       app.registerNewSeasonAction @chooseNewPerks.bind @
       app.registerNewSeasonAction @getMoneyForBelievers.bind @
 
+      app.registerNewWeekAction @regenerateMana.bind @
+
 
     loadStats: ->
       _.each @state.cults, (cult, cultLabel) =>
@@ -153,6 +159,34 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         console.log 'cult', cultName, 'gains ', goldFromBelievers
         @earnGold cultName, goldFromBelievers
       return
+
+
+    # MANA
+    regenerateMana: ->
+      for cultName, cult of @state.cults
+        console.log @getCultStats(cultName)
+        newMana = @manaRegenerationQuantity @getCultStats(cultName).mana.baseRegeneration
+        @addMana cultName, newMana
+      return
+
+    manaRegenerationQuantity: (base) ->
+      0.5 * Math.random() * base + 0.3
+
+    addMana: (cult, quantity) ->
+      maxPossibleMana = @getCultStats(cult).mana.maxQuantity
+      @getCultStats(cult).mana.quantity = _.clamp(@getCultStats(cult).mana.quantity + quantity, 0, maxPossibleMana)
+      return
+
+    # returns boolean - was the mana was really spent?
+    spendMana: (cult, quantity) ->
+      if @hasEnoughtMana cult, quantity
+        @getCultStats(cult).mana.quantity -= quantity
+        true
+      else
+        false
+
+    hasEnoughtMana: (cult, quantity) ->
+      @getCultStats(cult).mana.quantity => quantity
 
     # EVENTS
     eventsEmitter: ->
@@ -240,7 +274,6 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         @state.religion.conversionResistancePagans
       else
          @getStat(cult, 'religion', 'conversionResistance')
-
 
     getRandomPersonReligionFromIsland: (island) ->
       SerapisCumulation = island.state.religion.Serapis.distribution
@@ -361,6 +394,11 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
     getPlayerPoliticsMaxPoints: ->
       @getPlayerStat 'politics', 'maxFreePoints'
 
+    getPlayerBelievers: ->
+      @state.gameStatistics.cults[app.game.getPlayerCultLabel()].total
+
+    getPlayerIslands: ->
+      @state.gameStatistics.cults[app.game.getPlayerCultLabel()].islands
 
 
     # SHIPS
