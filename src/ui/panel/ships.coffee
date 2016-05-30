@@ -20,18 +20,18 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
       @dtdd {x: x, y: y + 4*dy, id: l + '5'}, {dt: @mst.bind(@, 'energy usage:'), dd: playerStats.bind(app.game, 'ships', 'energyConsumption')}
       @dtdd {x: x, y: y + 5*dy, id: l + '6'}, {dt: @mst.bind(@, 'operation cost:'), dd: playerStats.bind(app.game, 'ships', 'operationCost')}
 
-      @dtdd {x: x, y: y + 7*dy, id: l + '7'}, {dt: @mst.bind(@, 'trading effectivity:'), dd: playerStats.bind(app.game, 'trade', 'tradeEffectivity')}
 
       # port
-      x = @x + 200
+      x = @x + 180
       @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), TextStyle.HEADER
-      @registerButton 'sendShip1', {x: @x + 200, y: @y + 90, w: 180, h: 20}, @buildShipButtonText.bind(@, 0), @sendShip.bind(@, 0), @buildShipButtonStyle.bind(@, 0)
-      @registerButton 'sendShip2', {x: @x + 200, y: @y + 115, w: 180, h: 20}, @buildShipButtonText.bind(@, 1), @sendShip.bind(@, 1), @buildShipButtonStyle.bind(@, 1)
+      @registerButton 'sendShip1', {x: x, y: @y + 90, w: 180, h: 20}, @buildShipButtonText.bind(@, 0), @sendShip.bind(@, 0), @buildShipButtonStyle.bind(@, 0)
+      @registerButton 'sendShip2', {x: x, y: @y + 115, w: 180, h: 20}, @buildShipButtonText.bind(@, 1), @sendShip.bind(@, 1), @buildShipButtonStyle.bind(@, 1)
 
       # trade
-      x = @x + 350
-      @registerText 'tradeLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Trede'), TextStyle.HEADER
-
+      x = @x + 370
+      @registerText 'tradeLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Trade'), TextStyle.HEADER
+      @dtdd {x: x+100, y: y + 1*dy, id: l + '7'}, {dt: @mst.bind(@, 'trading effectivity:'), dd: playerStats.bind(app.game, 'trade', 'tradeEffectivity')}
+      @dtdd {x: x+100, y: y + 2*dy, id: l + '8'}, {dt: @mst.bind(@, 'actual price:'), dd: app.game.getGrainPrice.bind(app.game)}
 
       return
 
@@ -50,8 +50,10 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
 
     drawFreeShips: ->
       playerCult = app.game.getPlayerCultLabel()
+      x = @x + 200
+      y = @y + 40
       for f in _.range(app.game.freeShips(playerCult))
-        app.drawShip @ctx, {x: @x + 210 + f*30, y: @y + 40}, 2, 0, app.game.getPlayerColor()
+        app.drawShip @ctx, {x: x + f*30, y: y}, 2, 0, app.game.getPlayerColor()
       return
 
     sendShip: (startingPoint) ->

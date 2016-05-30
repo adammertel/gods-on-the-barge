@@ -186,7 +186,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         false
 
     hasEnoughtMana: (cult, quantity) ->
-      @getCultStats(cult).mana.quantity => quantity
+      !(@getCultStats(cult).mana.quantity < quantity)
 
     # EVENTS
     eventsEmitter: ->
@@ -311,9 +311,12 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
       islandsCollection.addGrainToIsland island, quantity
       ship.unshipCargo quantity
 
-      totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity') * @state.trade.baseGrainPrice
+      totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity') * @getGrainPrice()
       @earnGold cult, totalPrice
       return
+
+    getGrainPrice: ->
+      @state.trade.baseGrainPrice
 
 
     # POLITICS

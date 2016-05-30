@@ -1,4 +1,4 @@
-define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextStyle'], (Base, Panel, Text, Button, ButtonStyle, TextStyle) ->
+define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextStyle', 'Colors'], (Base, Panel, Text, Button, ButtonStyle, TextStyle, Colors) ->
   class WeatherPanel extends Panel
     constructor: (@menu) ->
       @label = 'Weather'
@@ -30,7 +30,6 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextS
       windDirectionCoords = [[0, -radiusG], [radiusG/2, radiusG], [0, radiusG/2], [-radiusG/2, radiusG]]
 
       @windDirection = new Path2D Base.buildPathString(windDirectionCoords, true)
-
       return
 
     buildTemperatureIndicator: ->
@@ -38,7 +37,6 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextS
       x = @x + 350
       y = @y + 130
       @temperatureMeter.rect x, y , 20, -100
-
       return
 
     init: ->
@@ -62,9 +60,8 @@ define 'WeatherPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextS
       @ctx.stroke @temperatureMeter
       fullTemperature = -100
       thisTemperature = (fullTemperature / 10) * @weatherState.temperature
-      @ctx.fillStyle = 'red'
+      @ctx.fillStyle = Colors.UITEMPERATUREINDICATOR
       @ctx.fillRect @x + 355, @y + 130, 10, thisTemperature
-
 
     draw: ->
       super()

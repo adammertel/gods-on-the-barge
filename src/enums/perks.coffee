@@ -21,4 +21,8 @@ define 'Perks', [], () ->
       effect: (cult) -> app.game.getCultStats(cult).politics.pointRegeneration += 1
       effect: (cult) -> app.game.getCultStats(cult).politics.maxFreePoints += 1
       text: 'you can influence more'}
+
+      {label: 'mana regeneration'
+      effect: (cult) -> app.game.getCultStats(cult).mana.baseRegeneration += 0.2
+      text: 'more mana - more spells'}
     ]
