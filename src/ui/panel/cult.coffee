@@ -11,9 +11,9 @@ define 'CultPanel', ['Base', 'Panel', 'Text', 'Colors', 'Button', 'ButtonStyle',
       # statistics
       x = @x + 480
       dy = 12
-      y = @y + 100
+      y = @y + 90
       l = 'cultStats'
-      @registerText 'cult stats', {x: x-30, y: y-15}, @mst.bind(@, 'Statistics'), TextStyle.CENTEREDSMALLHEADER
+      @registerText 'cult stats', {x: x-30, y: y-20}, @mst.bind(@, 'Statistics'), TextStyle.CENTEREDSMALLHEADER
       @dtdd {x: x, y: y, id: l + '1'}, {dt: @mst.bind(@, 'total believers:'), dd: app.game.getPlayerBelievers.bind(app.game)}
       @dtdd {x: x, y: y + 1*dy, id: l + '2'}, {dt: @mst.bind(@, 'dominance on islands:'), dd: app.game.getPlayerIslands.bind(app.game)}
       @dtdd {x: x, y: y + 2*dy, id: l + '3'}, {dt: @mst.bind(@, 'effectivity of conversion:'), dd: @playerStat.bind(@, 'religion', 'conversionEffectivity', 3)}
@@ -28,11 +28,11 @@ define 'CultPanel', ['Base', 'Panel', 'Text', 'Colors', 'Button', 'ButtonStyle',
       @buildManaIndicator()
 
       # special ability
-      x = @x + 200
+      x = @x + 150
       y = @y + 20
-      @registerText 'special-abb-label', {x: x, y: y}, @mst.bind(@, 'Special Ability'), TextStyle.HEADER
-      @registerText 'special-abb-text', {x: x, y: y+20}, @specialAbilityText.bind(@), TextStyle.NORMAL
-      @registerButton 'special-abb-button', {x: x, y: y+40, h: 30, w: 150}, @specialAbilityButtonLabel.bind(@), @runAbility.bind(@), @abilityButtonStyle.bind(app)
+      @registerText 'special-abb-label', {x: x, y: y}, @specialAbilityLabel.bind(@), TextStyle.HEADER
+      @registerText 'special-abb-text', {x: x, y: y+17}, @specialAbilityText.bind(@), TextStyle.SMALL
+      @registerButton 'special-abb-button', {x: x, y: y+30, h: 25, w: 120}, @specialAbilityButtonLabel.bind(@), @runAbility.bind(@), @abilityButtonStyle.bind(app)
 
       super()
 
@@ -43,8 +43,13 @@ define 'CultPanel', ['Base', 'Panel', 'Text', 'Colors', 'Button', 'ButtonStyle',
       console.log 'run ability'
       false
 
+    specialAbilityLabel: ->
+      playerCult = app.game.getPlayerCult()
+      'Special ability - ' + playerCult.abilityLabel
+
     specialAbilityText: ->
-      'blabla'
+      playerCult = app.game.getPlayerCult()
+      playerCult.abilityText
 
     abilityButtonStyle: ->
       playerCult = app.game.getPlayerCultLabel()
@@ -58,7 +63,6 @@ define 'CultPanel', ['Base', 'Panel', 'Text', 'Colors', 'Button', 'ButtonStyle',
 
     getManaRegeneration: ->
       'regeneration rate ' + @playerStat('mana', 'baseRegeneration', 3)
-
 
     buildManaIndicator: ->
       @manaIndicator = new Path2D()

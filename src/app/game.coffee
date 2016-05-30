@@ -64,6 +64,9 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
           iconLabel: 'serapis'
           color: Colors.CULTSERAPIS
           text: 'Has roots in the ancient royal cult of the god Osiris-Apis. Together with Isis he became the patron god of the Ptolemaic dynasty ruling during the Hellenistic period. He is an universal deity.'
+          abilityLabel: 'Tribute boost'
+          abilityText: 'Worshippers on a selected island pay larger tribute for a short period of time.'
+          abilityManaCost: 5
           stats:
             politics:
               votingEffectivity: 2
@@ -73,6 +76,9 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
           label: 'Isis'
           color: Colors.CULTISIS
           text: 'She was the mother of the god Horus and her husband was Osiris. During the Hellenistic period she also became wife of the god Serapis. Isis was a universal goddess and a patron deity of sailors.'
+          abilityLabel: 'Cast storm'
+          abilityText: 'Creates a storm over particular area that slows ships and brings rainfall.'
+          abilityManaCost: 5
           stats:
             ships:
               rainPenalty: 0
@@ -82,6 +88,9 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
           label: 'Anubis'
           color: Colors.CULTANUBIS
           text: 'He is known as the god with a jackall head. He weighed the hearts of dead people in the final judgement. He was a patron deity of funeral rites and protected people in their afterlife.'
+          abilityLabel: 'Sailors conversion'
+          abilityText: 'Captures all ships within selected radius for a single trip.'
+          abilityManaCost: 8
           stats:
             ships:
               operationCost: 0
@@ -91,6 +100,9 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
           label: 'Bastet'
           color: Colors.CULTBASTET
           text: 'She was the famous lion goddess of Egypt. She is known for her temper and protective behaviour. She was also the patron deity of hunters and mothers.'
+          abilityLabel: 'Political crisis'
+          abilityText: 'Sends war to selected island'
+          abilityManaCost: 3
           stats: {}
 
     defaultCultStats:
