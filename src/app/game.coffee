@@ -238,6 +238,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
       return
 
 
+    # CONVERSIONS
     numberOfConverting: (cult) ->
       baseMax = @state.religion.baseConversionMax
       baseMin = @state.religion.baseConversionMin
