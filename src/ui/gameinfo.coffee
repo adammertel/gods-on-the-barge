@@ -43,9 +43,9 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle'], (Ui,
       glassWhiteTriangle1Coords = [[x1, y1], [xc1, yc], [x1, y2]]
       glassWhiteTriangle2Coords = [[x2, y1], [xc2, yc], [x2, y2]]
 
-      @pathGlass = new Path2D(Base.buildPathString glassCoords, true)
-      @pathTriangle1 = new Path2D(Base.buildPathString glassWhiteTriangle1Coords, true)
-      @pathTriangle2 = new Path2D(Base.buildPathString glassWhiteTriangle2Coords, true)
+      @pathGlass = new Path2D Base.buildPathString glassCoords, true
+      @pathTriangle1 = new Path2D Base.buildPathString glassWhiteTriangle1Coords, true
+      @pathTriangle2 = new Path2D Base.buildPathString glassWhiteTriangle2Coords, true
 
       return
 

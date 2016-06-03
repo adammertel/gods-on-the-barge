@@ -35,11 +35,6 @@ define 'Base', [], () ->
     concatPathStrings: (paths) ->
       paths.join ' '
 
-    #not finished
-    shipPath: ->
-      shipCoords = [[0, 0], [5,5], [5,20], [-5,20], [-5,5], [0,0]]
-      @buildPathString shipCoords, true
-
     loadIcon: (iconName, color) ->
       xhr = Base.doXhr './sprites/' + iconName + '.svg'
       img = new Image()

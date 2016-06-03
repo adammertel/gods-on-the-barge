@@ -65,7 +65,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
           color: Colors.CULTSERAPIS
           text: 'Has roots in the ancient royal cult of the god Osiris-Apis. Together with Isis he became the patron god of the Ptolemaic dynasty ruling during the Hellenistic period. He is an universal deity.'
           abilityLabel: 'Tribute boost'
-          abilityText: 'Worshippers on a selected island pay larger tribute for a short period of time.'
+          abilityText: 'Worshippers on a selected island pay larger tribute for a short period of time. '
           abilityManaCost: 5
           stats:
             politics:

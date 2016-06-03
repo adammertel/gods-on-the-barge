@@ -1,4 +1,4 @@
-require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Cursor', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'PerkWindow', 'CultsEnum', 'GameInfo'], (Canvas, Time, Game, Weather, Base, Island, MiniMap, Cursor, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, PerkWindow, Cults, GameInfo) ->
+require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'CursorControl', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'PerkWindow', 'CultsEnum', 'GameInfo'], (Canvas, Time, Game, Weather, Base, Island, MiniMap, CursorControl, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, PerkWindow, Cults, GameInfo) ->
   console.log 'init'
 
   prepareCanvas = (canvasDivName, id, w, h, fps = 60) ->
@@ -41,7 +41,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   app.weather = new Weather()
 
   app.menu = new Menu()
-  app.cursor = new Cursor()
+  app.cursor = new CursorControl()
   app.gameInfo = new GameInfo()
 
   infoCanvas = new Canvas 'info', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 15, 10

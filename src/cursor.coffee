@@ -1,19 +1,27 @@
-define 'Cursor', ['App', 'Base'], (app, Base) ->
-  class Cursor
+define 'CursorControl', ['App', 'Base', 'Cursors', 'CursorDefault', 'CursorSpell'], (app, Base, Cursors, CursorDefault, CursorSpell) ->
+  class CursorControl
     constructor: ->
+      @cursors = []
+      @init()
+
+    init: ->
       @setCanvas()
-      coords = [[0,0], [0,10], [3,7], [8,12], [9,11], [4,6], [8,3]]
-      @path = new Path2D Base.buildPathString coords, true
+      @registerCursor new CursorDefault(@), Cursors.DEFAULT
+      @registerCursor new CursorSpell(@), Cursors.SPELL
 
     setCanvas: ->
       @canvas = app.getCanvasById('over')
       @ctx = @canvas.ctx
       @canvas.registerDrawFunction @draw.bind(@)
 
-    getPosition: ->
-      {x: (@x - (app.state.position.x)) * app.state.zoom, y: (@y - (app.state.position.y)) * app.state.zoom}
+    registerCursor: (cursor, label) ->
+      @cursors.push({cursor: cursor, id: label})
+      return
+
+    getActiveCursor: ->
+      _.find @cursors, (cursor) =>
+        cursor.id == app.state.cursor
 
     draw: ->
-      mp = app.state.controls.mousePosition
-      app.drawPath @ctx, @path, mp, 1, 0, 'black', false, false
+      @getActiveCursor().cursor.draw()
       return

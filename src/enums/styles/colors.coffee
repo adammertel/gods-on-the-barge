@@ -37,5 +37,8 @@ define 'Colors', [], () ->
     SHIPCARGOINDICATOR: '#F58706'
     STORMMAP: '#6fa3a0'
 
+    CURSORSTORM: '#a36f72'
+    CURSORSPELL: 'red'
+
     UIMANAINDICATOR: 'blue'
     UITEMPERATUREINDICATOR: 'red'

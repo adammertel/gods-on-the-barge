@@ -1,6 +1,7 @@
-define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabels', 'Nodes', 'Routes', 'Ships', 'Storms', 'BackgroundIslands'], (Base, Canvas, Ship, Season, Ai, Islands, IslandLabels, Nodes, Routes, Ships, Storms, BackgroundIslands) ->
+define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabels', 'Nodes', 'Routes', 'Ships', 'Storms', 'BackgroundIslands', 'Cursors', 'Paths'], (Base, Canvas, Ship, Season, Ai, Islands, IslandLabels, Nodes, Routes, Ships, Storms, BackgroundIslands, Cursors, Paths) ->
   window.app =
     state:
+      cursor: Cursors.SPELL
       loopNo: 0
       started: false
       fps: []
@@ -46,7 +47,6 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
     collections: []
     infoWindows: []
     startGameFunctions: []
-    shipPath: new Path2D Base.shipPath()
     ais: []
     canvases: []
 
@@ -127,7 +127,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       return
 
     drawShip: (ctx, coords, size, rotation, color) ->
-      @drawPath ctx, @shipPath, coords, size, rotation, color, 3, 'black'
+      @drawPath ctx, Paths.SHIP, coords, size, rotation, color, 3, 'black'
       return
 
     deactivateClick: ->
@@ -186,7 +186,14 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
           infoWindow.draw()
       return
 
-    # links, paths, nodes
+
+    # CURSOR
+    changeCursor: (newCursorType) ->
+      @state.cursor = newCursorType
+      return
+
+
+    # LINKS, PATHS, NODES
     getPathWithCheckPoints: (from, to, checkPoints) ->
       path = []
       if checkPoints.length == 0
