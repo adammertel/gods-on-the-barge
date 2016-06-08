@@ -11,7 +11,6 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
       @rotation = 0
 
       @visitedNodes = []
-      @color = app.game.state.cults[@cult].color
       @calculateStops()
       @coords = app.getCollection('nodes').nodeMapCoordinates @startId
       @rotation = @calculateRotation()
@@ -167,6 +166,7 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
       @move()
       @ctx.strokeStyle = 'black'
       @ctx.lineWidth = 2
+      @color = app.game.state.cults[@cult].color
       @drawEnergyBar()
       @drawCargoBar()
       app.drawShip @ctx, @shipCoord, app.state.zoom, @rotation, @color

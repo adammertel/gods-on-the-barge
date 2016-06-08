@@ -2,6 +2,7 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
   class Islands extends Collection
     constructor: (data) ->
       @name = 'islands'
+      @distanceFn = Base.distanceFromPolygon
       super data
 
       app.registerNewWeekAction @starvingPeople.bind @

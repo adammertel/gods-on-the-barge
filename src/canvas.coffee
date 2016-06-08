@@ -35,6 +35,11 @@ define 'Canvas', ['Base'], (Base) ->
       @frameFunctions.push frameFunction
       return
 
+    isMouseOver: ->
+      mouseX = app.mouseX()
+      mouseY = app.mouseY()
+      mouseX > @x and mouseX < @x + @w and mouseY > @y and mouseY < @y + @h
+
     registerDrawFunction: (drawFunction) ->
       @drawFunctions.push drawFunction
       return

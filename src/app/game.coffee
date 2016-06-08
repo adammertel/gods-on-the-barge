@@ -1,4 +1,4 @@
-define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, events) ->
+define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'Storm'], (Base, Colors, Perks, Events, Cursors, Cult, Storm) ->
   class Game
     state:
       politics:
@@ -35,6 +35,11 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         minDistributionToGrow: 0.4
         goldForBeliever: 0.1
         flow: 0.05
+      spells:
+        isisTributecoefficient: 3
+        anubisConversionSurplus: 20
+        anubisConversionMultiplier: 30
+        bastetWarMultiplier: 4
       perks:
         noNew: 2
       events:
@@ -64,46 +69,82 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
           iconLabel: 'serapis'
           color: Colors.CULTSERAPIS
           text: 'Has roots in the ancient royal cult of the god Osiris-Apis. Together with Isis he became the patron god of the Ptolemaic dynasty ruling during the Hellenistic period. He is an universal deity.'
-          abilityLabel: 'Tribute boost'
-          abilityText: 'Worshippers on a selected island pay larger tribute for a short period of time. '
-          abilityManaCost: 5
+          spell:
+            label: 'Tribute boost'
+            text: 'Get special instant tribute from local worshippers. '
+            runFunctionName: 'doSpellSerapisTribute'
           stats:
             politics:
               votingEffectivity: 2
+            spell:
+              manaBaseCost: 3
+              manaEffectivity: 1
+              radius: () ->
+                100
+              color: Colors.CURSORSPELLSERAPISTRIBUTE
+              lvl: 1
+
         'Isis':
           no: 2
           iconLabel: 'isis'
           label: 'Isis'
           color: Colors.CULTISIS
           text: 'She was the mother of the god Horus and her husband was Osiris. During the Hellenistic period she also became wife of the god Serapis. Isis was a universal goddess and a patron deity of sailors.'
-          abilityLabel: 'Cast storm'
-          abilityText: 'Creates a storm over particular area that slows ships and brings rainfall.'
-          abilityManaCost: 5
+          spell:
+            label: 'Cast storm'
+            text: 'Creates a storm over particular area that slows ships and brings rainfall.'
+            runFunctionName: 'doSpellIsisStorm'
           stats:
             ships:
               rainPenalty: 0
+            spell:
+              manaBaseCost: 3
+              manaEffectivity: 1
+              radius: () ->
+                10
+              color: Colors.CURSORSPELLISISSTORM
+              lvl: 1
+
         'Anubis':
           no: 3
           iconLabel: 'anubis'
           label: 'Anubis'
           color: Colors.CULTANUBIS
           text: 'He is known as the god with a jackall head. He weighed the hearts of dead people in the final judgement. He was a patron deity of funeral rites and protected people in their afterlife.'
-          abilityLabel: 'Sailors conversion'
-          abilityText: 'Captures all ships within selected radius for a single trip.'
-          abilityManaCost: 8
+          spell:
+            label: 'Sailors conversion'
+            text: 'Captures all ships within selected radius for a single trip.'
+            runFunctionName: 'doSpellAnubisConversion'
           stats:
             ships:
               operationCost: 0
+            spell:
+              manaBaseCost: 3
+              manaEffectivity: 1
+              radius: () ->
+                lvl = app.game.state.cults['Anubis'].stats.spell.lvl
+                app.game.state.spells.anubisConversionMultiplier * lvl + app.game.state.spells.anubisConversionSurplus
+              color: Colors.CURSORSPELLANUBISCONVERSION
+              lvl: 1
+
         'Bastet':
           no: 4
           iconLabel: 'bastet'
           label: 'Bastet'
           color: Colors.CULTBASTET
           text: 'She was the famous lion goddess of Egypt. She is known for her temper and protective behaviour. She was also the patron deity of hunters and mothers.'
-          abilityLabel: 'Political crisis'
-          abilityText: 'Sends war to selected island'
-          abilityManaCost: 3
-          stats: {}
+          spell:
+            label: 'Political crisis'
+            text: 'Sends war to selected island'
+            runFunctionName: 'doSpellBastetCrisis'
+          stats:
+            spell:
+              manaBaseCost: 3
+              manaEffectivity: 1
+              radius: () ->
+                100
+              color: Colors.CURSORSPELLBASTETCRISIS
+              lvl: 1
 
     defaultCultStats:
       religion:
@@ -176,7 +217,6 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
     # MANA
     regenerateMana: ->
       for cultName, cult of @state.cults
-        console.log @getCultStats(cultName)
         newMana = @manaRegenerationQuantity @getCultStats(cultName).mana.baseRegeneration
         @addMana cultName, newMana
       return
@@ -209,8 +249,8 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
             island.state.event = null
 
         else
-          for evName of events
-            event = events[evName]
+          for evName of Events
+            event = Events[evName]
             if Math.random() < 1/event['frequency']
               evLen = _.random(event['length'][0], event['length'][1])
               newEv = _.clone(event)
@@ -248,6 +288,90 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events'], (Base, Colors, Perks, even
         @state.gameStatistics.cults[cultName].islands = noIslands
 
       return
+
+
+    # SPELLS
+    preparePlayerSpell: ->
+      app.changeCursor Cursors.SPELL
+      app.state.spellReady = true
+      app.time.pause()
+      return
+
+    playerSpellCheck: ->
+      if app.mouseOverMap()
+        cult = @getPlayerCultLabel()
+        spellFnName = app.game.state.cults[cult].spell.runFunctionName
+        app.game[spellFnName] app.mouseCoordinate()
+        app.state.spellReady = false
+
+        app.changeCursor Cursors.DEFAULT
+        app.time.resume()
+
+
+    manaSpellCost: (cultStats) ->
+      cultStats.spell.manaBaseCost * cultStats.spell.manaEffectivity
+
+
+    doSpellSerapisTribute: (centroid) ->
+      cult = Cult['SERAPIS']
+      cultStats = @getCultStats(cult)
+
+      islands = @itemsInRadius app.getCollection('islands'), centroid, cultStats.spell.radius()
+      for island in islands
+        believersNo = island.state.religion[cult].distribution * island.state.population
+        goldFromBelievers = believersNo * _.random(0.5, cultStats.spell.lvl) * app.game.state.spells.isisTributecoefficient
+        @earnGold cult, goldFromBelievers
+
+      mana = @manaSpellCost cultStats
+      @spendMana cult, mana
+      return
+
+
+    doSpellIsisStorm: (centroid) ->
+      cult = Cult['ISIS']
+      cultStats = @getCultStats(cult)
+      mana = @manaSpellCost cultStats
+
+      stormsColection = app.getCollection 'storms'
+      stormsColection.addGeometry new Storm(app.weather.state.lastStormId, centroid, _.random(2, cultStats.spell.lvl * 2))
+      app.weather.state.lastStormId += 1
+
+      @spendMana cult, mana
+
+
+    doSpellAnubisConversion: (centroid) ->
+      cult = Cult['ANUBIS']
+      cultStats = @getCultStats(cult)
+      mana = @manaSpellCost cultStats
+
+      spellsConfig = app.game.state.spells
+      radius = cultStats.spell.radius()
+
+      ships = @itemsInRadius app.getCollection('ships'), centroid, radius
+      for ship in ships
+        ship.cult = cult
+
+      @spendMana cult, mana
+
+
+    doSpellBastetCrisis: (centroid) ->
+      cult = Cult['BASTET']
+      cultStats = @getCultStats(cult)
+      mana = @manaSpellCost cultStats
+
+      islands = @itemsInRadius app.getCollection('islands'), centroid, cultStats.spell.radius()
+      for island in islands
+        warEvent = _.clone(Events.WAR)
+        warEvent.time = parseInt(_.random(1, cultStats.spell.lvl * app.game.state.spells.bastetWarMultiplier))
+        island.eventHappens warEvent
+
+      @spendMana cult, mana
+
+
+
+
+    itemsInRadius: (collection, centroid, radius) ->
+      collection.geomsInRadius(centroid, radius)
 
 
     # CONVERSIONS

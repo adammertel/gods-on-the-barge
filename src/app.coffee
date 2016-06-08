@@ -1,9 +1,10 @@
 define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabels', 'Nodes', 'Routes', 'Ships', 'Storms', 'BackgroundIslands', 'Cursors', 'Paths'], (Base, Canvas, Ship, Season, Ai, Islands, IslandLabels, Nodes, Routes, Ships, Storms, BackgroundIslands, Cursors, Paths) ->
   window.app =
     state:
-      cursor: Cursors.SPELL
+      cursor: Cursors.DEFAULT
       loopNo: 0
       started: false
+      spellReady: false
       fps: []
       lastTimeLoop: null
       view:
@@ -81,6 +82,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
 
     getCanvasById: (id) ->
       foundCanvas = false
+      
       for canvas in @canvases
         if canvas.id == id
           foundCanvas = canvas
@@ -103,6 +105,12 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
 
     mouseY: ->
       @state.controls.mousePosition.y
+
+    mouseXY: ->
+      {x: @mouseX(), y: @mouseY()}
+
+    mouseCoordinate: ->
+      @viewToCoordinate @mouseXY()
 
     drawPath: (ctx, path, coords, size, rotation, fillStyle, lineWidth, strokeStyle) ->
       ctx.translate coords.x, coords.y
@@ -156,6 +164,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
 
       @time.resume()
       @createAis()
+      @cursor.defineCult()
       return
 
     createAis: ->
@@ -332,9 +341,6 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
           clicked = g
       clicked
 
-    getMousePosition: ->
-      {x: @state.position.x, y: @state.position.y}
-
     isPointVisible: (point) ->
       point.x < @state.view.w and point.x > 0 and point.y < @state.view.h and point.y > 0
 
@@ -352,6 +358,10 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       y: Base.round(@state.map.h - (c.lat - @state.boundingCoordinates.s) * @state.pxDensity)
 
     pointToUTM: (point) ->
+
+    viewToCoordinate: (v) ->
+      x: Base.round((v.x / @state.zoom + @state.position.x))
+      y: Base.round((v.y / @state.zoom + @state.position.y))
 
     coordinatesToView: (coords) ->
       for coord in coords

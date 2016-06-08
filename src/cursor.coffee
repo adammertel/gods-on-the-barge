@@ -18,9 +18,16 @@ define 'CursorControl', ['App', 'Base', 'Cursors', 'CursorDefault', 'CursorSpell
       @cursors.push({cursor: cursor, id: label})
       return
 
+    defineCult: ->
+      return
+
     getActiveCursor: ->
       _.find @cursors, (cursor) =>
         cursor.id == app.state.cursor
+
+    getCursorById: (id) ->
+      _.find @cursors, (cursor) =>
+        cursor.id == id
 
     draw: ->
       @getActiveCursor().cursor.draw()

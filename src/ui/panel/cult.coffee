@@ -7,7 +7,6 @@ define 'CultPanel', ['Base', 'Panel', 'Text', 'Colors', 'Button', 'ButtonStyle',
       return
 
     init: ->
-
       # statistics
       x = @x + 480
       dy = 12
@@ -40,20 +39,21 @@ define 'CultPanel', ['Base', 'Panel', 'Text', 'Colors', 'Button', 'ButtonStyle',
       'run ability'
 
     runAbility: ->
-      console.log 'run ability'
+      app.game.preparePlayerSpell()
       false
 
     specialAbilityLabel: ->
       playerCult = app.game.getPlayerCult()
-      'Special ability - ' + playerCult.abilityLabel
+      'Special ability - ' + playerCult.spell.label
 
     specialAbilityText: ->
       playerCult = app.game.getPlayerCult()
-      playerCult.abilityText
+      playerCult.spell.text
 
     abilityButtonStyle: ->
       playerCult = app.game.getPlayerCultLabel()
-      if app.game.hasEnoughtMana(playerCult, 6)
+      playerCultStats = app.game.getPlayerCultStats()
+      if app.game.hasEnoughtMana(playerCult, app.game.manaSpellCost playerCultStats)
         ButtonStyle.NORMALINACTIVE
       else
         ButtonStyle.NORMALDISABLED

@@ -85,7 +85,7 @@ define 'Weather', ['Base', 'WeatherCalendar', 'Storm', 'Colors'], (Base, Weather
 
 
     checkIfNewStorm: ->
-      newStorm = Math.random() > 0#@getStormChanceForThisWeek()
+      newStorm = Math.random() > @getStormChanceForThisWeek()
       if newStorm
         app.getCollection('storms').createStorm @state.lastStormId
         @state.lastStormId += 1

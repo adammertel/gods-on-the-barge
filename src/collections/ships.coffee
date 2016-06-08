@@ -1,6 +1,7 @@
 define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
   class Ships extends Collection
     constructor: (data) ->
+      @distanceFn = Base.distance
       @name = 'ships'
       super()
       app.registerNewDayAction @updateEnergyForShips.bind @

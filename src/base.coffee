@@ -61,7 +61,7 @@ define 'Base', [], () ->
     distanceFromPolygon: (polygonCoords, point) ->
       minDistance = 100000
       for coord in polygonCoords
-        coordDistance = @distance(coord, point)
+        coordDistance = Base.distance(coord, point)
         if coordDistance < minDistance
           minDistance = coordDistance
       minDistance

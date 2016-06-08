@@ -50,10 +50,11 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
 
     drawFreeShips: ->
       playerCult = app.game.getPlayerCultLabel()
-      x = @x + 200
-      y = @y + 40
-      for f in _.range(app.game.freeShips(playerCult))
-        app.drawShip @ctx, {x: x + f*30, y: y}, 2, 0, app.game.getPlayerColor()
+      if app.game.freeShips(playerCult) > 0
+        x = @x + 200
+        y = @y + 40
+        for f in _.range(app.game.freeShips(playerCult))
+          app.drawShip @ctx, {x: x + f*30, y: y}, 2, 0, app.game.getPlayerColor()
       return
 
     sendShip: (startingPoint) ->

@@ -1,10 +1,9 @@
 define 'Storm', ['Geography', 'Colors', 'Base'], (Geography, Colors, Base) ->
   class Storm extends Geography
 
-    constructor: (@id, @ctx)->
-      @power = _.random(4, 8, false)
+    constructor: (@id, @coords, @power) ->
       @collection = app.getCollection 'storms'
-      @coords = @collection.newStormCoordinates()
+      @ctx = @collection.ctx
       super()
       return
 
@@ -27,11 +26,10 @@ define 'Storm', ['Geography', 'Colors', 'Base'], (Geography, Colors, Base) ->
         @radius = @power * app.weather.state.config.stormRadiusCoefficient
 
         @ctx.beginPath()
-        @ctx.arc(stormCoord.x, stormCoord.y, @radius*app.state.zoom, 0, 2 * Math.PI, false)
+        @ctx.arc(stormCoord.x, stormCoord.y, @radius * app.state.zoom, 0, 2 * Math.PI, false)
         @ctx.closePath()
         @ctx.fill()
 
         @ctx.globalAlpha = 1
-
 
       return

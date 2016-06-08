@@ -2,6 +2,7 @@ define 'Cursor', [], () ->
   class Cursor
     constructor: (cursorControl) ->
       @ctx = cursorControl.ctx
+      @radiusCtx = app.getCanvasById('cursorradius').ctx
       @radius = false
       @alpha = 1
       @radiusColor = 'black'
@@ -20,11 +21,11 @@ define 'Cursor', [], () ->
     drawRadius: ->
       if @radius
         radiusPath = new Path2D()
-        @ctx.globalAlpha = @alpha
-        radiusPath.arc(@mp().x, @mp().y, @radius, 0, 2 * Math.PI);
-        @ctx.fillStyle = @radiusColor
-        @ctx.fill radiusPath
-        @ctx.globalAlpha = 1
+        @radiusCtx.globalAlpha = @alpha
+        radiusPath.arc(@mp().x, @mp().y, @radius * app.state.zoom, 0, 2 * Math.PI);
+        @radiusCtx.fillStyle = @radiusColor
+        @radiusCtx.fill radiusPath
+        @radiusCtx.globalAlpha = 1
       return
 
     drawPath: ->

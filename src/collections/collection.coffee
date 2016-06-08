@@ -40,3 +40,13 @@ define 'Collection', ['Base'], (Base) ->
         @geometries.splice spliceIndex, 1
 
       return
+
+    geomsInRadius: (centroid, radius) ->
+      if @distanceFn
+        inRadius = []
+        for geometry, g in @geometries
+          if @distanceFn(geometry.coords, centroid) < radius
+            inRadius.push(geometry)
+        inRadius
+      else
+        []

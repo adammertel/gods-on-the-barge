@@ -1,14 +1,17 @@
-define 'CursorSpell', ['Cursor', 'Paths'], (Cursor, Paths) ->
+define 'CursorSpell', ['Cursor', 'Paths', 'Colors', 'CultsEnum'], (Cursor, Paths, Colors, Cult) ->
   class CursorSpell extends Cursor
     init: ->
       @path = Paths.CURSORSPELL
-      @radius = 20
+      @radius = 10
       @alpha = 0.2
-      @radiusColor = 'red'
+      @radiusColor = 'white'
+
       super()
       return
 
     drawRadius: ->
+      @radius = app.game.getPlayerStat('spell', 'radius')()
+      @radiusColor = app.game.getPlayerStat 'spell', 'color'
       super()
       return
 

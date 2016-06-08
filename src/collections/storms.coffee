@@ -36,7 +36,7 @@ define 'Storms', ['Base', 'Collection', 'Storm', 'Colors'], (Base, Collection, S
       return
 
     createStorm: (id) ->
-      @addGeometry new Storm id, @ctx
+      @addGeometry new Storm id, @newStormCoordinates(), _.random(4, 8, false)
       return
 
     newStormCoordinates: ->

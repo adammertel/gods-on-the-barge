@@ -9,10 +9,6 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
     app.registerCanvas {id: id, ctx: ctx, w: w, h: h, fps: fps}
     return
 
-  #prepareCanvas 'info', 'info', app.state.menu.w, app.state.menu.h, 10
-  #prepareCanvas 'game', 'game', app.state.view.w, app.state.view.h, 60
-  #prepareCanvas 'menu', 'menu', app.state.menu.w, app.state.menu.h, 10
-
   gameFpsRatio = 2
   defaultCanvas =
     h: app.state.menu.h - 200
@@ -33,8 +29,10 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   app.registerCollection 'IslandLabels', '', 'islandLabels', defaultCanvas, 5, gameFpsRatio
 
   overCanvas = new Canvas 'over', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 20, 1
-  overCanvas = new Canvas 'gameinfo', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 20, 10
-  overCanvas.registerDrawFunction app.writeDevelInfo.bind(app, overCanvas.ctx)
+  gameinfoCanvas = new Canvas 'gameinfo', {h: app.state.menu.h - 200, w: app.state.menu.w, x: 0, y: 0}, 15, 10
+  radiusCursorCanvas = new Canvas 'cursorradius', {h: app.state.menu.h - 200, w: app.state.menu.w, x: 0, y: 0}, 30, 1
+  infoCanvas = new Canvas 'info', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 15, 10
+  gameinfoCanvas.registerDrawFunction app.writeDevelInfo.bind(app, gameinfoCanvas.ctx)
 
   app.game = new Game()
   app.time = new Time()
@@ -44,7 +42,6 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
   app.cursor = new CursorControl()
   app.gameInfo = new GameInfo()
 
-  infoCanvas = new Canvas 'info', {h: app.state.menu.h, w: app.state.menu.w, x: 0, y: 0}, 15, 10
 
   app.registerInfoWindow(new WelcomeWindow('welcome', 600, 600), true)
   app.registerInfoWindow(new PerkWindow('perks', 320, 300), false)
@@ -63,14 +60,18 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
     return
 
   wrapper.addEventListener 'mousedown', (e) ->
-    app.state.controls.mouseClicked = true
-    app.state.controls.mouseClickedPosition =
-      x: e.clientX
-      y: e.clientY
+    if app.state.spellReady
+      app.game.playerSpellCheck()
+    else
+      app.state.controls.mouseClicked = true
+      app.state.controls.mouseClickedPosition =
+        x: e.clientX
+        y: e.clientY
+
     return
 
   wrapper.addEventListener 'dblclick', (e) ->
-    app.state.controls.mouseDblClicked = false
+    app.state.controls.mouseDblClicked = true
     if app.mouseOverMap()
       app.zoomIn()
     return
