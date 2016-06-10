@@ -68,7 +68,7 @@ define 'MiniMap', ['Base', 'Canvas'], (Base, Canvas) ->
       return
 
     drawPosition: ->
-      @ctx.strokeRect @x - app.menu.mmButtonSize, @y, @w + app.menu.mmButtonSize, @h
+      @ctx.strokeRect @x - app.menu.mmSize, @y, @w + app.menu.mmSize, @h
       x1 = @dx * app.state.position.x
       y1 = @dy * app.state.position.y
 

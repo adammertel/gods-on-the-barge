@@ -9,9 +9,9 @@ Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
 #### Version 0.2
 - [ ] wiki page
 - [x] graphic design of icons
-- [ ] simple buildings system
+- [x] simple buildings system
 - [x] simple events system
-- [ ] active abilities of cults
+- [x] active abilities of cults
 - [ ] rebalancing the economic model
 - [x] implementation of more canvases system
 
@@ -20,6 +20,8 @@ Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
 - [ ] new politics system
 - [ ] advanced graphics
 - [ ] conversion system rebalanced
+- [ ] new weather system
+- [ ] enemies casting spells
 
 
 ### INFO

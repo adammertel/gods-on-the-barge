@@ -2,6 +2,7 @@ define 'Time', ['Base', 'Season'], (Base, Season) ->
   class Time
     state:
       timeSpeed: 1
+      speedOptions: [0,1,2,3]
       year: 400
       week: 1
       season: Season[0]

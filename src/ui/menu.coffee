@@ -6,7 +6,7 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       h = 150
       super 'menu', 0, app.state.view.h - h, app.state.view.w, h
       @mm = new MiniMap()
-      @mmButtonSize = @h/6 - 2
+      @mmSize = @h/6 - 2
       @panelW = 80
       @panels = []
 
@@ -25,17 +25,22 @@ define 'Menu', ['Ui', 'MiniMap', 'Text', 'Button', 'OverviewPanel', 'IslandsPane
       @bs = _.clone @buttonStyle
       gameSpeed = app.time.state.timeSpeed
 
-      s = @mmButtonSize + 2
+      speed0 = app.time.state.speedOptions[0]
+      speed1 = app.time.state.speedOptions[1]
+      speed2 = app.time.state.speedOptions[2]
+      speed3 = app.time.state.speedOptions[3]
+
+      s = @mmSize + 2
       m = 2
       x =  @w - @mm.w - s
       y = @y
-      @registerButton 'speed0', {x: x, y: y, w: s, h: @mmButtonSize}, @mst.bind(@, '||'), @changeSpeed.bind(@, 0), @speedButtonStyle.bind(@, 0)
-      @registerButton 'speed1', {x: x, y: y + 1*s, w: s, h: @mmButtonSize}, @mst.bind(@, '>'), @changeSpeed.bind(@, 1), @speedButtonStyle.bind(@, 1)
-      @registerButton 'speed2', {x: x, y: y + 2*s, w: s, h: @mmButtonSize}, @mst.bind(@, '>>'), @changeSpeed.bind(@, 2), @speedButtonStyle.bind(@, 2)
-      @registerButton 'speed3', {x: x, y: y + 3*s, w: s, h: @mmButtonSize}, @mst.bind(@, '>>>'), @changeSpeed.bind(@, 10), @speedButtonStyle.bind(@, 10)
+      @registerButton 'speed0', {x: x, y: y, w: s, h: @mmSize}, @mst.bind(@, '||'), @changeSpeed.bind(@, speed0), @speedButtonStyle.bind(@, speed0)
+      @registerButton 'speed1', {x: x, y: y + 1*s, w: s, h: @mmSize}, @mst.bind(@, '>'), @changeSpeed.bind(@, speed1), @speedButtonStyle.bind(@, speed1)
+      @registerButton 'speed2', {x: x, y: y + 2*s, w: s, h: @mmSize}, @mst.bind(@, '>>'), @changeSpeed.bind(@, speed2), @speedButtonStyle.bind(@, speed2)
+      @registerButton 'speed3', {x: x, y: y + 3*s, w: s, h: @mmSize}, @mst.bind(@, '>>>'), @changeSpeed.bind(@, speed3), @speedButtonStyle.bind(@, speed3)
 
-      @registerButton 'zoomIn', {x: x, y: y + 4*s, w: s, h: @mmButtonSize}, @mst.bind(@, '+'), @zoomIn.bind(@), ButtonStyle.MENUINACTIVE
-      @registerButton 'zoomOut', {x: x, y: y + 5*s, w: s, h: @mmButtonSize}, @mst.bind(@, '-'), @zoomOut.bind(@), ButtonStyle.MENUINACTIVE
+      @registerButton 'zoomIn', {x: x, y: y + 4*s, w: s, h: @mmSize}, @mst.bind(@, '+'), @zoomIn.bind(@), ButtonStyle.MENUINACTIVE
+      @registerButton 'zoomOut', {x: x, y: y + 5*s, w: s, h: @mmSize}, @mst.bind(@, '-'), @zoomOut.bind(@), ButtonStyle.MENUINACTIVE
 
       @registerPanel new OverviewPanel(@)
       @registerPanel new IslandsPanel(@)

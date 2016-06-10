@@ -7,7 +7,7 @@ define 'Panel', ['Ui', 'TextStyle'], (Ui, TextStyle) ->
 
       x = @menu.panelW + 2
       y = app.state.view.h - @menu.h
-      w = app.state.view.w + 1 - @menu.panelW - @menu.mm.w - @menu.mmButtonSize
+      w = app.state.view.w + 1 - @menu.panelW - @menu.mm.w - @menu.mmSize
       h = @menu.h
       super @label, x, y, w, h
 

@@ -77,7 +77,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
             politics:
               votingEffectivity: 2
             spell:
-              manaBaseCost: 3
+              manaBaseCost: 5
               manaEffectivity: 1
               radius: () ->
                 100
@@ -98,7 +98,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
             ships:
               rainPenalty: 0
             spell:
-              manaBaseCost: 3
+              manaBaseCost: 4
               manaEffectivity: 1
               radius: () ->
                 10
@@ -119,7 +119,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
             ships:
               operationCost: 0
             spell:
-              manaBaseCost: 3
+              manaBaseCost: 8
               manaEffectivity: 1
               radius: () ->
                 lvl = app.game.state.cults['Anubis'].stats.spell.lvl
@@ -139,7 +139,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
             runFunctionName: 'doSpellBastetCrisis'
           stats:
             spell:
-              manaBaseCost: 3
+              manaBaseCost: 4
               manaEffectivity: 1
               radius: () ->
                 100
@@ -252,10 +252,11 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
           for evName of Events
             event = Events[evName]
             if Math.random() < 1/event['frequency']
-              evLen = _.random(event['length'][0], event['length'][1])
-              newEv = _.clone(event)
-              newEv.time = evLen
-              island.eventHappens(newEv)
+              if event['condition'](island)
+                evLen = _.random(event['length'][0], event['length'][1])
+                newEv = _.clone(event)
+                newEv.time = evLen
+                island.eventHappens(newEv)
       return
 
     # RELIGION
@@ -368,8 +369,6 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
       @spendMana cult, mana
 
 
-
-
     itemsInRadius: (collection, centroid, radius) ->
       collection.geomsInRadius(centroid, radius)
 
@@ -381,6 +380,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
       baseConverted = _.random(baseMin, baseMax)
       conversionEffectivity = @getStat(cult, 'religion', 'conversionEffectivity')
       Base.round baseConverted * conversionEffectivity
+
 
     makeConversion: (cult, island, numberOfConverting) ->
       #console.log 'making religious conversion driven by ship. Island name: ', island.state.name
@@ -397,8 +397,6 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
           if Math.random() < conversionChance
             @convertPerson island, randomPersonReligion, cult, onePersonDistribution
 
-      #console.log island
-
       return
 
     convertPerson: (island, cultFrom, cultTo, onePersonDistribution) ->
@@ -406,11 +404,13 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
       island.state.religion[cultTo].distribution += onePersonDistribution
       return
 
+
     getResistanceOfCult: (cult) ->
       if cult == 'Pagan'
         @state.religion.conversionResistancePagans
       else
          @getStat(cult, 'religion', 'conversionResistance')
+
 
     getRandomPersonReligionFromIsland: (island) ->
       SerapisCumulation = island.state.religion.Serapis.distribution
@@ -430,6 +430,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
         'Anubis'
       else
         'Pagan'
+
 
     # TRADING
     maxTradingDistanceForCult: (cult) ->

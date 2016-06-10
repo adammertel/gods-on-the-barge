@@ -60,13 +60,14 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
     return
 
   wrapper.addEventListener 'mousedown', (e) ->
-    if app.state.spellReady
-      app.game.playerSpellCheck()
-    else
-      app.state.controls.mouseClicked = true
-      app.state.controls.mouseClickedPosition =
-        x: e.clientX
-        y: e.clientY
+    if !app.state.freezeMouseClicks
+      if app.state.spellReady
+        app.game.playerSpellCheck()
+      else
+        app.state.controls.mouseClicked = true
+        app.state.controls.mouseClickedPosition =
+          x: e.clientX
+          y: e.clientY
 
     return
 

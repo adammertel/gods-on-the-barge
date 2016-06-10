@@ -25,4 +25,8 @@ define 'Perks', [], () ->
       {label: 'mana regeneration'
       effect: (cult) -> app.game.getCultStats(cult).mana.baseRegeneration += 0.2
       text: 'more mana - more spells'}
+
+      {label: 'spell level'
+      effect: (cult) -> app.game.getCultStats(cult).spell.lvl += 1
+      text: 'better spells'}
     ]

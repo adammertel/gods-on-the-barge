@@ -5,6 +5,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       loopNo: 0
       started: false
       spellReady: false
+      clickFreezed: false
       fps: []
       lastTimeLoop: null
       view:
@@ -82,7 +83,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
 
     getCanvasById: (id) ->
       foundCanvas = false
-      
+
       for canvas in @canvases
         if canvas.id == id
           foundCanvas = canvas
@@ -334,8 +335,16 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       ctx.fillText 'fps : ' + parseInt(_.mean(@state.fps)), 10, 40
       return
 
+    freezeMouseClicks: (ms) ->
+      app.state.freezeMouseClicks = true
+      setTimeout (->
+        app.state.freezeMouseClicks = false
+        return
+      ), ms
+      return
+
     getClicked: ()->
-      clicked = falsecd
+      clicked = false
       for g in @state.geometries
         if g.isClicked()
           clicked = g
@@ -419,5 +428,6 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
 
     # PERKS
     openPerkWindow: (perks) ->
+      @freezeMouseClicks 500
       @getInfoWindow('perks').newPerks(perks)
       return

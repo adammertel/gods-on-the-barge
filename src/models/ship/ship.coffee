@@ -142,7 +142,6 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
 
     getSpeed: ->
       rainPenalty = if @collection.isInRain(@) then 1 - @cultStats.rainPenalty else 1
-
       @baseSpeed * app.time.state.timeSpeed * rainPenalty
 
     drawCargoBar: ->

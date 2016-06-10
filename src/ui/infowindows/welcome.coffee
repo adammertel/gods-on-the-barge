@@ -43,7 +43,7 @@ define 'WelcomeWindow', ['InfoWindow', 'Button', 'Base', 'Colors', 'TextStyle', 
       if @open
         super()
         @ctx.textAlign = 'left'
-        text1 = 'WELCOME TO GODS ON THE BARGE GAME!'
+        text1 = 'WELCOME TO GODS ON THE BARGE GAME! (version 0.2 beta)'
         text2 = 'This is "Gods on the Barge" game (current state: v 0.2) inspired by the project of GEHIR based on Masaryk University, Brno. At this version of the game, we are not able to provide full implementation of all features. Game itself is also not fully balanced and several bugs may appear (game is tested only in chrome).'
         text3 = 'Your goal is to convert as many islands in region as possible. The crucial part of spreading religion are ships, that are sent to Greece/Turkey from Alexandria and will occasionally stop on various islands to sell food.'
         text4 = 'Please choose a cult to play:'

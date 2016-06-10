@@ -5,7 +5,7 @@ define 'Nodes', ['Base', 'Collection', 'Port', 'Colors', 'FontStyle'], (Base, Co
       super data
       return
 
-    limitConflict: 10
+    limitConflict: 1
 
     registerGeometries: ->
       @ports = []
