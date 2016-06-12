@@ -437,21 +437,24 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
       @getStat(cult, 'trade', 'tradingDistanceCoefficient') * @state.trade.maxBaseDistanceForTrade
 
     makeTrade: (ship, island) ->
-      cult = ship.cult
-      grain = ship.cargo
+      if island.eventName() == 'war'
+        return
+      else
+        cult = ship.cult
+        grain = ship.cargo
 
-      islandsCollection = app.getCollection('islands')
+        islandsCollection = app.getCollection('islands')
 
-      quantityCoefficient = islandsCollection.hungryCoefficient(island) * Math.random()
-      quantity = ship.validateCargoQuantity(quantityCoefficient * islandsCollection.missingGrain(island))
+        quantityCoefficient = islandsCollection.hungryCoefficient(island) * Math.random()
+        quantity = ship.validateCargoQuantity(quantityCoefficient * islandsCollection.missingGrain(island))
 
-      #console.log 'will trade, ' , quantity
-      islandsCollection.addGrainToIsland island, quantity
-      ship.unshipCargo quantity
+        #console.log 'will trade, ' , quantity
+        islandsCollection.addGrainToIsland island, quantity
+        ship.unshipCargo quantity
 
-      totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity') * @getGrainPrice()
-      @earnGold cult, totalPrice
-      return
+        totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity') * @getGrainPrice()
+        @earnGold cult, totalPrice
+        return
 
     getGrainPrice: ->
       @state.trade.baseGrainPrice

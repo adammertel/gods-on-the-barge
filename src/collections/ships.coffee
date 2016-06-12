@@ -29,22 +29,21 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
           islandName = app.getCollection('nodes').getIslandOfPort port
           island = app.getCollection('islands').getIslandByName islandName
           if island
-            if island.state.event
-              if island.state.event.name != 'war'
-                ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
-            else
-                ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
+            if !island.inWar()
+              ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
+              #else
+                #ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
         else
           ports.push {'id': parseInt(port), 'distance': app.getDistanceOfNodes(ship.stops[0], port)}
 
       _.orderBy ports, 'distance'
 
-    findClosestPort: (ship) ->
-      @findClosePorts(ship, true)[0].id
+    findClosestPort: (ship, excludeWar) ->
+      @findClosePorts(ship, excludeWar)[0].id
 
     stopToRest: (ship) ->
       if (ship.nextDistance/1000) / ship.energy < 2000
-        @findClosePorts ship, true
+        @findClosePorts ship, false
       else
         return
 
@@ -52,8 +51,10 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       islandName = app.getCollection('nodes').getIslandOfPort(portId)
       if islandName != 'Turkey' and islandName != 'Greece' and islandName != 'Egypt'
         island =  app.getCollection('islands').getIslandByName islandName
-        app.game.makeTrade ship, island
-        app.game.makeConversion ship.cult, island, app.game.numberOfConverting ship.cult
+
+        if !island.inWar()
+          app.game.makeTrade ship, island
+          app.game.makeConversion ship.cult, island, app.game.numberOfConverting ship.cult
       return
 
     getPlaceForTrade: (ship) ->
@@ -65,7 +66,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       tradePlaces = []
 
       for port in ports
-        islandName = app.getCollection('nodes').getIslandOfPort(port.id)
+        islandName = app.getCollection('nodegetPlaceForTrades').getIslandOfPort(port.id)
 
         # intersection of possible path to a new trade spot with visited places of that ship - ship is not supposed to visit one node more than once
         pathIntersection = _.intersection app.getPath(port.id, ship.stops[0]), ship.visitedNodes

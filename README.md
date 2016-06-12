@@ -22,6 +22,7 @@ Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
 - [ ] conversion system rebalanced
 - [ ] new weather system
 - [ ] enemies casting spells
+- [ ] tooltips
 
 
 ### INFO

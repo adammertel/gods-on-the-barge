@@ -47,6 +47,15 @@ define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
       @state.event = event
       return
 
+    eventName: ->
+      if !@state.event
+        false
+      else
+        @state.event.name
+
+    inWar: ->
+      @eventName == 'war'
+
     getDominantCult: ->
       dominantDistribution = 0
       dominantCult = ''

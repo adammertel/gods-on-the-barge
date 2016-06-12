@@ -320,6 +320,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       @state.map.h = (c.n - c.s) * @state.pxDensity
       @state.map.w = (c.e - c.w) * @state.pxDensity
       @state.pxkm = @state.pxDensity/110
+      console.log  @state.pxkm
       return
 
     goTo: (coordinate) ->

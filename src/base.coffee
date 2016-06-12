@@ -71,9 +71,8 @@ define 'Base', [], () ->
       dy = to.y - from.y
 
       dist = @distance to, from
-      dist_new = distance * app.state.pxkm
 
-      d = dist_new / dist
+      d = distance / dist
 
       {x: d * dx + from.x, y: d * dy + from.y}
 

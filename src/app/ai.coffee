@@ -1,7 +1,7 @@
 define 'Ai', ['Base'], (Base) ->
   class Ai
     state:
-      shipBuildChange: 0.1 + Math.random()/10
+      shipBuildChange: 0 #0.1 + Math.random()/10
       voteforContinent: 0.1 + Math.random()/10
 
     constructor: (@cult) ->

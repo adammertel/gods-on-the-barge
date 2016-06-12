@@ -14,6 +14,7 @@ define 'Port', ['Geography', 'Base'], (Geography, Base) ->
       if app.state.zoom > 0.6
         if @island == 'Turkey' or @island == 'Greece' or @island == 'Egypt'
           @ctx.fillText @name, portCoord.x, portCoord.y - 10
+      #@ctx.fillText @nodeId, portCoord.x, portCoord.y - 10
 
       @ctx.fill()
 
