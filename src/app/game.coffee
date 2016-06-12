@@ -28,8 +28,8 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
         buildCostVariability: 0.3
         buildCostTemperatureSignificance: 0.1
       religion:
-        baseConversionMax: 70
-        baseConversionMin: 30
+        baseConversionMax: 120
+        baseConversionMin: 50
         conversionResistancePagans: 0.2
         minDistributionToStable: 0.1
         minDistributionToGrow: 0.4
@@ -539,7 +539,10 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
       @getPlayerStat 'politics', 'maxFreePoints'
 
     getPlayerBelievers: ->
-      @state.gameStatistics.cults[app.game.getPlayerCultLabel()].total
+      @getCultBelievers app.game.getPlayerCultLabel()
+
+    getCultBelievers: (cult) ->
+      app.game.state.gameStatistics.cults[cult].total
 
     getPlayerIslands: ->
       @state.gameStatistics.cults[app.game.getPlayerCultLabel()].islands

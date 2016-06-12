@@ -61,9 +61,7 @@ define 'Ui', ['Base', 'Button', 'Text', 'Colors', 'TextStyle', 'FontStyle'], (Ba
 
     drawBackground: ->
       @ctx.fillStyle = 'white'
-      #@ctx.strokeStyle = 'black'
       @ctx.fill @bckPath
-      #@ctx.stroke @bckPath
       return
 
     drawPieChart: (segments, size, x, y) ->

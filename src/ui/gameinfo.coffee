@@ -1,4 +1,4 @@
-define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle'], (Ui, Text, Button, Base, Colors, TextStyle) ->
+define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle', 'CultsEnum'], (Ui, Text, Button, Base, Colors, TextStyle, Cult) ->
 
   class GameInfo extends Ui
     constructor: ->
@@ -6,7 +6,7 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle'], (Ui,
       @ctx = @canvas.ctx
       @canvas.registerDrawFunction @draw.bind(@)
       @setStyle()
-      h = 80
+      h = 180
       w = 140
       x = app.state.view.w - w
       y = 0
@@ -24,7 +24,35 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle'], (Ui,
       @registerText 'weekLabel', {x: @x + 100, y: @y + 30}, app.time.getSeasonYearLabel, TextStyle.DT
       @registerText 'moneyLabel', {x: @x + 100, y: @y + 65}, app.game.getPlayerGoldLabel, TextStyle.DT
       @buildGlassHour()
+
+      # statistics
+      @registerText 'believers', {x: @x + 45, y: @y + 90}, @mst.bind(@, 'TOTAL BELIEVERS'), TextStyle.BOLD
+      cultStats = app.game.state.gameStatistics.cults
+      x = @x + 90
+      y = @y + 105
+      @dtdd {x: x, y: y, id: 'os1'}, {dt: @mst.bind(@, Cult['SERAPIS']), dd: app.game.getCultBelievers.bind(@, Cult['SERAPIS'])}
+      @dtdd {x: x, y: y + 15, id: 'os1'}, {dt: @mst.bind(@, Cult['ISIS']), dd: app.game.getCultBelievers.bind(@, Cult['ISIS'])}
+      @dtdd {x: x, y: y + 30, id: 'os1'}, {dt: @mst.bind(@, Cult['ANUBIS']), dd: app.game.getCultBelievers.bind(@, Cult['ANUBIS'])}
+      @dtdd {x: x, y: y + 45, id: 'os1'}, {dt: @mst.bind(@, Cult['BASTET']), dd: app.game.getCultBelievers.bind(@, Cult['BASTET'])}
       return
+
+    drawCultStatHighlighters: ->
+      cults = app.game.state.cults
+      x = @x + 90
+      y = @y + 102
+      h = 13
+
+      @ctx.fillStyle = cults[Cult['SERAPIS']].color
+      @ctx.fillRect x, y, -40, h
+
+      @ctx.fillStyle = cults[Cult['ISIS']].color
+      @ctx.fillRect x, y + 15, -20, h
+
+      @ctx.fillStyle = cults[Cult['ANUBIS']].color
+      @ctx.fillRect x, y + 30, -40, h
+
+      @ctx.fillStyle = cults[Cult['BASTET']].color
+      @ctx.fillRect x, y + 45, -35, h
 
     buildGlassHour: ->
       h = 36
@@ -72,15 +100,16 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle'], (Ui,
       return
 
     drawCoin: ->
-        @ctx.beginPath()
-        @ctx.arc @x + 120, @y + 65, 10, 0, 2 * Math.PI, false
-        @ctx.fillStyle = Colors.GOLD
-        @ctx.stroke()
-        @ctx.fill()
-        @ctx.closePath()
-        return
+      @ctx.beginPath()
+      @ctx.arc @x + 117, @y + 67, 7, 0, 2 * Math.PI, false
+      @ctx.fillStyle = Colors.GOLD
+      @ctx.stroke()
+      @ctx.fill()
+      @ctx.closePath()
+      return
 
     draw: ->
+      @drawCultStatHighlighters()
       if app.state.started
         super()
         @drawGlassHours()

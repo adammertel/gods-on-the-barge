@@ -66,7 +66,7 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       tradePlaces = []
 
       for port in ports
-        islandName = app.getCollection('nodegetPlaceForTrades').getIslandOfPort(port.id)
+        islandName = app.getCollection('nodes').getIslandOfPort(port.id)
 
         # intersection of possible path to a new trade spot with visited places of that ship - ship is not supposed to visit one node more than once
         pathIntersection = _.intersection app.getPath(port.id, ship.stops[0]), ship.visitedNodes
