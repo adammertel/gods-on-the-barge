@@ -36,15 +36,22 @@ define 'CultPanel', ['Base', 'Panel', 'Text', 'Colors', 'Button', 'ButtonStyle',
       super()
 
     specialAbilityButtonLabel: ->
-      'run ability'
+      if app.state.spellReady
+        'cancel'
+      else
+        'run ability'
 
     runAbility: ->
-      app.game.preparePlayerSpell()
+      if app.state.spellReady
+        app.game.cancelPlayerSpell()
+      else
+        app.game.preparePlayerSpell()
       false
 
     specialAbilityLabel: ->
       playerCult = app.game.getPlayerCult()
-      'Special ability - ' + playerCult.spell.label
+      playerCultStats = app.game.getPlayerCultStats()
+      'Special ability - ' + playerCult.spell.label + ' (' + app.game.manaSpellCost(playerCultStats) + ' mana)'
 
     specialAbilityText: ->
       playerCult = app.game.getPlayerCult()

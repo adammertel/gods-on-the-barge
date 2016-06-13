@@ -69,10 +69,10 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
 
     findTrade: ->
       newTradeNode = @collection.getPlaceForTrade(@)
+      console.log 'newTradeNode', newTradeNode
       if newTradeNode
-        if newTradeNode not in @visitedNodes
-          @addCheckPoint newTradeNode
-          @recalculateStops()
+        @addCheckPoint newTradeNode
+        @recalculateStops()
       return
 
     findRest: ->
@@ -119,6 +119,7 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
 
           # hits node?
           if @checkNodeConflict()
+            @visitedNodes.push @stops[0]
             # there is at least one node to visit
             if @stops.length > 1
               _.pull @checkPointIds, @stops[0] # removes checkpoint
@@ -126,7 +127,6 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
               # ship in port
               if app.getCollection('nodes').isNodePort @stops[0]
                 @collection.trade @, @stops[0]
-                @visitedNodes.push(@stops[0])
                 @inPort = true
                 @willPort = false
 

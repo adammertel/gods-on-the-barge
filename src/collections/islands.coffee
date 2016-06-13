@@ -75,7 +75,9 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
     starvingPeople: ->
       for island in @geometries
         if island.state.starving > 0
-          diedFromStarving = Math.ceil app.game.state.islands.starvingDeathRate * island.state.starving
+          starvingRateBase = app.game.state.islands.starvingDeathRate
+          starvingRate = if !island.state.buildings[Buildings['HOSPITAL']] then starvingRateBase else starvingRateBase/2
+          diedFromStarving = Math.ceil  * island.state.starving
           island.state.starving = _.clamp(island.state.starving - diedFromStarving, 0, island.state.starving)
           island.state.population = _.clamp(island.state.population - diedFromStarving, 0, island.state.population)
       return
@@ -103,7 +105,9 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
     populationGrow: ->
       for island in @geometries
         if island.state.starving == 0
-          growth = Base.round app.game.state.islands.growth * island.state.population
+          growthRateBase = app.game.state.islands.growth
+          growthRate = if !island.state.buildings[Buildings['HOSPITAL']] then growthRateBase else growthRateBase * 2
+          growth = Base.round growthRate * island.state.population
           island.state.population += growth
       return
 

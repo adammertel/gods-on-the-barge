@@ -27,7 +27,6 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle', 'Cult
 
       # statistics
       @registerText 'believers', {x: @x + 45, y: @y + 90}, @mst.bind(@, 'TOTAL BELIEVERS'), TextStyle.BOLD
-      cultStats = app.game.state.gameStatistics.cults
       x = @x + 90
       y = @y + 105
       @dtdd {x: x, y: y, id: 'os1'}, {dt: @mst.bind(@, Cult['SERAPIS']), dd: app.game.getCultBelievers.bind(@, Cult['SERAPIS'])}

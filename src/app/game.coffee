@@ -12,7 +12,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
         citizenConsumption: 0.02
         productionPerArea: 0.7
         growth: 0.01
-        starvingDeathRate: 0.05
+        starvingDeathRate: 0.1
         idealRainfallMin: 500
         idealRainfallMin: 800
         criticalRainfallMin: 100
@@ -185,12 +185,18 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
       app.registerNewWeekAction @randomPolitics.bind @
       app.registerNewWeekAction @eventsEmitter.bind @
 
-      app.registerNewSeasonAction @addNewPoliticsPoints.bind @
+      app.registerNewWeekAction @addNewPoliticsPoints.bind @
       app.registerNewSeasonAction @chooseNewPerks.bind @
       app.registerNewSeasonAction @getMoneyForBelievers.bind @
 
       app.registerNewWeekAction @regenerateMana.bind @
 
+      app.registerNewWeekAction @incrementBaseShipCost.bind @
+
+
+    incrementBaseShipCost: ->
+      @state.ships.baseBuildCost *= Math.random()/10 + 1
+      return
 
     loadStats: ->
       _.each @state.cults, (cult, cultLabel) =>
@@ -240,6 +246,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
     hasEnoughtMana: (cult, quantity) ->
       !(@getCultStats(cult).mana.quantity < quantity)
 
+
     # EVENTS
     eventsEmitter: ->
       for island in app.getCollection('islands').geometries
@@ -262,13 +269,13 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
     # RELIGION
     recalculateTotalBelievers: ->
 
-      totals=
+      totals =
         Serapis: 0
         Isis: 0
         Anubis: 0
         Bastet: 0
         Pagan: 0
-      islands=
+      islands =
         Serapis: 0
         Isis: 0
         Anubis: 0
@@ -280,26 +287,44 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
 
         for cultName, cult of island.state.religion
           onePerson = 1 / island.state.population
-          totals[cultName] += Base.round (cult.distribution / onePerson)
+          totals[cultName] += Base.round(cult.distribution / onePerson)
 
       for cultName, total of totals
         @state.gameStatistics.cults[cultName].total = total
 
       for cultName, noIslands of islands
-        @state.gameStatistics.cults[cultName].islands = noIslands
+        if @state.gameStatistics.cults[cultName]
+          @state.gameStatistics.cults[cultName].islands = noIslands
+        else
+          console.log '****************************'
+          console.log islands
+          console.log totals
+          console.log '****************************'
 
       return
 
 
     # SPELLS
     preparePlayerSpell: ->
-      app.changeCursor Cursors.SPELL
-      app.state.spellReady = true
-      app.time.pause()
+      playerCult = app.game.getPlayerCultLabel()
+      playerCultStats = app.game.getPlayerCultStats()
+
+      if app.game.hasEnoughtMana(playerCult, app.game.manaSpellCost playerCultStats)
+        app.changeCursor Cursors.SPELL
+        app.state.spellReady = true
+        app.time.pause()
+      return
+
+    cancelPlayerSpell: ->
+      console.log 'cancel'
+      app.changeCursor Cursors.DEFAULT
+      app.state.spellReady = false
+      app.time.resume()
       return
 
     playerSpellCheck: ->
       if app.mouseOverMap()
+        console.log 'over map spell run'
         cult = @getPlayerCultLabel()
         spellFnName = app.game.state.cults[cult].spell.runFunctionName
         app.game[spellFnName] app.mouseCoordinate()
@@ -400,8 +425,9 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
       return
 
     convertPerson: (island, cultFrom, cultTo, onePersonDistribution) ->
-      island.state.religion[cultFrom].distribution -= onePersonDistribution
-      island.state.religion[cultTo].distribution += onePersonDistribution
+      if island.state.religion[cultFrom].distribution >= onePersonDistribution
+        island.state.religion[cultFrom].distribution -= onePersonDistribution
+        island.state.religion[cultTo].distribution += onePersonDistribution
       return
 
 
@@ -437,7 +463,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
       @getStat(cult, 'trade', 'tradingDistanceCoefficient') * @state.trade.maxBaseDistanceForTrade
 
     makeTrade: (ship, island) ->
-      if island.eventName() == 'war'
+      if island.inWar()
         return
       else
         cult = ship.cult

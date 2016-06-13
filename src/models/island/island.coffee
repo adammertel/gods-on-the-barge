@@ -58,7 +58,7 @@ define 'Island', ['Geography', 'Base', 'Colors'], (Geography, Base, Colors) ->
 
     getDominantCult: ->
       dominantDistribution = 0
-      dominantCult = ''
+      dominantCult = 'Err'
 
       for cultName, cult of @state.religion
         if cult.distribution > dominantDistribution
