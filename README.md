@@ -56,15 +56,19 @@ Islands in the game are individual units with specific grain production based on
 
 The player can upgrade various facilities on an island for gaining advantages:
 * __Hospital__: Reduces the number of deaths while the island suffers from hunger and increases the natural growth of the population size
-*  __Granary__: Increases the maximum capacity for grain storage and, therefore, reduces the risk of hunger
-*  __Amphitheater__: Increases the prestige of an island which leads to higher trade attractivity
-*  __Port__: Faster refilling of the ships' energy and offers better price for goods
-*  __Fisherman's hut__: Supplies the island with food
-
-
-*  *__Event__: An infestation can occur and when it does, it reduces the grain production significantly in the infested area*
+*  __Granary__: Increases production effectivity of island and therefore, reduces the risk of hunger. Also, the island with Granary could not have infestation event
+*  __Amphitheater__: Increases the prestige of an island which leads to higher trade attractivity. could result in festival event
+*  __Port__: Offers better price for traded goods
 
 ![Ancient Delos](http://40.media.tumblr.com/tumblr_mdo2ooj7cH1rgfuxjo1_540.jpg)
+
+
+#### EVENTS
+*  *__Event__: An infestation can occur and when it does, it reduces the grain production significantly in the infested area*
+* *__Event__: A war can occur which leads to blockade of ports in the war area*
+* *__Event__: Sometimes there are games and festivals held on various islands. These islands gain trade prestige (higher trade attractivity and better prices) for a short period of time*
+
+![Battle of Salamis](http://cimsec.org/wp-content/uploads/2014/09/Battle-of-Salamis-Banner.jpg)
 
 
 #### SHIPS
@@ -72,15 +76,10 @@ At first, the player releases the ship from Alexandria or Leuke-Akte in Egypt. T
 
 ![Kyrenia ship](http://3.bp.blogspot.com/-tXNpIUwTdiA/T6pyi_JWiFI/AAAAAAAAYNI/RJGzp5PjwH8/s1600/Cyprus-Kyrenia_02.jpg)
 
+
 #### POLITICS
 At the beginning of each season, the player votes for the preferred continetal port. If a port has many preferential points or significant (randomly attributed) political power, the ship automatically chooses that port as its final destination.
 
-* *__Event__: A war can occur which leads to blockade of ports in the war area*
-
-
-* *__Event__: Sometimes there are games and festivals held on various islands. These islands gain trade prestige (higher trade attractivity and better prices) for a short period of time*
-
-![Battle of Salamis](http://cimsec.org/wp-content/uploads/2014/09/Battle-of-Salamis-Banner.jpg)
 
 #### WEATHER AND TIME
 The weather has a crucial impact on the grain production and travelling. The production depends heavily on the amount of rainfall and temperature. There are observable rains in the game which are carried across the environment by winds. The air temperature varies depending on geographical location and season. The weather also influences the speed of ships. They are slower during winter and rains. The game time starts in the year 400 BCE because the early spread of the Egyptian cults started in the 4th century BCE.

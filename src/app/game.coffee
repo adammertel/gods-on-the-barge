@@ -1,4 +1,4 @@
-define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'Storm'], (Base, Colors, Perks, Events, Cursors, Cult, Storm) ->
+define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'Storm', 'Buildings'], (Base, Colors, Perks, Events, Cursors, Cult, Storm, Buildings) ->
   class Game
     state:
       politics:
@@ -11,12 +11,14 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
         eventInfestationHarvestMinus: 0.3
         citizenConsumption: 0.02
         productionPerArea: 0.7
+        productionGranaryBonus: 1.2
         growth: 0.01
         starvingDeathRate: 0.1
         idealRainfallMin: 500
         idealRainfallMin: 800
         criticalRainfallMin: 100
         criticalRainfallMax: 1200
+        docksTradeBonus: 1.1
       trade:
         maxBaseDistanceForTrade: 100000
         criticalCargo: 500
@@ -195,7 +197,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
 
 
     incrementBaseShipCost: ->
-      @state.ships.baseBuildCost *= Math.random()/10 + 1
+      @state.ships.baseBuildCost *= Math.random()/100 + 1
       return
 
     loadStats: ->
@@ -478,7 +480,8 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
         islandsCollection.addGrainToIsland island, quantity
         ship.unshipCargo quantity
 
-        totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity') * @getGrainPrice()
+        docksBonus = if island.state.buildings[Buildings.DOCKS] then @state.islands.docksTradeBonus else 1
+        totalPrice = quantity * @getStat(cult, 'trade', 'tradeEffectivity') * @getGrainPrice() * docksBonus
         @earnGold cult, totalPrice
         return
 

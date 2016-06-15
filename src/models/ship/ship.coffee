@@ -69,7 +69,6 @@ define 'Ship', ['Geometry', 'Base', 'Colors'], (Geometry, Base, Colors) ->
 
     findTrade: ->
       newTradeNode = @collection.getPlaceForTrade(@)
-      console.log 'newTradeNode', newTradeNode
       if newTradeNode
         @addCheckPoint newTradeNode
         @recalculateStops()

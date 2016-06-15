@@ -4,11 +4,11 @@ define 'Buildings', [], () ->
       price: 100
       name: 'hospital'
     GRANARY:
-      price: 30
+      price: 50
       name: 'granary'
     AMPHITEATER:
-      price: 50
+      price: 70
       name: 'amphiteater'
     DOCKS:
-      price: 70
+      price: 30
       name: 'docks'

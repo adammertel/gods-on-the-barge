@@ -1,7 +1,7 @@
 define 'Events', ['Colors'], (Colors) ->
   Events =
     WAR:
-      frequency: 80
+      frequency: 100
       length: [5, 15]
       name: 'war'
       description: "there is a war going on this island. Ships are banned to visit it's port and the population is not growing"

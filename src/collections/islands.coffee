@@ -129,6 +129,8 @@ define 'Islands', ['Base', 'Collection', 'Island', 'Buildings', 'Season', 'Color
             rainfallCoefficient = config.idealRainfallMax/rainfall - 0.1
 
           production = config.productionPerArea
+          if island.state.buildings[Buildings.GRANARY]
+            production *= config.productionGranaryBonus
           if island.state.event
             if island.state.event.name == 'infestation'
               production -= config.eventInfestationHarvestMinus

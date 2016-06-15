@@ -108,8 +108,8 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle', 'Cult
       return
 
     draw: ->
-      @drawCultStatHighlighters()
       if app.state.started
+        @drawCultStatHighlighters()
         super()
         @drawGlassHours()
         @drawCoin()
