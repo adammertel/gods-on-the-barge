@@ -4,7 +4,7 @@
 
 ### ROADMAP
 We are working on bugs and lot of ideas are still waiting for implementation.
-Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
+Uploaded 0.2beta version could be found on http://coffeegnome.net/godsonthebarge/.
 
 #### Version 0.2
 - [ ] wiki page
@@ -12,7 +12,7 @@ Uploaded 0.1 version could be found on http://coffeegnome.net/godsonthebarge/.
 - [x] simple buildings system
 - [x] simple events system
 - [x] active abilities of cults
-- [ ] rebalancing the economic model
+- [x] rebalancing the economic model
 - [x] implementation of more canvases system
 
 #### Version 0.3
