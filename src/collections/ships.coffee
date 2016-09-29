@@ -108,6 +108,8 @@ define 'Ships', ['Base', 'Collection', 'Ship'], (Base, Collection, Ship) ->
       @addGeometry new Ship(cult, @ctx, startingPoint)
 
     destroyShip: (ship) ->
+      console.log 'a ship will be destroied'
+      console.log ship
       app.game.shipRemoved(ship.cult)
       @unregisterGeometry ship.id
       return

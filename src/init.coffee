@@ -1,5 +1,5 @@
 require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'CursorControl', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'PerkWindow', 'CultsEnum', 'GameInfo'], (Canvas, Time, Game, Weather, Base, Island, MiniMap, CursorControl, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, PerkWindow, Cults, GameInfo) ->
-  console.log 'init'
+  console.log 'init game'
 
   prepareCanvas = (canvasDivName, id, w, h, fps = 60) ->
     canvas = document.getElementById canvasDivName
@@ -83,6 +83,25 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
     app.state.controls.mapDragging = false
     return
 
+  document.body.addEventListener 'keydown', (e) ->
+    key = e.key
+
+    if app.mouseOverMap()
+      if key == 'ArrowUp'
+        app.increaseYPosition -app.state.mapMoveChangeKey
+
+      if key == 'ArrowLeft'
+        app.increaseXPosition -app.state.mapMoveChangeKey
+
+      if key == 'ArrowDown'
+        app.increaseYPosition app.state.mapMoveChangeKey
+
+      if key == 'ArrowRight'
+        app.increaseXPosition app.state.mapMoveChangeKey
+
+    return
+
+
   wrapper.addEventListener 'mousemove', (e) ->
     app.state.controls.mousePosition =
       x: e.clientX
@@ -100,6 +119,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
         app.state.controls.mouseClickedPosition =
           x: e.clientX
           y: e.clientY
+
     return
 
   wrapper.addEventListener 'mouseout', (e) ->

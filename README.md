@@ -7,7 +7,6 @@ We are working on bugs and lot of ideas are still waiting for implementation.
 Uploaded 0.2beta version could be found on http://coffeegnome.net/godsonthebarge/.
 
 #### Version 0.2
-- [ ] wiki page
 - [x] graphic design of icons
 - [x] simple buildings system
 - [x] simple events system
@@ -23,6 +22,7 @@ Uploaded 0.2beta version could be found on http://coffeegnome.net/godsonthebarge
 - [ ] new weather system
 - [ ] enemies casting spells
 - [ ] tooltips
+- [ ] wiki page
 
 
 ### INFO

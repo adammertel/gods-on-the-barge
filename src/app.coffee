@@ -17,12 +17,15 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
       map:
         h: 0
         w: 0
-      zoom: 0.5
+      zoom: 0.4
+      mapMoveDisplayDelta: 50
+      mapMoveChangeDelta: 1.5
+      mapMoveChangeKey: 20
       zoomStep: 0.1
       minZoom: 0.4
       maxZoom: 2
       position:
-        x: 0
+        x: 500
         y: 300
       controls:
         up: false
@@ -399,6 +402,14 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
 
     setNewYPosition: (newY) ->
       @state.position.y = _.clamp(newY, 0, @state.map.h - (@state.view.h / @state.zoom))
+      return
+
+    increaseXPosition: (deltaX) ->
+      @state.position.x = _.clamp(@state.position.x + deltaX, 0, @state.map.w - (@state.view.w / @state.zoom))
+      return
+
+    increaseYPosition: (deltaY) ->
+      @state.position.y = _.clamp(@state.position.y + deltaY, 0, @state.map.h - (@state.view.h / @state.zoom))
       return
 
     mouseOverMap: ->

@@ -107,8 +107,35 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle', 'Cult
       @ctx.closePath()
       return
 
+    # moving map in case cursor is near the border
+    controlMoveMapEvents: ->
+      mouseX = app.state.controls.mousePosition.x
+      mouseY = app.state.controls.mousePosition.y
+
+      w = @canvas.w
+      h = @canvas.h
+      if app.mouseOverMap()
+        if mouseY < app.state.mapMoveDisplayDelta
+          delta = app.state.mapMoveDisplayDelta - mouseY
+          app.increaseYPosition -app.state.mapMoveChangeDelta * delta
+
+        if mouseX < app.state.mapMoveDisplayDelta
+          delta = app.state.mapMoveDisplayDelta - mouseX
+          app.increaseXPosition -app.state.mapMoveChangeDelta * delta
+
+        if mouseY > h - app.state.mapMoveDisplayDelta
+          delta = mouseY - (h - app.state.mapMoveDisplayDelta)
+          app.increaseYPosition app.state.mapMoveChangeDelta * delta
+
+        if mouseX > w - app.state.mapMoveDisplayDelta
+          delta = mouseX - (w - app.state.mapMoveDisplayDelta)
+          app.increaseXPosition app.state.mapMoveChangeDelta * delta
+
+      return
+
     draw: ->
       if app.state.started
+        @controlMoveMapEvents()
         @drawCultStatHighlighters()
         super()
         @drawGlassHours()
