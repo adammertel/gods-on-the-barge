@@ -1,5 +1,10 @@
 # GODS ON THE BARGE game
 
+### ACTUAL STATUS
+We decided that the concept of the game should be reworked. The player will play as a religion (disease) and tries to "beat" the simulated environment. 
+Also the technology behind the game will be changed to react-conva
+
+
 ### CURRENT VERSION
 
 ### ROADMAP
