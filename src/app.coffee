@@ -1,4 +1,5 @@
 define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabels', 'Nodes', 'Routes', 'Ships', 'Storms', 'BackgroundIslands', 'Cursors', 'Paths'], (Base, Canvas, Ship, Season, Ai, Islands, IslandLabels, Nodes, Routes, Ships, Storms, BackgroundIslands, Cursors, Paths) ->
+  console.log 'hi'
   window.app =
     state:
       cursor: Cursors.DEFAULT
@@ -18,6 +19,7 @@ define 'App', ['Base', 'Canvas', 'Ship', 'Season', 'Ai', 'Islands', 'IslandLabel
         h: 0
         w: 0
       zoom: 0.4
+      
       mapMoveDisplayDelta: 50
       mapMoveChangeDelta: 1.5
       mapMoveChangeKey: 20

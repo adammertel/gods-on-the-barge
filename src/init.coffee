@@ -1,5 +1,7 @@
+console.log('init file top')
 require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'CursorControl', 'Route', 'Port', 'Ship', 'Islands',  'BackgroundIslands', 'Nodes', 'Ships', 'Storms', 'Routes', 'Menu', 'WelcomeWindow', 'PerkWindow', 'CultsEnum', 'GameInfo'], (Canvas, Time, Game, Weather, Base, Island, MiniMap, CursorControl, Route, Port, Ship, Islands, BackgroundIslands, Nodes, Ships, Storms, Routes, Menu, WelcomeWindow, PerkWindow, Cults, GameInfo) ->
-  console.log 'init game'
+  window['init'] = () ->
+    console.log 'init game'
 
   prepareCanvas = (canvasDivName, id, w, h, fps = 60) ->
     canvas = document.getElementById canvasDivName

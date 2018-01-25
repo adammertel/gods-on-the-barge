@@ -1,0 +1,23 @@
+{
+  "name": "gods on the barge",
+  "homepage": "https://github.com/adammertel/gods_on_the_barge",
+  "authors": [
+    "adammertel <mertel.adam@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "lodash": "^4.17.4"
+  },
+  "dependencies": {
+    "requirejs": "^2.3.5"
+  }
+}
