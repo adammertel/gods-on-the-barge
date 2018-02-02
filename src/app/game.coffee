@@ -164,7 +164,7 @@ define 'Game', ['Base', 'Colors', 'Perks', 'Events', 'Cursors', 'CultsEnum', 'St
         maxFreePoints: 3
         votingEffectivity: 1
       ships:
-        no: 3
+        no: 5
         out: 0
         baseSpeed: 0.5
         maxCargo: 100000

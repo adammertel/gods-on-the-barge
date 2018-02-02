@@ -6,7 +6,7 @@ define 'OverviewPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'Text
       return
 
     init: ->
-      @registerText '', {x: @x + 20, y: @y + 15}, @mst.bind(@, 'GODS ON THE BARGE GAME'), TextStyle.HEADER
+      @registerText '', {x: @x + 20, y: @y + 15}, @mst.bind(@, 'GODS ON THE BARGE'), TextStyle.HEADER
       @registerText '', {x: @x + 230, y: @y + 15}, @playerCultText.bind(@), TextStyle.BOLD
 
       # META INFO

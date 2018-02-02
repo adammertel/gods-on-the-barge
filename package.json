@@ -29,7 +29,7 @@
     "http-server": "http-server dist",
     "live-server": "reload -d dist -b -e coffee,js,css",
     "start":
-      "parallelshell \"npm run devel\" \"npm run coffee-to-js\" \"npm run onchange-js\"  \"npm run onchange-vendor\" \"npm run onchange-html\" \"npm run onchange-css\" \"npm run move-to-dist\" \"npm run onchange-sprites\" \"npm run move-vendor\" \"npm run move-sprites\" \"npm run onchange-data\" \"npm run move-data\" \"npm run http-server\" "
+      "parallelshell \"npm run devel\" \"npm run coffee-to-js\" \"npm run onchange-js\"  \"npm run onchange-vendor\" \"npm run onchange-html\" \"npm run onchange-css\" \"npm run move-to-dist\" \"npm run onchange-sprites\" \"npm run move-sprites\" \"npm run onchange-data\" \"npm run move-data\" \"npm run http-server\" "
   },
   "keywords": [
     "religions",

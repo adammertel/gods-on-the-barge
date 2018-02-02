@@ -23,9 +23,9 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
 
       # port
       x = @x + 180
-      @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Port'), TextStyle.HEADER
-      @registerButton 'sendShip1', {x: x, y: @y + 90, w: 180, h: 20}, @buildShipButtonText.bind(@, 0), @sendShip.bind(@, 0), @buildShipButtonStyle.bind(@, 0)
-      @registerButton 'sendShip2', {x: x, y: @y + 115, w: 180, h: 20}, @buildShipButtonText.bind(@, 1), @sendShip.bind(@, 1), @buildShipButtonStyle.bind(@, 1)
+      @registerText 'portLabel', {x: x, y: @y + 20}, @mst.bind(@, 'Ships'), TextStyle.HEADER
+      @registerButton 'sendShip1', {x: x, y: @y + 90, w: 200, h: 20}, @buildShipButtonText.bind(@, 0), @sendShip.bind(@, 0), @buildShipButtonStyle.bind(@, 0)
+      @registerButton 'sendShip2', {x: x, y: @y + 115, w: 200, h: 20}, @buildShipButtonText.bind(@, 1), @sendShip.bind(@, 1), @buildShipButtonStyle.bind(@, 1)
 
       # trade
       x = @x + 370
@@ -44,9 +44,9 @@ define 'ShipsPanel', ['Base', 'Panel', 'Text', 'Button', 'ButtonStyle', 'TextSty
 
     buildShipButtonText: (pointId)->
       if pointId == 0
-        'build ship in Alexandria(' + app.game.state.ships.buildCost0 + ' gold)'
+        'send ship from Alexandria - ' + app.game.state.ships.buildCost0 + ' gold'
       else
-        'build ship in Leuke Akte(' + app.game.state.ships.buildCost1 + ' gold)'
+        'send ship from Leuke Akte - ' + app.game.state.ships.buildCost1 + ' gold'
 
     drawFreeShips: ->
       playerCult = app.game.getPlayerCultLabel()

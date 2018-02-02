@@ -90,7 +90,7 @@ require ['Canvas', 'Time', 'Game', 'Weather', 'Base', 'Island', 'MiniMap', 'Curs
 
     if app.mouseOverMap()
       if key == 'ArrowUp'
-        app.increaseYPosition -app.state.mapMoveChangeKey
+        app.increaseYPosition - app.state.mapMoveChangeKey
 
       if key == 'ArrowLeft'
         app.increaseXPosition -app.state.mapMoveChangeKey

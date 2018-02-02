@@ -114,22 +114,22 @@ define 'GameInfo', ['Ui', 'Text', 'Button', 'Base', 'Colors', 'TextStyle', 'Cult
 
       w = @canvas.w
       h = @canvas.h
-      if app.mouseOverMap()
-        if mouseY < app.state.mapMoveDisplayDelta
-          delta = app.state.mapMoveDisplayDelta - mouseY
-          app.increaseYPosition -app.state.mapMoveChangeDelta * delta
+      # if app.mouseOverMap()
+      #   if mouseY < app.state.mapMoveDisplayDelta
+      #     delta = app.state.mapMoveDisplayDelta - mouseY
+      #     app.increaseYPosition -app.state.mapMoveChangeDelta * delta
 
-        if mouseX < app.state.mapMoveDisplayDelta
-          delta = app.state.mapMoveDisplayDelta - mouseX
-          app.increaseXPosition -app.state.mapMoveChangeDelta * delta
+      #   if mouseX < app.state.mapMoveDisplayDelta
+      #     delta = app.state.mapMoveDisplayDelta - mouseX
+      #     app.increaseXPosition -app.state.mapMoveChangeDelta * delta
 
-        if mouseY > h - app.state.mapMoveDisplayDelta
-          delta = mouseY - (h - app.state.mapMoveDisplayDelta)
-          app.increaseYPosition app.state.mapMoveChangeDelta * delta
+      #   if mouseY > h - app.state.mapMoveDisplayDelta
+      #     delta = mouseY - (h - app.state.mapMoveDisplayDelta)
+      #     app.increaseYPosition app.state.mapMoveChangeDelta * delta
 
-        if mouseX > w - app.state.mapMoveDisplayDelta
-          delta = mouseX - (w - app.state.mapMoveDisplayDelta)
-          app.increaseXPosition app.state.mapMoveChangeDelta * delta
+      #   if mouseX > w - app.state.mapMoveDisplayDelta
+      #     delta = mouseX - (w - app.state.mapMoveDisplayDelta)
+      #     app.increaseXPosition app.state.mapMoveChangeDelta * delta
 
       return
 
