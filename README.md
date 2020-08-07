@@ -101,26 +101,22 @@ The weather has a crucial impact on the grain production and travelling. The pro
 
 Player can choose between ancient Egyptian cults connected to important Egyptian deities:
 
-- **Isis**: She was one of the most important deities in ancient Egypt. She was the mother of the god Horus and her husband was Osiris. During the Hellenistic period, she also became the wife of the god Serapis. Isis was a universal goddess and a patron deity of sailors.
+**Isis**: She was one of the most important deities in ancient Egypt. She was the mother of the god Horus and her husband was Osiris. During the Hellenistic period, she also became the wife of the god Serapis. Isis was a universal goddess and a patron deity of sailors.
 
-      	*__Advantage__: Ships do not suffer from the rain penalty*
+ - __Advantage__: Ships do not suffer from the rain penalty*
+ - ![Isis](http://i476.photobucket.com/albums/rr122/leopard38ja/gods%20and%20goddesses/isis5-1.jpg)
 
-      	![Isis](http://i476.photobucket.com/albums/rr122/leopard38ja/gods%20and%20goddesses/isis5-1.jpg)
+**Serapis**: He has roots in the ancient royal cult of the god Osiris-Apis. Together with Isis, he became the patron god of the Ptolemaic dynasty ruling during the Hellenistic period. He is also a universal deity.
 
-- **Serapis**: He has roots in the ancient royal cult of the god Osiris-Apis. Together with Isis, he became the patron god of the Ptolemaic dynasty ruling during the Hellenistic period. He is also a universal deity.
+ - __Advantage__: Each point spent in voting has twice the impact*
+ - ![Serapis](http://www.colorado.edu/classics/clas1061/Graphics/Serapis.jpg)
 
-      	*__Advantage__: Each point spent in voting has twice the impact*
+**Bastet**: She was the famous lion goddess of Egypt. She is known for her temper and protective behaviour. She was also the patron deity of hunters and mothers.
 
-      	![Serapis](http://www.colorado.edu/classics/clas1061/Graphics/Serapis.jpg)
+ - __Advantage__: Ships also make trade with islands in war and her cult easily spreads from one generation to another*
+ - ![Bastet](http://www.thefakebusters.com/statues/photos%20statues/real%20statue%2014c.jpg)
 
-- **Bastet**: She was the famous lion goddess of Egypt. She is known for her temper and protective behaviour. She was also the patron deity of hunters and mothers.
+**Anubis**: He is known as the god with a jackal head. He weighed the hearts of dead people in the final judgement. He was a patron deity of funeral rites and protected people in their afterlife.
 
-      	*__Advantage__: Ships also make trade with islands in war and her cult easily spreads from one generation to another*
-
-      	![Bastet](http://www.thefakebusters.com/statues/photos%20statues/real%20statue%2014c.jpg)
-
-- **Anubis**: He is known as the god with a jackal head. He weighed the hearts of dead people in the final judgement. He was a patron deity of funeral rites and protected people in their afterlife.
-
-      	*__Advantage__: The ships' operation cost is significantly reduced*
-
-      	![Anubis](http://www.timetrips.co.uk/god-anubis4.jpg)
+ - __Advantage__: The ships' operation cost is significantly reduced*
+ - ![Anubis](http://www.timetrips.co.uk/god-anubis4.jpg)
