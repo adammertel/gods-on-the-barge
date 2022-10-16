@@ -1,11 +1,7 @@
 # GODS ON THE BARGE game
 
 ### CURRENT VERSION
-
-### ROADMAP
-
-We are working on bugs and lot of ideas are still waiting for implementation.
-Uploaded 0.2beta version could be found on http://gehir.phil.muni.cz/godsonthebarge/.
+The version 0.2 is hosted on [DISSINET website](dissinet.cz/apps/godsonthebarge).
 
 ![Game screen](src/imgs/screen1.png)
 
@@ -17,17 +13,6 @@ Uploaded 0.2beta version could be found on http://gehir.phil.muni.cz/godsontheba
 - [x] active abilities of cults
 - [x] rebalancing the economic model
 - [x] implementation of more canvases system
-
-#### Version 0.3
-
-- [ ] responsive design
-- [ ] new politics system
-- [ ] advanced graphics
-- [ ] conversion system rebalanced
-- [ ] new weather system
-- [ ] enemies casting spells
-- [ ] tooltips
-- [ ] wiki page
 
 ### INFO
 
